@@ -1,0 +1,10 @@
+version: "3.8"
+services:
+  node:
+    container_name: frontend
+    hostname: fContainer
+    build: ./config
+    volumes:
+      - $HOME/.ssh:/root/.ssh
+      - $HOME/.gitconfig:/root/.gitconfig
+      - .:/home/node/app
