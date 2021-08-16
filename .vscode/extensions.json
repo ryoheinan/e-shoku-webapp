@@ -1,0 +1,13 @@
+{
+  "recommendations": [
+    "ms-vscode-remote.vscode-remote-extensionpack",
+    "redhat.vscode-yaml",
+    "coenraads.bracket-pair-colorizer",
+    "mikestead.dotenv",
+    "saikou9901.evilinspector",
+    "dbaeumer.vscode-eslint",
+    "wix.vscode-import-cost",
+    "zignd.html-css-class-completion",
+    "esbenp.prettier-vscode"
+  ]
+}
