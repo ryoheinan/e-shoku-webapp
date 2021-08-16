@@ -102,3 +102,9 @@ dist
 
 # TernJS port file
 .tern-port
+**/.vscode-server/
+**/.ssh/
+**/.gitconfig
+**/.DS_Store
+**/.bash_profile
+.node-version
