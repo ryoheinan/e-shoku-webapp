@@ -3,8 +3,9 @@ services:
   node:
     container_name: frontend
     hostname: fContainer
-    build: ./config
+    build: .
     volumes:
       - $HOME/.ssh:/root/.ssh
       - $HOME/.gitconfig:/root/.gitconfig
-      - .:/home/node/app
+      - /workspace/node_modules
+      
