@@ -7,7 +7,7 @@ ENV WORK_DIR=/workspace
 WORKDIR $WORK_DIR
 
 RUN yarn global add gatsby-cli
-COPY package.json $WORK_DIR
+COPY package.json yarn.lock $WORK_DIR
 RUN yarn install
 
 EXPOSE 3000
