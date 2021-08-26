@@ -5,3 +5,7 @@
 .active svg {
   fill: #f3ae56;
 }
+
+.items {
+  margin-bottom: env(safe-area-inset-bottom);
+}
