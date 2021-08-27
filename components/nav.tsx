@@ -6,7 +6,7 @@ const Nav = ({
   category,
 }: {
   children: React.ReactNode
-  category?: 'home' | 'explore' | 'account'
+  category?: 'home' | 'explore' | 'settings'
 }) => {
   return (
     <>
@@ -58,7 +58,7 @@ const Nav = ({
           </div>
           <div
             className={`col text-center ${
-              category === 'account' ? styles.active : ''
+              category === 'settings' ? styles.active : ''
             }`}
           >
             <Link href="/">
