@@ -9,16 +9,13 @@ const Nav = ({
   category?: 'home' | 'explore' | 'account'
 }) => {
   return (
-    <div className="wrapper">
-      <div className="content">
-        <header className={`text-center ${styles.header}`}>
-          <div className="container">
-            <h1 className="my-2">e-Shoku</h1>
-          </div>
-        </header>
-        <main className={'container'}>{children}</main>
-      </div>
-
+    <>
+      <header className={`text-center ${styles.header}`}>
+        <div className="container">
+          <h1 className="my-2">e-Shoku</h1>
+        </div>
+      </header>
+      <main className={'container'}>{children}</main>
       <nav className={'fixed-bottom bg-light py-2'}>
         <div className={`d-flex justify-content-center ${styles.items}`}>
           <div
@@ -80,7 +77,7 @@ const Nav = ({
           </div>
         </div>
       </nav>
-    </div>
+    </>
   )
 }
 
