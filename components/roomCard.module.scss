@@ -1,0 +1,25 @@
+.bgWrapper {
+  position: fixed;
+  height: 10rem;
+  width: 20rem;
+  overflow: hidden;
+  z-index: -1;
+
+  .image {
+    border-radius: 10px;
+  }
+}
+
+.content {
+  height: 10rem;
+  width: 20rem;
+  border-radius: 10px;
+  backdrop-filter: brightness(60%) blur(1px);
+  -weblit-backdrop-filter: brightness(60%) blur(1px);
+}
+
+@supports not (backdrop-filter: brightness(60%) blur(1px)) {
+  .image {
+    filter: brightness(60%) blur(1px);
+  }
+}
