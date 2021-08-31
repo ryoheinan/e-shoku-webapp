@@ -9,7 +9,11 @@ const Home: NextPage = () => {
   return (
     <Nav category="home">
       <p>Hello World</p>
-      <RoomCard title="Hello World"></RoomCard>
+      <RoomCard
+        title="Hello World Party"
+        date="2021.08.21"
+        imageUrl="/images/foods.jpg"
+      ></RoomCard>
     </Nav>
   )
 }

@@ -6,27 +6,28 @@ const RoomCard = ({
   title,
   date,
   imageUrl,
-  participants,
 }: {
   title: string
-  date?: string
-  imageUrl?: string
-  participants?: number
+  date: string
+  imageUrl: string
 }) => {
   return (
     <div className={'card text-white'}>
       <div className={styles.bgWrapper}>
         <Image
           alt="Foods"
-          src="/images/foods.jpg"
+          src={imageUrl}
           layout="fill"
           objectFit="cover"
           quality={100}
           className={styles.image}
         />
       </div>
-      <div className={styles.content}>
-        <p>{title}</p>
+      <div className={`d-flex ${styles.content}`}>
+        <div>
+          <h3 className={'mb-2'}>{title}</h3>
+          <p className={'mb-0'}>{date}</p>
+        </div>
       </div>
     </div>
   )
