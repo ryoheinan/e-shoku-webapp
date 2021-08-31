@@ -1,5 +1,4 @@
 import styles from './roomCard.module.scss'
-import Link from 'next/link'
 import Image from 'next/image'
 
 const RoomCard = ({
@@ -12,17 +11,15 @@ const RoomCard = ({
   imageUrl: string
 }) => {
   return (
-    <div className={'card text-white'}>
-      <div className={styles.bgWrapper}>
-        <Image
-          alt="Foods"
-          src={imageUrl}
-          layout="fill"
-          objectFit="cover"
-          quality={100}
-          className={styles.image}
-        />
-      </div>
+    <div className={`text-white ${styles.bgWrapper}`}>
+      <Image
+        alt="Foods"
+        src={imageUrl}
+        layout="fill"
+        objectFit="cover"
+        quality={100}
+        className={styles.image}
+      />
       <div className={`d-flex ${styles.content}`}>
         <div>
           <h3 className={'mb-2'}>{title}</h3>
