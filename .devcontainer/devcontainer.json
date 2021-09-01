@@ -21,15 +21,16 @@
 
   // Add the IDs of extensions you want installed when the container is created.
   "extensions": [
-    "redhat.vscode-yaml",
-    "coenraads.bracket-pair-colorizer",
-    "mikestead.dotenv",
-    "saikou9901.evilinspector",
-    "dbaeumer.vscode-eslint",
-    "wix.vscode-import-cost",
-    "zignd.html-css-class-completion",
-    "esbenp.prettier-vscode"
-  ]
+	"redhat.vscode-yaml",
+	"coenraads.bracket-pair-colorizer",
+	"mikestead.dotenv",
+	"saikou9901.evilinspector",
+	"dbaeumer.vscode-eslint",
+	"wix.vscode-import-cost",
+	"zignd.html-css-class-completion",
+	"esbenp.prettier-vscode",
+	"github.vscode-pull-request-github"
+]
 
   // Use 'forwardPorts' to make a list of ports inside the container available locally.
   // "forwardPorts": [],
