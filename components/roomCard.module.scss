@@ -1,0 +1,30 @@
+.bgWrapper {
+  position: relative;
+  height: 10rem;
+  overflow: hidden;
+  z-index: -1;
+}
+
+.content {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 10rem;
+  padding: 0.25rem 1rem;
+  align-items: center;
+  backdrop-filter: brightness(60%) blur(1px);
+  -weblit-backdrop-filter: brightness(60%) blur(1px);
+
+  h3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+}
+
+@supports not (backdrop-filter: brightness(60%) blur(1px)) {
+  .image {
+    filter: brightness(60%) blur(1px);
+  }
+}
