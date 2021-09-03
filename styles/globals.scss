@@ -14,8 +14,6 @@
 
 @import '../node_modules/bootstrap/scss/utilities/api';
 
-
-
 .h1,
 .h2,
 .h3,
@@ -29,4 +27,20 @@ h4,
 h5,
 h6 {
   font-weight: 700;
+}
+
+ul.scrollable {
+  overflow-x: auto;
+  white-space: nowrap;
+  -webkit-overflow-scrolling: touch;
+
+  li {
+    display: inline-block;
+    width: 15rem;
+    margin: 0 1rem 0.5rem 0;
+  }
+
+  li:last-child {
+    margin-right: 0;
+  }
 }
