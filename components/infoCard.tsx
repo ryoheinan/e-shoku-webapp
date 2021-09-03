@@ -1,18 +1,23 @@
-import styles from './roomCard.module.scss'
+import styles from './infoCard.module.scss'
 
 const InfoCard = ({
   title,
   color,
   fontSize,
+  shadow,
   children,
 }: {
   title: string
   color: string
   fontSize: string
+  shadow: boolean
   children?: React.ReactNode
 }) => {
   return (
-    <div className={`shadow rounded`} style={{ backgroundColor: color }}>
+    <div
+      className={`rounded ${shadow ? styles.cardShadow : ''}`}
+      style={{ backgroundColor: color }}
+    >
       {children ? (
         <div
           className={
