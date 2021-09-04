@@ -9,6 +9,8 @@
     "wix.vscode-import-cost",
     "zignd.html-css-class-completion",
     "esbenp.prettier-vscode",
-    "github.vscode-pull-request-github"
+    "github.vscode-pull-request-github",
+    "formulahendry.auto-close-tag",
+    "formulahendry.auto-rename-tag"
   ]
 }

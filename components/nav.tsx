@@ -15,7 +15,7 @@ const Nav = ({
           <h1 className="my-2">e-Shoku</h1>
         </div>
       </header>
-      <main className={'container'}>{children}</main>
+      <main>{children}</main>
       <nav className={'fixed-bottom bg-light py-2'}>
         <div className={`d-flex justify-content-center ${styles.items}`}>
           <div

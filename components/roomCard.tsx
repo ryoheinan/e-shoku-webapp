@@ -11,7 +11,7 @@ const RoomCard = ({
   imageUrl: string
 }) => {
   return (
-    <div className={`text-white shadow rounded ${styles.bgWrapper}`}>
+    <div className={`text-white rounded ${styles.bgWrapper}`}>
       <Image
         alt="Foods"
         src={imageUrl}
