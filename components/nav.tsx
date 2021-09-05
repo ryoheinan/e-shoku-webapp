@@ -21,8 +21,10 @@ const Nav = ({
       </header>
       <main>{children}</main>
       <nav className={'fixed-bottom bg-light py-2'}>
-        <div className={`d-flex justify-content-center ${styles.items}`}>
-          <div
+        <ul
+          className={`d-flex justify-content-center list-unstyled ${styles.items}`}
+        >
+          <li
             className={`col text-center ${
               category === 'home' ? styles.active : ''
             }`}
@@ -40,8 +42,8 @@ const Nav = ({
                 </svg>
               </a>
             </Link>
-          </div>
-          <div
+          </li>
+          <li
             className={`col text-center ${
               category === 'explore' ? styles.active : ''
             }`}
@@ -59,8 +61,8 @@ const Nav = ({
                 </svg>
               </a>
             </Link>
-          </div>
-          <div
+          </li>
+          <li
             className={`col text-center ${
               category === 'settings' ? styles.active : ''
             }`}
@@ -78,8 +80,8 @@ const Nav = ({
                 </svg>
               </a>
             </Link>
-          </div>
-        </div>
+          </li>
+        </ul>
       </nav>
     </>
   )
