@@ -4,13 +4,17 @@ import Link from 'next/link'
 const Nav = ({
   children,
   category,
+  isRoom,
 }: {
   children: React.ReactNode
   category?: 'home' | 'explore' | 'settings'
+  isRoom?: boolean
 }) => {
   return (
     <>
-      <header className={`text-center ${styles.header}`}>
+      <header
+        className={`text-center ${styles.header} ${!isRoom ? 'mb-3' : ''}`}
+      >
         <div className="container">
           <h1 className="my-2">e-Shoku</h1>
         </div>
