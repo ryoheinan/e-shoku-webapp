@@ -1,0 +1,25 @@
+.topImage {
+  position: relative;
+  height: 10rem;
+  z-index: -1;
+}
+
+.circleArea {
+  position: absolute;
+  top: 5rem;
+}
+
+.circle {
+  width: 7rem;
+  height: 7rem;
+  border-radius: 50%;
+  border: solid #000 1px;
+  z-index: 99;
+  text-align: right;
+  background-color: #ffffff;
+}
+
+.denom{
+  font-size: 0.5rem;
+  text-align: center;
+}
