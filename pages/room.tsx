@@ -17,8 +17,6 @@ const Room: NextPage = () => {
           alt="Foods"
           src="/images/foods.jpg"
           layout="fill"
-          width={400}
-          height={200}
           quality={100}
           objectFit="cover"
         />
