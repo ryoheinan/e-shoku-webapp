@@ -4,7 +4,6 @@ import Link from 'next/link'
 import Nav from '../components/nav'
 import RoomCard from '../components/roomCard'
 import InfoCard from '../components/infoCard'
-import styles from '../styles/Home.module.scss'
 
 const Home: NextPage = () => {
   return (

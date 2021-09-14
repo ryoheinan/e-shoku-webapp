@@ -4,21 +4,27 @@ import Link from 'next/link'
 const Nav = ({
   children,
   category,
+  isRoom,
 }: {
   children: React.ReactNode
   category?: 'home' | 'explore' | 'settings'
+  isRoom?: boolean
 }) => {
   return (
     <>
-      <header className={`text-center ${styles.header}`}>
+      <header
+        className={`text-center ${styles.header} ${!isRoom ? 'mb-3' : ''}`}
+      >
         <div className="container">
           <h1 className="my-2">e-Shoku</h1>
         </div>
       </header>
       <main>{children}</main>
       <nav className={'fixed-bottom bg-light py-2'}>
-        <div className={`d-flex justify-content-center ${styles.items}`}>
-          <div
+        <ul
+          className={`d-flex justify-content-center list-unstyled ${styles.items}`}
+        >
+          <li
             className={`col text-center ${
               category === 'home' ? styles.active : ''
             }`}
@@ -36,8 +42,8 @@ const Nav = ({
                 </svg>
               </a>
             </Link>
-          </div>
-          <div
+          </li>
+          <li
             className={`col text-center ${
               category === 'explore' ? styles.active : ''
             }`}
@@ -55,13 +61,13 @@ const Nav = ({
                 </svg>
               </a>
             </Link>
-          </div>
-          <div
+          </li>
+          <li
             className={`col text-center ${
               category === 'settings' ? styles.active : ''
             }`}
           >
-            <Link href="/">
+            <Link href="/settings">
               <a className="nav-link">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -74,8 +80,8 @@ const Nav = ({
                 </svg>
               </a>
             </Link>
-          </div>
-        </div>
+          </li>
+        </ul>
       </nav>
     </>
   )
