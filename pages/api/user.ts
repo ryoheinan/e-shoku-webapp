@@ -1,7 +1,7 @@
 import { getAccessToken, withApiAuthRequired } from '@auth0/nextjs-auth0'
 import axios from '../../utils/commonAxios'
 
-export default withApiAuthRequired(async function shows(req, res) {
+export default withApiAuthRequired(async function user(req, res) {
   try {
     const { accessToken } = await getAccessToken(req, res, {
       scopes: ['openid', 'profile'],
