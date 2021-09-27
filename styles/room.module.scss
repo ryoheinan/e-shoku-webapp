@@ -19,7 +19,33 @@
   background-color: #ffffff;
 }
 
-.denom{
+.denom {
   font-size: 0.5rem;
   text-align: center;
+}
+
+.title {
+  font-size: 0.5rem;
+  color: #773f00;
+}
+
+.details {
+  padding: 2% 0% 0% 10%;
+}
+
+.schedule {
+  padding: 1%;
+}
+
+.host {
+  padding: 1%;
+}
+
+.name {
+  display: inline-block;
+  color: blue;
+}
+
+.text {
+  padding: 1%;
 }

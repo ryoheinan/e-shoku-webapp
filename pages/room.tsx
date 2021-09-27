@@ -36,7 +36,25 @@ const Room: NextPage = () => {
       </div>
 
       <section>
-        <h2 className="container">Hello World Party</h2>
+        <div className={styles.title}>
+          <h2 className="container">Online dinner</h2>
+        </div>
+        <div className={styles.details}>
+          <div className={styles.schedule}>
+            <h3>2021.08.20 18:30~</h3>
+          </div>
+          <div className={styles.host}>
+            <h3>
+              Host : <div className={styles.name}>@Ken</div>
+            </h3>
+          </div>
+          <div className={styles.text}>
+            <h4>
+              This is an online dinner. Lets enjoy! I like sushi. I ll play
+              baseball. This is a pen. He is a pen. Oh my god.
+            </h4>
+          </div>
+        </div>
       </section>
     </Nav>
   )
