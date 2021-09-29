@@ -45,7 +45,7 @@ const Room: NextPage = () => {
           </div>
           <div className={styles.host}>
             <p>
-              Host :
+              Host:{' '}
               <a href="#" className={styles.username}>
                 @Ken
               </a>
