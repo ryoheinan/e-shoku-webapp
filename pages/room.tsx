@@ -35,7 +35,7 @@ const Room: NextPage = () => {
         </div>
       </div>
 
-      <section>
+      <section className="container">
         <div className={styles.title}>
           <h2 className="container">Online dinner</h2>
         </div>
@@ -45,17 +45,17 @@ const Room: NextPage = () => {
           </div>
           <div className={styles.host}>
             <h3>
-              Host :{' '}
+              Host :
               <div className={styles.username}>
                 <a href="#">@Ken</a>
               </div>
             </h3>
           </div>
           <div className={styles.text}>
-            <h4>
+            <p>
               This is an online dinner. Lets enjoy! I like sushi. I ll play
               baseball. This is a pen. He is a pen. Oh my god.
-            </h4>
+            </p>
           </div>
         </div>
       </section>
