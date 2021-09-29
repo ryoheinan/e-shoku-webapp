@@ -37,19 +37,19 @@ const Room: NextPage = () => {
 
       <section className="container">
         <div className={styles.title}>
-          <h2 className="container">Online dinner</h2>
+          <h1 className="container">Online dinner</h1>
         </div>
-        <div className={styles.details}>
+        <div className="container">
           <div className={styles.schedule}>
-            <h3>2021.08.20 18:30~</h3>
+            <p>2021.08.20 18:30~</p>
           </div>
           <div className={styles.host}>
-            <h3>
+            <p>
               Host :
-              <div className={styles.username}>
-                <a href="#">@Ken</a>
-              </div>
-            </h3>
+              <a href="#" className={styles.username}>
+                @Ken
+              </a>
+            </p>
           </div>
           <div className={styles.text}>
             <p>
