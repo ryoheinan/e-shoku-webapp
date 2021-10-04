@@ -1,4 +1,5 @@
 {
+  "git.autofetch": true,
   "files.exclude": {
     "**/.vscode-server": true,
     "**/.gitconfig": true,

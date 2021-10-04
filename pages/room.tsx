@@ -3,7 +3,7 @@ import Head from 'next/head'
 import Link from 'next/link'
 import Image from 'next/image'
 import Nav from '../components/nav'
-import InfoCard from '../components/infoCard'
+import ButtonCard from '../components/buttonCard'
 import styles from '../styles/room.module.scss'
 
 const Room: NextPage = () => {
