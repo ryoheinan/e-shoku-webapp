@@ -1,7 +1,7 @@
 import Link from 'next/link'
-import styles from './infoCard.module.scss'
+import styles from './buttonCard.module.scss'
 
-const InfoCard = ({
+const ButtonCard = ({
   title,
   color,
   fontSize,
@@ -67,4 +67,4 @@ const InfoCard = ({
   )
 }
 
-export default InfoCard
+export default ButtonCard
