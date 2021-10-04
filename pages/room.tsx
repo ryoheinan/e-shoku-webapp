@@ -33,8 +33,7 @@ const Room: NextPage = () => {
             </div>
           </div>
         </div>
-      </div>
-
+      </div>{' '}
       <section className="container">
         <div className={styles.title}>
           <h1 className="container">Online dinner</h1>
@@ -59,6 +58,31 @@ const Room: NextPage = () => {
           </div>
         </div>
       </section>
+      <div className={styles.button}>
+        <section className="container">
+          <Link href="/">
+            <a>
+              <InfoCard
+                title="Join!"
+                color="#6fd8a3"
+                fontSize="1.5rem"
+                shadow={true}
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  enableBackground="new 0 0 24 24"
+                  height="0px"
+                  viewBox="0 0 24 24"
+                  width="0px"
+                  fill="#000000"
+                >
+                  <rect fill="none" height="24" width="24" />
+                </svg>
+              </InfoCard>
+            </a>
+          </Link>
+        </section>
+      </div>
     </Nav>
   )
 }
