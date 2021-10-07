@@ -7,7 +7,7 @@ import Head from 'next/head'
 type Inputs = {
   username: string
   display_name: string
-  email: string
+  // email: string
   date_of_birth: string
   gender: 'MALE' | 'FEMALE' | 'PNTS' | 'OTHERS'
 }
@@ -23,12 +23,13 @@ const SignUp: NextPage = () => {
   const onSubmit: SubmitHandler<Inputs> = (data) => {
     if (user !== undefined) {
       data.display_name = user.name as string
-      data.email = user.email as string
+      // data.email = user.email as string
     }
     const dt = new Date(data.date_of_birth)
     data.date_of_birth = `${dt.getFullYear()}-${
       dt.getMonth() + 1
     }-${dt.getDate()}`
+    axios.post('/api/user', data).then((res) => console.log(res.data))
   }
   return (
     <>
