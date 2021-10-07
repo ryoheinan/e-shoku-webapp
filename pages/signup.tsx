@@ -131,14 +131,14 @@ const SignUp: NextPage = () => {
                     id="genderId"
                     aria-label="性別を選択してください"
                   >
-                    <option>選択してください…</option>
+                    <option value="">選択してください…</option>
                     <option value="MALE">男性</option>
                     <option value="FEMALE">女性</option>
                     <option value="PNTS">答えない</option>
                     <option value="OTHERS">その他</option>
                   </select>
                   {errors.gender && (
-                    <p className="small text-danger">正しく入力してください</p>
+                    <p className="small text-danger">正しく選択してください</p>
                   )}
                 </div>
               </div>
