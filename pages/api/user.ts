@@ -16,6 +16,14 @@ export default withApiAuthRequired(async function user(req, res) {
       })
       resData = await response.data
       res.status(200).json(resData)
+    } else if (req.method === 'GET') {
+      const response = await axios.get(`/users/`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      resData = await response.data
+      res.status(200).json(resData)
     } else {
       resData = {
         detail: `"${req.method}" method is not allowed.`,
