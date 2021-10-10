@@ -9,6 +9,7 @@ import Head from 'next/head'
 
 const UserInfo: NextPage = () => {
   const { user, error: errAuth, isLoading } = useUser()
+
   const {
     register,
     reset,
@@ -56,7 +57,7 @@ const UserInfo: NextPage = () => {
       </Head>
       <div className="container">
         <h2>ユーザー情報編集</h2>
-        {isLoading && <p>Loading login info...</p>}
+        {isLoading && <p>読み込み中…</p>}
         {errAuth && (
           <>
             <h4>Error</h4>
