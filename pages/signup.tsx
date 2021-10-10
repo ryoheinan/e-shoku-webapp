@@ -1,16 +1,9 @@
 import type { NextPage } from 'next'
+import type { UserForm } from '../types/UserInfo'
 import { useUser } from '@auth0/nextjs-auth0'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import axios from 'axios'
 import Head from 'next/head'
-
-type Inputs = {
-  username: string
-  display_name: string
-  // email: string
-  date_of_birth: string
-  gender: 'MALE' | 'FEMALE' | 'PNTS' | 'OTHERS'
-}
 
 const SignUp: NextPage = () => {
   const { user, error: errAuth, isLoading } = useUser()
@@ -18,8 +11,8 @@ const SignUp: NextPage = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<Inputs>()
-  const onSubmit: SubmitHandler<Inputs> = (data) => {
+  } = useForm<UserForm>()
+  const onSubmit: SubmitHandler<UserForm> = (data) => {
     if (user !== undefined) {
       data.display_name = user.name as string
       // data.email = user.email as string
