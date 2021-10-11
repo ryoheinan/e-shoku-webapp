@@ -1,9 +1,10 @@
 name: Next.js CI/CD
 
 on:
-  push:
+  pull_request:
     branches:
       - main
+  workflow_dispatch:
 
 jobs:
   ci:
