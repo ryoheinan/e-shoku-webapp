@@ -12,7 +12,8 @@ if (process.env.NODE_ENV === 'production') {
 instance.interceptors.request.use(async (config) => {
   config.baseURL = url
   config.headers.common['Accept'] = 'application/json'
-  config.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'
+  config.headers.common['User-Agent'] = 'e-Shoku Frontend'
+  config.headers.post['Content-Type'] = 'application/json'
   config.timeout = 2500
   return config
 })
