@@ -1,7 +1,7 @@
 name: Next.js CI/CD
 
 on:
-  pull_request:
+  push:
     branches:
       - main
   workflow_dispatch:
@@ -33,9 +33,3 @@ jobs:
 
       - name: Run linter 👀
         run: yarn lint
-
-      - name: Push changes
-        uses: ad-m/github-push-action@master
-        with:
-          github_token: ${{ secrets.PERSONAL_TOKEN }}
-          repository: 'ryoheinan/e-shoku'
