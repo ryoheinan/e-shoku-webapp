@@ -175,10 +175,7 @@ const UserInfo: NextPage = () => {
   )
 }
 
-/*
 export default withPageAuthRequired(UserInfo, {
-  onRedirecting: () => <Loading />,
+  // onRedirecting: () => <Loading />,
   // onError: error => <ErrorMessage>{error.message}</ErrorMessage>
 })
-*/
-export default UserInfo

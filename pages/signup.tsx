@@ -1,6 +1,6 @@
 import type { NextPage } from 'next'
 import type { UserForm } from '../types/UserInfo'
-import { useUser } from '@auth0/nextjs-auth0'
+import { useUser, withPageAuthRequired } from '@auth0/nextjs-auth0'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import axios from 'axios'
 import Head from 'next/head'
@@ -148,4 +148,7 @@ const SignUp: NextPage = () => {
   )
 }
 
-export default SignUp
+export default withPageAuthRequired(SignUp, {
+  // onRedirecting: () => <Loading />,
+  // onError: error => <ErrorMessage>{error.message}</ErrorMessage>
+})
