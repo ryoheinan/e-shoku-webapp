@@ -67,7 +67,7 @@ const Room: NextPage = () => {
                 color="#6fd8a3"
                 fontSize="1.5rem"
                 shadow={true}
-                link="/"
+                link={{ to: '/' }}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
