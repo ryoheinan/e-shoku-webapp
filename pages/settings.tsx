@@ -4,6 +4,7 @@ import Head from 'next/head'
 import Nav from '../components/nav'
 import styles from '../styles/settings.module.scss'
 import Image from 'next/image'
+import ButtonCard from '../components/buttonCard'
 
 const Settings: NextPage = () => {
   const { user, error, isLoading } = useUser()
@@ -14,7 +15,6 @@ const Settings: NextPage = () => {
         <title>プロフィール | e-Shoku</title>
       </Head>
       <div className="container">
-        <h2>プロフィール</h2>
         {isLoading && (
           //ロード状態
           <p>Loading login info...</p>
@@ -29,6 +29,7 @@ const Settings: NextPage = () => {
         {user && (
           //Userがいる状態(ログイン状態の処理)
           <div>
+            <h2>プロフィール</h2>
             <div className="container">
               <Image
                 src="/images/default_icon.jpg"
@@ -45,11 +46,25 @@ const Settings: NextPage = () => {
             <br></br>
             <br></br>
             <div className="container">
-              <div className={styles.usersettings}>User Settings</div>
-              <div className={styles.History}>History</div>
-              <div className={styles.covid}>About COVID-19</div>
+              <div className={styles.usersettings}>
+                <a className={styles.a} href="#">
+                  User Settings
+                </a>
+              </div>
+              <div className={styles.History}>
+                <a className={styles.a} href="#">
+                  History
+                </a>
+              </div>
+              <div className={styles.covid}>
+                <a className={styles.a} href="#">
+                  About COVID-19
+                </a>
+              </div>
               <div className={styles.login}>
-                <a href="/api/auth/logout">Logout</a>
+                <a className={styles.a} href="/api/auth/logout">
+                  Logout
+                </a>
               </div>
             </div>
           </div>
@@ -57,7 +72,12 @@ const Settings: NextPage = () => {
         {!isLoading && !error && !user && (
           //Userがない状態(ログアウト状態の処理)
           <div>
-            <a href="/api/auth/login">Login</a>
+            <h2>ログイン</h2>
+            <div className="container">
+              <a className={styles.a} href="/api/auth/login">
+                Login
+              </a>
+            </div>
           </div>
         )}
       </div>
