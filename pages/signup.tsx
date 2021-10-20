@@ -136,8 +136,8 @@ const SignUp: NextPage = () => {
                   )}
                 </div>
               </div>
-              <div className="text-right">
-                <button type="submit" className="btn btn-primary">
+              <div className="text-end">
+                <button type="submit" className="btn btn-form">
                   送信
                 </button>
               </div>

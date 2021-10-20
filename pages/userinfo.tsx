@@ -115,6 +115,7 @@ const UserInfo: NextPage = () => {
                     })}
                     className={`form-control`}
                     id="usernameId"
+                    placeholder="例) @xxxxxxxx"
                   />
                   {errors.username && (
                     <p className="small text-danger">正しく入力してください</p>
@@ -162,7 +163,11 @@ const UserInfo: NextPage = () => {
                   )}
                 </div>
               </div>
-              <input type="submit" />
+              <div className="text-end">
+                <button type="submit" className="btn btn-form">
+                  保存
+                </button>
+              </div>
             </form>
           </div>
         )}
