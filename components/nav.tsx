@@ -18,8 +18,8 @@ const Nav = ({
       >
         <Image
           className={styles.eshoku}
-          alt="Foods"
-          src="/images/e-Shoku_long.png"
+          alt="e-Shokuのロゴ画像"
+          src="/images/header_logo.png"
           width={100}
           height={45}
         />
