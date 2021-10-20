@@ -4,7 +4,6 @@ import Head from 'next/head'
 import Nav from '../components/nav'
 import styles from '../styles/settings.module.scss'
 import Image from 'next/image'
-import ButtonCard from '../components/buttonCard'
 
 const Settings: NextPage = () => {
   const { user, error, isLoading } = useUser()
