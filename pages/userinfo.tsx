@@ -6,6 +6,7 @@ import { useForm, SubmitHandler } from 'react-hook-form'
 import { withPageAuthRequired } from '@auth0/nextjs-auth0'
 import axios from 'axios'
 import Head from 'next/head'
+import Nav from '../components/nav'
 
 const UserInfo: NextPage = () => {
   const { user, error: errAuth, isLoading } = useUser()
@@ -51,7 +52,7 @@ const UserInfo: NextPage = () => {
       .catch(() => alert('更新できませんでした'))
   }
   return (
-    <>
+    <Nav>
       <Head>
         <title>ユーザー情報編集 | e-Shoku</title>
       </Head>
@@ -171,7 +172,7 @@ const UserInfo: NextPage = () => {
           </div>
         )}
       </div>
-    </>
+    </Nav>
   )
 }
 
