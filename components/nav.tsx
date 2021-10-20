@@ -1,5 +1,6 @@
 import styles from './nav.module.scss'
 import Link from 'next/link'
+import Image from 'next/image'
 
 const Nav = ({
   children,
@@ -15,9 +16,13 @@ const Nav = ({
       <header
         className={`text-center ${styles.header} ${!isRoom ? 'mb-3' : ''}`}
       >
-        <div className="container">
-          <h1 className="my-2">e-Shoku</h1>
-        </div>
+        <Image
+          className={styles.eshoku}
+          alt="Foods"
+          src="/images/e-Shoku_long.png"
+          width={100}
+          height={45}
+        />
       </header>
       <main>{children}</main>
       <nav className={'fixed-bottom bg-light py-2'}>
