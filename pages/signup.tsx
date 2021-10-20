@@ -4,6 +4,7 @@ import { useUser } from '@auth0/nextjs-auth0'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import axios from 'axios'
 import Head from 'next/head'
+import Nav from '../components/nav'
 
 const SignUp: NextPage = () => {
   const { user, error: errAuth, isLoading } = useUser()
@@ -24,7 +25,7 @@ const SignUp: NextPage = () => {
     axios.post('/api/user', data).then((res) => console.log(res.data))
   }
   return (
-    <>
+    <Nav>
       <Head>
         <title>サインアップ | e-Shoku</title>
       </Head>
@@ -45,7 +46,7 @@ const SignUp: NextPage = () => {
                   htmlFor="staticDisplayName"
                   className="col-sm-3 col-form-label"
                 >
-                  表示名
+                  名前
                 </label>
                 <div className="col-sm-9">
                   <input
@@ -87,6 +88,7 @@ const SignUp: NextPage = () => {
                     })}
                     className={`form-control`}
                     id="usernameId"
+                    placeholder="例) @xxxxxxxx"
                   />
                   {errors.username && (
                     <p className="small text-danger">正しく入力してください</p>
@@ -134,7 +136,11 @@ const SignUp: NextPage = () => {
                   )}
                 </div>
               </div>
-              <input type="submit" />
+              <div className="text-right">
+                <button type="submit" className="btn btn-primary">
+                  送信
+                </button>
+              </div>
             </form>
           </div>
         )}
@@ -144,7 +150,7 @@ const SignUp: NextPage = () => {
           </div>
         )}
       </div>
-    </>
+    </Nav>
   )
 }
 
