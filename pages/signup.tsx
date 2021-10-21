@@ -14,10 +14,6 @@ const SignUp: NextPage = () => {
     formState: { errors },
   } = useForm<UserForm>()
   const onSubmit: SubmitHandler<UserForm> = (data) => {
-    if (user !== undefined) {
-      data.display_name = user.name as string
-      // data.email = user.email as string
-    }
     const dt = new Date(data.date_of_birth)
     data.date_of_birth = `${dt.getFullYear()}-${
       dt.getMonth() + 1
@@ -43,23 +39,6 @@ const SignUp: NextPage = () => {
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className="mb-3 row">
                 <label
-                  htmlFor="staticDisplayName"
-                  className="col-sm-3 col-form-label"
-                >
-                  名前
-                </label>
-                <div className="col-sm-9">
-                  <input
-                    type="text"
-                    className="form-control-plaintext"
-                    id="staticDisplayName"
-                    value={user.name as string}
-                    readOnly
-                  />
-                </div>
-              </div>
-              <div className="mb-3 row">
-                <label
                   htmlFor="staticEmail"
                   className="col-sm-3 col-form-label"
                 >
@@ -72,6 +51,25 @@ const SignUp: NextPage = () => {
                     id="staticEmail"
                     value={user.email as string}
                     readOnly
+                  />
+                </div>
+              </div>
+              <div className="mb-3 row">
+                <label
+                  htmlFor="displayName"
+                  className="col-sm-3 col-form-label"
+                >
+                  名前
+                </label>
+                <div className="col-sm-9">
+                  <input
+                    {...register('username', {
+                      required: true,
+                      maxLength: 128,
+                    })}
+                    className={`form-control`}
+                    id="displayName"
+                    placeholder="例) 坂村 一郎"
                   />
                 </div>
               </div>
