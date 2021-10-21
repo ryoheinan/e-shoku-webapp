@@ -77,7 +77,7 @@ const SignUp: NextPage = () => {
               </div>
               <div className="mb-3 row">
                 <label htmlFor="usernameId" className="col-sm-3 col-form-label">
-                  ユーザーネーム
+                  ユーザーネーム（半角英数）
                 </label>
                 <div className="col-sm-9">
                   <input
@@ -85,10 +85,11 @@ const SignUp: NextPage = () => {
                       required: true,
                       minLength: 2,
                       maxLength: 128,
+                      pattern: /^[A-Za-z]+$/i,
                     })}
                     className={`form-control`}
                     id="usernameId"
-                    placeholder="例) @xxxxxxxx"
+                    placeholder="例) ichiro"
                   />
                   {errors.username && (
                     <p className="small text-danger">正しく入力してください</p>
