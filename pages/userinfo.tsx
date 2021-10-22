@@ -39,9 +39,6 @@ const UserInfo: NextPage = () => {
   }, [reset])
 
   const onSubmit: SubmitHandler<UserForm> = (data) => {
-    if (user !== undefined) {
-      data.display_name = user.name as string
-    }
     const dt = new Date(data.date_of_birth)
     data.date_of_birth = `${dt.getFullYear()}-${
       dt.getMonth() + 1
@@ -70,23 +67,6 @@ const UserInfo: NextPage = () => {
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className="mb-3 row">
                 <label
-                  htmlFor="staticDisplayName"
-                  className="col-sm-3 col-form-label"
-                >
-                  表示名
-                </label>
-                <div className="col-sm-9">
-                  <input
-                    type="text"
-                    className="form-control-plaintext"
-                    id="staticDisplayName"
-                    value={user.name as string}
-                    readOnly
-                  />
-                </div>
-              </div>
-              <div className="mb-3 row">
-                <label
                   htmlFor="staticEmail"
                   className="col-sm-3 col-form-label"
                 >
@@ -103,8 +83,30 @@ const UserInfo: NextPage = () => {
                 </div>
               </div>
               <div className="mb-3 row">
+                <label
+                  htmlFor="displayName"
+                  className="col-sm-3 col-form-label"
+                >
+                  名前
+                </label>
+                <div className="col-sm-9">
+                  <input
+                    {...register('display_name', {
+                      required: true,
+                      maxLength: 128,
+                    })}
+                    className={`form-control`}
+                    id="displayName"
+                    placeholder="例) 坂村 一郎"
+                  />
+                  {errors.display_name && (
+                    <p className="small text-danger">正しく入力してください</p>
+                  )}
+                </div>
+              </div>
+              <div className="mb-3 row">
                 <label htmlFor="usernameId" className="col-sm-3 col-form-label">
-                  ユーザーネーム
+                  ユーザーネーム（半角英数）
                 </label>
                 <div className="col-sm-9">
                   <input
@@ -112,10 +114,11 @@ const UserInfo: NextPage = () => {
                       required: true,
                       minLength: 2,
                       maxLength: 128,
+                      pattern: /^[A-Za-z]+$/i,
                     })}
                     className={`form-control`}
                     id="usernameId"
-                    placeholder="例) @xxxxxxxx"
+                    placeholder="例) ichiro"
                   />
                   {errors.username && (
                     <p className="small text-danger">正しく入力してください</p>
