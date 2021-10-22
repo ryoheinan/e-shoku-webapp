@@ -16,7 +16,7 @@ const Nav = ({
   return (
     <>
       <header
-        className={`text-center ${styles.header} ${!isRoom ? 'mb-3' : ''}`}
+        className={`text-center fixed-top ${styles.header} ${!isRoom ? 'mb-3' : ''}`}
       >
         <Image
           className={styles.eshoku}
@@ -26,9 +26,9 @@ const Nav = ({
           height={45}
         />
       </header>
-      <main>{children}</main>
+      <main className={styles.main}>{children}</main>
       {bottomNav && (
-        <nav className={'fixed-bottom bg-light py-2'}>
+        <nav className={`fixed-bottom bg-light py-2 ${styles.nav}`}>
           <ul
             className={`d-flex justify-content-center list-unstyled ${styles.items}`}
           >
