@@ -63,7 +63,7 @@ const SignUp: NextPage = () => {
                 </label>
                 <div className="col-sm-9">
                   <input
-                    {...register('display_name', {
+                    {...register('username', {
                       required: true,
                       maxLength: 128,
                     })}
@@ -71,9 +71,6 @@ const SignUp: NextPage = () => {
                     id="displayName"
                     placeholder="例) 坂村 一郎"
                   />
-                  {errors.display_name && (
-                    <p className="small text-danger">正しく入力してください</p>
-                  )}
                 </div>
               </div>
               <div className="mb-3 row">
@@ -140,7 +137,7 @@ const SignUp: NextPage = () => {
               </div>
               <div className="text-end">
                 <button type="submit" className="btn btn-form">
-                  作成
+                  送信
                 </button>
               </div>
             </form>
