@@ -34,57 +34,47 @@ const Room: NextPage = () => {
           </div>
         </div>
       </div>{' '}
-      <section className="container">
+      <section className={`container ${styles.section}`}>
         <div className={styles.title}>
-          <h1 className="container">Online dinner</h1>
+          <h1>Online dinner</h1>
         </div>
-        <div className="container">
-          <div className={styles.schedule}>
-            <p>2021.08.20 18:30~</p>
-          </div>
-          <div className={styles.host}>
-            <p>
-              Host:{' '}
-              <a href="#" className={styles.username}>
-                @Ken
-              </a>
-            </p>
-          </div>
-          <div className={styles.text}>
-            <p>
-              This is an online dinner. Lets enjoy! I like sushi. I ll play
-              baseball. This is a pen. He is a pen. Oh my god.
-            </p>
-          </div>
-        </div>
+        <p className={styles.schedule}>2021.08.20 18:30~</p>
+        <p className={styles.host}>
+          Host:{' '}
+          <a href="#" className={styles.username}>
+            @Ken
+          </a>
+        </p>
+        <p>
+          This is an online dinner. Lets enjoy! I like sushi. I ll play
+          baseball. This is a pen. He is a pen. Oh my god.
+        </p>
       </section>
-      <div className={styles.button}>
-        <section className="container">
-          <Link href="/">
-            <a className={styles.tag}>
-              <ButtonCard
-                title="Join"
-                color="#6fd8a3"
-                fontSize="1.5rem"
-                shadow={true}
-                link="/"
+      <section className={`container ${styles.section}`}>
+        <Link href="/">
+          <a className={styles.tag}>
+            <ButtonCard
+              title="参加する"
+              color="#6fd8a3"
+              fontSize="1.5rem"
+              shadow={true}
+              link={{ to: '/' }}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                enableBackground="new 0 0 24 24"
+                height="0px"
+                viewBox="0 0 24 24"
+                width="0px"
+                fill="#000000"
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  enableBackground="new 0 0 24 24"
-                  height="0px"
-                  viewBox="0 0 24 24"
-                  width="0px"
-                  fill="#000000"
-                >
-                  <rect fill="none" height="24" width="24" />
-                  <path d="M10.5,13H8v-3h2.5V7.5h3V10H16v3h-2.5v2.5h-3V13z M12,2L4,5v6.09c0,5.05,3.41,9.76,8,10.91c4.59-1.15,8-5.86,8-10.91V5L12,2 z M18,11.09c0,4-2.55,7.7-6,8.83c-3.45-1.13-6-4.82-6-8.83v-4.7l6-2.25l6,2.25V11.09z" />
-                </svg>
-              </ButtonCard>
-            </a>
-          </Link>
-        </section>
-      </div>
+                <rect fill="none" height="24" width="24" />
+                <path d="M10.5,13H8v-3h2.5V7.5h3V10H16v3h-2.5v2.5h-3V13z M12,2L4,5v6.09c0,5.05,3.41,9.76,8,10.91c4.59-1.15,8-5.86,8-10.91V5L12,2 z M18,11.09c0,4-2.55,7.7-6,8.83c-3.45-1.13-6-4.82-6-8.83v-4.7l6-2.25l6,2.25V11.09z" />
+              </svg>
+            </ButtonCard>
+          </a>
+        </Link>
+      </section>
     </Nav>
   )
 }
