@@ -1,21 +1,6 @@
 import Link from 'next/link'
 import styles from './buttonCard.module.scss'
 
-interface Params {
-  title: string
-  color: string
-  fontSize: string
-  shadow: boolean
-  link?: LinkParams
-  linkColor?: string
-  children?: React.ReactNode
-}
-
-interface LinkParams {
-  to: string
-  useAnchorOnly?: boolean
-}
-
 const ButtonCard = ({
   title,
   color,
@@ -24,11 +9,19 @@ const ButtonCard = ({
   link,
   linkColor = '#000000',
   children,
-}: Params) => {
+}: {
+  title: string
+  color: string
+  fontSize: string
+  shadow: boolean
+  link?: string
+  linkColor?: string
+  children?: React.ReactNode
+}) => {
   return (
     <>
-      {link?.to && !link?.useAnchorOnly && (
-        <Link href={link.to}>
+      {link ? (
+        <Link href={link}>
           <a className={styles.link} style={{ color: linkColor }}>
             <div
               className={`rounded ${shadow ? styles.cardShadow : ''}`}
@@ -50,30 +43,7 @@ const ButtonCard = ({
             </div>
           </a>
         </Link>
-      )}
-      {link?.to && link?.useAnchorOnly && (
-        <a className={styles.link} href={link.to} style={{ color: linkColor }}>
-          <div
-            className={`rounded ${shadow ? styles.cardShadow : ''}`}
-            style={{ backgroundColor: color }}
-          >
-            {children ? (
-              <div
-                className={
-                  'd-flex justify-content-center align-items-center py-3 px-2'
-                }
-                style={{ fontSize: fontSize }}
-              >
-                <div className={'me-1'}>{children}</div>
-                <div>{title}</div>
-              </div>
-            ) : (
-              <div className={''}>{title}</div>
-            )}
-          </div>
-        </a>
-      )}
-      {!Link && (
+      ) : (
         <div
           className={`rounded ${shadow ? styles.cardShadow : ''}`}
           style={{ backgroundColor: color }}

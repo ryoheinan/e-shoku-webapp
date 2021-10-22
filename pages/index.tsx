@@ -32,7 +32,7 @@ const Home: NextPage = () => {
               color="#6fd8a3"
               fontSize="1.5rem"
               shadow={true}
-              link={{ to: '/' }}
+              link="/"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -53,7 +53,7 @@ const Home: NextPage = () => {
               color="#ff8484"
               fontSize="1.5rem"
               shadow={true}
-              link={{ to: '/' }}
+              link="/"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -73,7 +73,7 @@ const Home: NextPage = () => {
               color="#3bb4ff"
               fontSize="1.5rem"
               shadow={true}
-              link={{ to: '/' }}
+              link="/"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"

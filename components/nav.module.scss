@@ -1,5 +1,5 @@
 .header {
-  background-color: #f3ae56;
+  border-bottom: solid 6px #f3ae56;
 }
 
 .active svg {
@@ -8,13 +8,4 @@
 
 .items {
   margin-bottom: env(safe-area-inset-bottom);
-}
-
-.main {
-  margin-top: 51px;
-  margin-bottom: 70px;
-}
-
-.nav {
-  border-top: 1px solid #e4e7e7;
 }

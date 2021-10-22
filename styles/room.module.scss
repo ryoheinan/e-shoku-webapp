@@ -24,26 +24,27 @@
   text-align: center;
 }
 
-.section {
-  > div,
-  > p {
-    padding: 0 1%;
-  }
-}
-
 .title {
   font-size: 0.5rem;
   color: #773f00;
 }
 
 .schedule {
-  font-size: 1.3rem;
-  margin-bottom: 0.25rem;
+  font-size: 1.3em;
+  padding: 1%;
 }
 
 .host {
-  font-size: 1.1rem;
-  margin-bottom: 1.5rem;
+  font-size: 1.1em;
+  padding: 1%;
+}
+
+.text {
+  padding: 1%;
+}
+
+.button {
+  padding: 10% 5% 30% 5%;
 }
 
 .tag {
