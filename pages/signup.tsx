@@ -21,12 +21,12 @@ const SignUp: NextPage = () => {
     axios.post('/api/user', data).then((res) => console.log(res.data))
   }
   return (
-    <Nav>
+    <Nav bottomNav={false}>
       <Head>
-        <title>サインアップ | e-Shoku</title>
+        <title>ユーザー登録 | e-Shoku</title>
       </Head>
       <div className="container">
-        <h2>サインアップ</h2>
+        <h2>ユーザー登録</h2>
         {isLoading && <p>Loading login info...</p>}
         {errAuth && (
           <>
