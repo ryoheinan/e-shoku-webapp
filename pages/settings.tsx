@@ -28,7 +28,7 @@ const Settings: NextPage = () => {
         {user && (
           //Userがいる状態(ログイン状態の処理)
           <div>
-            <h2>プロフィール</h2>
+            <h2 className={styles.title}>プロフィール</h2>
             <div className="container">
               <Image
                 src="/images/default_icon.jpg"
