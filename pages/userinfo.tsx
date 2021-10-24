@@ -6,6 +6,7 @@ import { useForm, SubmitHandler } from 'react-hook-form'
 import { withPageAuthRequired } from '@auth0/nextjs-auth0'
 import axios from 'axios'
 import Head from 'next/head'
+import Nav from '../components/nav'
 
 const UserInfo: NextPage = () => {
   const { user, error: errAuth, isLoading } = useUser()
@@ -38,9 +39,6 @@ const UserInfo: NextPage = () => {
   }, [reset])
 
   const onSubmit: SubmitHandler<UserForm> = (data) => {
-    if (user !== undefined) {
-      data.display_name = user.name as string
-    }
     const dt = new Date(data.date_of_birth)
     data.date_of_birth = `${dt.getFullYear()}-${
       dt.getMonth() + 1
@@ -51,7 +49,7 @@ const UserInfo: NextPage = () => {
       .catch(() => alert('更新できませんでした'))
   }
   return (
-    <>
+    <Nav>
       <Head>
         <title>ユーザー情報編集 | e-Shoku</title>
       </Head>
@@ -67,23 +65,6 @@ const UserInfo: NextPage = () => {
         {user && (
           <div>
             <form onSubmit={handleSubmit(onSubmit)}>
-              <div className="mb-3 row">
-                <label
-                  htmlFor="staticDisplayName"
-                  className="col-sm-3 col-form-label"
-                >
-                  表示名
-                </label>
-                <div className="col-sm-9">
-                  <input
-                    type="text"
-                    className="form-control-plaintext"
-                    id="staticDisplayName"
-                    value={user.name as string}
-                    readOnly
-                  />
-                </div>
-              </div>
               <div className="mb-3 row">
                 <label
                   htmlFor="staticEmail"
@@ -102,8 +83,30 @@ const UserInfo: NextPage = () => {
                 </div>
               </div>
               <div className="mb-3 row">
+                <label
+                  htmlFor="displayName"
+                  className="col-sm-3 col-form-label"
+                >
+                  名前
+                </label>
+                <div className="col-sm-9">
+                  <input
+                    {...register('display_name', {
+                      required: true,
+                      maxLength: 128,
+                    })}
+                    className={`form-control`}
+                    id="displayName"
+                    placeholder="例) 坂村 一郎"
+                  />
+                  {errors.display_name && (
+                    <p className="small text-danger">正しく入力してください</p>
+                  )}
+                </div>
+              </div>
+              <div className="mb-3 row">
                 <label htmlFor="usernameId" className="col-sm-3 col-form-label">
-                  ユーザーネーム
+                  ユーザーネーム（半角英数）
                 </label>
                 <div className="col-sm-9">
                   <input
@@ -111,9 +114,11 @@ const UserInfo: NextPage = () => {
                       required: true,
                       minLength: 2,
                       maxLength: 128,
+                      pattern: /^[A-Za-z]+$/i,
                     })}
                     className={`form-control`}
                     id="usernameId"
+                    placeholder="例) ichiro"
                   />
                   {errors.username && (
                     <p className="small text-danger">正しく入力してください</p>
@@ -161,7 +166,11 @@ const UserInfo: NextPage = () => {
                   )}
                 </div>
               </div>
-              <input type="submit" />
+              <div className="text-end">
+                <button type="submit" className="btn btn-form">
+                  保存
+                </button>
+              </div>
             </form>
           </div>
         )}
@@ -171,7 +180,7 @@ const UserInfo: NextPage = () => {
           </div>
         )}
       </div>
-    </>
+    </Nav>
   )
 }
 
