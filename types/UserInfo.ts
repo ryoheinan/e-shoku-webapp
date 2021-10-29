@@ -8,4 +8,5 @@ export type UserForm = {
 export type UserData = UserForm & {
   id: string
   internal_id: string
+  is_info_filled: boolean
 }
