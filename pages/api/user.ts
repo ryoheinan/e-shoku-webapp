@@ -28,7 +28,7 @@ export default withApiAuthRequired(async function user(req, res) {
       resData = {
         detail: `"${req.method}" method is not allowed.`,
       }
-      res.setHeader('Allow', 'POST')
+      res.setHeader('Allow', 'GET, POST')
       res.status(405).json(resData)
     }
   } catch (error: any) {
