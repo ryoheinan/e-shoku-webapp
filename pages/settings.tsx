@@ -4,6 +4,7 @@ import Head from 'next/head'
 import Nav from '../components/nav'
 import styles from '../styles/settings.module.scss'
 import Image from 'next/image'
+import ButtonCard from '../components/buttonCard'
 
 const Settings: NextPage = () => {
   const { user, error, isLoading } = useUser()
@@ -111,11 +112,32 @@ const Settings: NextPage = () => {
         {!isLoading && !error && !user && (
           //Userがない状態(ログアウト状態の処理)
           <div>
-            <h2>ログイン</h2>
+            <h2 className={styles.title}>はじめる</h2>
             <div className="container">
-              <a className={styles.a} href="/api/auth/login">
-                Login
-              </a>
+              <br></br>
+              <br></br>
+              <br></br>
+              <div className={styles.text_center}>Lets Login and Join us!!</div>
+              <br></br>
+              <ButtonCard
+                title="Login"
+                color="#f3ae56"
+                fontSize="1.3rem"
+                shadow={true}
+                link={{ to: '/api/auth/login' }}
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  enableBackground="new 0 0 24 24"
+                  height="25px"
+                  viewBox="0 0 24 24"
+                  width="25px"
+                  fill="#000000"
+                >
+                  <rect fill="none" height="24" width="24" />
+                  <path d="M 11 7 L 9.6 8.4 l 2.6 2.6 H 2 v 2 h 10.2 l -2.6 2.6 L 11 17 l 5 -5 L 11 7 Z M 20 19 h -8 v 2 h 8 c 1.1 0 2 -0.9 2 -2 V 5 c 0 -1.1 -0.9 -2 -2 -2 h -8 v 2 h 8 V 19 Z" />
+                </svg>
+              </ButtonCard>
             </div>
           </div>
         )}
