@@ -2,10 +2,19 @@
   padding: 10px;
 }
 
+.image {
+  border-radius: 100px;
+  display: inline-block;
+}
+
 .username {
   font-size: 25px;
   padding-left: 10px;
   display: inline-block;
+}
+
+.text {
+  font-size: 18px;
 }
 
 .usersettings {
@@ -29,6 +38,7 @@
 }
 
 .a {
+  font-size: 20px;
   text-decoration: none;
   color: black;
 }
