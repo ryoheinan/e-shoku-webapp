@@ -17,7 +17,7 @@
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-hook-form": "^7.16.1",
-    "swr": "^1.0.1"
+    "recoil": "^0.4.1"
   },
   "devDependencies": {
     "@types/react": "^17.0.29",
