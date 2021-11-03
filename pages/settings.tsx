@@ -29,7 +29,7 @@ const Settings: NextPage = () => {
         {user && (
           //Userがいる状態(ログイン状態の処理)
           <div>
-            <h2 className={styles.title}>プロフィール</h2>
+            <h2 className="title">プロフィール</h2>
             <div className="container">
               <div className={styles.image}>
                 <Image
