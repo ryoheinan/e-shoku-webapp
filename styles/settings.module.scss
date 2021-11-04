@@ -1,5 +1,10 @@
-.title {
+.title_login {
   padding: 10px;
+}
+
+.title_logout {
+  padding: 10px;
+  margin-bottom: 80px;
 }
 
 .image {
@@ -15,12 +20,14 @@
 
 .text {
   font-size: 18px;
+  margin-bottom: 10px;
 }
 
 .text_center {
   font-size: 24px;
   font-weight: bold;
   text-align: center;
+  margin-bottom: 30px;
 }
 
 .usersettings {
