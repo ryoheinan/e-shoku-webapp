@@ -12,7 +12,7 @@ const Home: NextPage = () => {
         <title>e-Shoku</title>
       </Head>
       <section className={'container mb-5'}>
-        <h2>あなたの予定</h2>
+        <h2 className="title">あなたの予定</h2>
         <Link href="/">
           <a>
             <RoomCard

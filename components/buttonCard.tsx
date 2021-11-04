@@ -45,7 +45,12 @@ const ButtonCard = ({
                   <div>{title}</div>
                 </div>
               ) : (
-                <div className={''}>{title}</div>
+                <div
+                  className={'text-center py-3 px-2'}
+                  style={{ fontSize: fontSize }}
+                >
+                  {title}
+                </div>
               )}
             </div>
           </a>

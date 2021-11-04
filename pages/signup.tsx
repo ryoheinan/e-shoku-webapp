@@ -1,6 +1,6 @@
 import type { NextPage } from 'next'
 import type { UserForm } from '../types/UserInfo'
-import { useUser } from '@auth0/nextjs-auth0'
+import { useUser, withPageAuthRequired } from '@auth0/nextjs-auth0'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import axios from 'axios'
 import Head from 'next/head'
@@ -26,7 +26,7 @@ const SignUp: NextPage = () => {
         <title>ユーザー登録 | e-Shoku</title>
       </Head>
       <div className="container">
-        <h2>ユーザー登録</h2>
+        <h2 className="title">ユーザー登録</h2>
         {isLoading && <p>Loading login info...</p>}
         {errAuth && (
           <>
@@ -156,4 +156,7 @@ const SignUp: NextPage = () => {
   )
 }
 
-export default SignUp
+export default withPageAuthRequired(SignUp, {
+  // onRedirecting: () => <Loading />,
+  // onError: error => <ErrorMessage>{error.message}</ErrorMessage>
+})

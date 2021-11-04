@@ -4,6 +4,8 @@ import React, { useEffect } from 'react'
 import { useUser } from '@auth0/nextjs-auth0'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { withPageAuthRequired } from '@auth0/nextjs-auth0'
+import { useRequireUserInfo } from '../hooks/useRequireUserInfo'
+import { useCurrentUser } from '../hooks/useCurrentUser'
 import axios from 'axios'
 import Head from 'next/head'
 import Nav from '../components/nav'
@@ -48,14 +50,18 @@ const UserInfo: NextPage = () => {
       .then(() => alert('正常に更新されました'))
       .catch(() => alert('更新できませんでした'))
   }
+
+  useRequireUserInfo()
+  const { userChecking } = useCurrentUser()
+
   return (
     <Nav>
       <Head>
         <title>ユーザー情報編集 | e-Shoku</title>
       </Head>
       <div className="container">
-        <h2>ユーザー情報編集</h2>
-        {isLoading && <p>読み込み中…</p>}
+        <h2 className="title">ユーザー情報編集</h2>
+        {isLoading && userChecking && <p>読み込み中…</p>}
         {errAuth && (
           <>
             <h4>Error</h4>
@@ -184,10 +190,7 @@ const UserInfo: NextPage = () => {
   )
 }
 
-/*
 export default withPageAuthRequired(UserInfo, {
-  onRedirecting: () => <Loading />,
+  // onRedirecting: () => <Loading />,
   // onError: error => <ErrorMessage>{error.message}</ErrorMessage>
 })
-*/
-export default UserInfo
