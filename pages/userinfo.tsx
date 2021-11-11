@@ -1,6 +1,6 @@
 import type { NextPage } from 'next'
 import type { UserForm, UserData } from '../types/UserInfo'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useUser } from '@auth0/nextjs-auth0'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { withPageAuthRequired } from '@auth0/nextjs-auth0'
@@ -9,9 +9,11 @@ import { useCurrentUser } from '../hooks/useCurrentUser'
 import axios from 'axios'
 import Head from 'next/head'
 import Nav from '../components/nav'
+import Loading from '../components/loading'
 
 const UserInfo: NextPage = () => {
   const { user, error: errAuth, isLoading } = useUser()
+  const [isDataLoading, setIsDataLoading] = useState(true)
 
   const {
     register,
@@ -30,8 +32,10 @@ const UserInfo: NextPage = () => {
   useEffect(() => {
     const getUser = async () => {
       try {
+        setIsDataLoading(true)
         const res = await axios.get<UserData>('/api/user')
         const inputValues: UserForm = res.data
+        setIsDataLoading(false)
         reset(inputValues)
       } catch {
         alert('データの取得に失敗しました')
@@ -61,14 +65,14 @@ const UserInfo: NextPage = () => {
       </Head>
       <div className="container">
         <h2 className="title">ユーザー情報編集</h2>
-        {isLoading && userChecking && <p>読み込み中…</p>}
+        {(isLoading || isDataLoading || userChecking) && <Loading />}
         {errAuth && (
           <>
             <h4>Error</h4>
             <pre>{errAuth.message}</pre>
           </>
         )}
-        {user && (
+        {user && !isLoading && !isDataLoading && (
           <div>
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className="mb-3 row">
@@ -180,7 +184,7 @@ const UserInfo: NextPage = () => {
             </form>
           </div>
         )}
-        {!isLoading && !errAuth && !user && (
+        {!isLoading && !isDataLoading && !errAuth && !user && (
           <div>
             <a href="/api/auth/login">Login</a>
           </div>
