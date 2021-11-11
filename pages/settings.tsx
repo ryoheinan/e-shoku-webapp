@@ -99,20 +99,18 @@ const Settings: NextPage = () => {
                 </Link>
               </div>
               <div className={styles.login}>
-                <Link href="/api/auth/logout">
-                  <a className={styles.a}>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      height="25px"
-                      viewBox="2 2 24 24"
-                      width="25px"
-                      fill="#000000"
-                    >
-                      <path d="M 17 7 l -1.41 1.41 L 18.17 11 H 8 v 2 h 10.17 l -2.58 2.58 L 17 17 l 5 -5 Z M 4 5 h 8 V 3 H 4 c -1.1 0 -2 0.9 -2 2 v 14 c 0 1.1 0.9 2 2 2 h 8 v -2 H 4 V 5 Z" />
-                    </svg>{' '}
-                    ログアウト
-                  </a>
-                </Link>
+                <a className={styles.a} href="/api/auth/logout">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    height="25px"
+                    viewBox="2 2 24 24"
+                    width="25px"
+                    fill="#000000"
+                  >
+                    <path d="M 17 7 l -1.41 1.41 L 18.17 11 H 8 v 2 h 10.17 l -2.58 2.58 L 17 17 l 5 -5 Z M 4 5 h 8 V 3 H 4 c -1.1 0 -2 0.9 -2 2 v 14 c 0 1.1 0.9 2 2 2 h 8 v -2 H 4 V 5 Z" />
+                  </svg>{' '}
+                  ログアウト
+                </a>
               </div>
             </div>
           </div>
