@@ -64,7 +64,7 @@ const UserInfo: NextPage = () => {
         <title>ユーザー情報編集 | e-Shoku</title>
       </Head>
       <div className="container">
-        <h2>ユーザー情報編集</h2>
+        <h2 className="title">ユーザー情報編集</h2>
         {(isLoading || isDataLoading || userChecking) && <Loading />}
         {errAuth && (
           <>

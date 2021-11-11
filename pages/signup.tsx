@@ -26,7 +26,7 @@ const SignUp: NextPage = () => {
         <title>ユーザー登録 | e-Shoku</title>
       </Head>
       <div className="container">
-        <h2>ユーザー登録</h2>
+        <h2 className="title">ユーザー登録</h2>
         {isLoading && <p>Loading login info...</p>}
         {errAuth && (
           <>
