@@ -1,5 +1,5 @@
 import type { NextPage } from 'next'
-import type { UserForm, UserData } from '../types/UserInfo'
+import { UserForm, UserData } from '../types/UserInfo'
 import React, { useEffect, useState } from 'react'
 import { useUser } from '@auth0/nextjs-auth0'
 import { useForm, SubmitHandler } from 'react-hook-form'

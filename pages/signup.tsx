@@ -1,5 +1,5 @@
 import type { NextPage } from 'next'
-import type { UserForm } from '../types/UserInfo'
+import { UserForm } from '../types/UserInfo'
 import { useUser, withPageAuthRequired } from '@auth0/nextjs-auth0'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import axios from 'axios'
