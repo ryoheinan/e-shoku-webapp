@@ -1,57 +1,38 @@
-.title_login {
-  padding: 10px;
+.profileImage {
+  border-radius: 50%;
 }
 
-.title_logout {
-  padding: 10px;
-  margin-bottom: 80px;
+.displayName {
+  font-size: 1.5rem;
+  padding-left: 0.6rem;
 }
 
-.image {
-  border-radius: 100px;
-  display: inline-block;
-}
-
-.username {
-  font-size: 25px;
-  padding-left: 10px;
-  display: inline-block;
-}
-
-.text {
-  font-size: 18px;
+.profileDescription {
+  font-size: 1.1rem;
   margin-bottom: 10px;
 }
 
-.text_center {
-  font-size: 24px;
+.elementCenter {
+  height: calc(100vh - 180px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.startWithLogin {
+  font-size: 1.45rem;
   font-weight: bold;
   text-align: center;
-  margin-bottom: 30px;
+  margin-bottom: 1.25rem;
 }
 
-.usersettings {
-  padding: 2%;
+.settingsItem {
+  padding: 1.25rem 0.25rem;
   border-bottom: 1px solid;
-}
 
-.History {
-  padding: 2%;
-  border-bottom: 1px solid;
-}
-
-.covid {
-  padding: 2%;
-  border-bottom: 1px solid;
-}
-
-.login {
-  padding: 2%;
-  border-bottom: 1px solid;
-}
-
-.a {
-  font-size: 20px;
-  text-decoration: none;
-  color: black;
+  a {
+    font-size: 20px;
+    text-decoration: none;
+    color: black;
+  }
 }
