@@ -1,6 +1,6 @@
-import styles from './nav.module.scss'
 import Link from 'next/link'
 import Image from 'next/image'
+import styles from './nav.module.scss'
 
 const Nav = ({
   children,
@@ -16,7 +16,9 @@ const Nav = ({
   return (
     <>
       <header
-        className={`text-center fixed-top ${styles.header} ${!isRoom ? 'mb-3' : ''}`}
+        className={`text-center fixed-top ${styles.header} ${
+          !isRoom ? 'mb-3' : ''
+        }`}
       >
         <Image
           className={styles.eshoku}
