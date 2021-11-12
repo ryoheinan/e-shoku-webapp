@@ -1,5 +1,5 @@
 import type { AppProps } from 'next/app'
-import type { UserData } from '../types/UserInfo'
+import { UserData } from '../types/UserInfo'
 import { useEffect } from 'react'
 import { useSetRecoilState, RecoilRoot } from 'recoil'
 import { currentUserState } from '../states/currentUser'
