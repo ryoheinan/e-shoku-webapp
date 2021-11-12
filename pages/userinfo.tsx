@@ -1,5 +1,5 @@
 import type { NextPage } from 'next'
-import type { UserForm, UserData } from '../types/UserInfo'
+import { UserForm, UserData } from '../types/UserInfo'
 import React, { useEffect, useState } from 'react'
 import { useUser } from '@auth0/nextjs-auth0'
 import { useForm, SubmitHandler } from 'react-hook-form'
@@ -30,6 +30,9 @@ const UserInfo: NextPage = () => {
   })
 
   useEffect(() => {
+    /**
+     * ユーザー情報の取得
+     */
     const getUser = async () => {
       try {
         setIsDataLoading(true)
@@ -185,16 +188,16 @@ const UserInfo: NextPage = () => {
           </div>
         )}
         {!isLoading && !isDataLoading && !errAuth && !user && (
-          <div>
-            <a href="/api/auth/login">Login</a>
-          </div>
+          // Error component を呼び出す予定
+          <div className="text-center">データの取得に失敗しました</div>
         )}
       </div>
     </Nav>
   )
 }
 
+// ログイン必須にする処理
 export default withPageAuthRequired(UserInfo, {
-  // onRedirecting: () => <Loading />,
+  onRedirecting: () => <Loading />,
   // onError: error => <ErrorMessage>{error.message}</ErrorMessage>
 })

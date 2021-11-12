@@ -1,10 +1,11 @@
 import type { NextPage } from 'next'
-import type { UserForm } from '../types/UserInfo'
+import { UserForm } from '../types/UserInfo'
 import { useUser, withPageAuthRequired } from '@auth0/nextjs-auth0'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import axios from 'axios'
 import Head from 'next/head'
 import Nav from '../components/nav'
+import Loading from '../components/loading'
 
 const SignUp: NextPage = () => {
   const { user, error: errAuth, isLoading } = useUser()
@@ -27,8 +28,9 @@ const SignUp: NextPage = () => {
       </Head>
       <div className="container">
         <h2 className="title">ユーザー登録</h2>
-        {isLoading && <p>Loading login info...</p>}
+        {isLoading && <Loading />}
         {errAuth && (
+          // Error component を呼び出す予定
           <>
             <h4>Error</h4>
             <pre>{errAuth.message}</pre>
@@ -147,16 +149,16 @@ const SignUp: NextPage = () => {
           </div>
         )}
         {!isLoading && !errAuth && !user && (
-          <div>
-            <a href="/api/auth/login">Login</a>
-          </div>
+          // Error component を呼び出す予定
+          <div className="text-center">データの取得に失敗しました</div>
         )}
       </div>
     </Nav>
   )
 }
 
+// ログイン必須にする処理
 export default withPageAuthRequired(SignUp, {
-  // onRedirecting: () => <Loading />,
+  onRedirecting: () => <Loading />,
   // onError: error => <ErrorMessage>{error.message}</ErrorMessage>
 })
