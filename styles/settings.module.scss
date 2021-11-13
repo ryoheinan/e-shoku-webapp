@@ -1,0 +1,38 @@
+.profileImage {
+  border-radius: 50%;
+}
+
+.displayName {
+  font-size: 1.5rem;
+  padding-left: 0.6rem;
+}
+
+.profileDescription {
+  font-size: 1.1rem;
+  margin-bottom: 10px;
+}
+
+.elementCenter {
+  height: calc(100vh - 180px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.startWithLogin {
+  font-size: 1.45rem;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 1.25rem;
+}
+
+.settingsItem {
+  padding: 1.25rem 0.25rem;
+  border-bottom: 1px solid;
+
+  a {
+    font-size: 20px;
+    text-decoration: none;
+    color: black;
+  }
+}

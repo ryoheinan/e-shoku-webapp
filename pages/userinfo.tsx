@@ -1,6 +1,6 @@
 import type { NextPage } from 'next'
-import type { UserForm, UserData } from '../types/UserInfo'
-import React, { useEffect } from 'react'
+import { UserForm, UserData } from '../types/UserInfo'
+import React, { useEffect, useState } from 'react'
 import { useUser } from '@auth0/nextjs-auth0'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import { withPageAuthRequired } from '@auth0/nextjs-auth0'
@@ -9,9 +9,11 @@ import { useCurrentUser } from '../hooks/useCurrentUser'
 import axios from 'axios'
 import Head from 'next/head'
 import Nav from '../components/nav'
+import Loading from '../components/loading'
 
 const UserInfo: NextPage = () => {
   const { user, error: errAuth, isLoading } = useUser()
+  const [isDataLoading, setIsDataLoading] = useState(true)
 
   const {
     register,
@@ -28,10 +30,15 @@ const UserInfo: NextPage = () => {
   })
 
   useEffect(() => {
+    /**
+     * ユーザー情報の取得
+     */
     const getUser = async () => {
       try {
+        setIsDataLoading(true)
         const res = await axios.get<UserData>('/api/user')
         const inputValues: UserForm = res.data
+        setIsDataLoading(false)
         reset(inputValues)
       } catch {
         alert('データの取得に失敗しました')
@@ -60,15 +67,15 @@ const UserInfo: NextPage = () => {
         <title>ユーザー情報編集 | e-Shoku</title>
       </Head>
       <div className="container">
-        <h2>ユーザー情報編集</h2>
-        {isLoading && userChecking && <p>読み込み中…</p>}
+        <h2 className="title">ユーザー情報編集</h2>
+        {(isLoading || isDataLoading || userChecking) && <Loading />}
         {errAuth && (
           <>
             <h4>Error</h4>
             <pre>{errAuth.message}</pre>
           </>
         )}
-        {user && (
+        {user && !isLoading && !isDataLoading && (
           <div>
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className="mb-3 row">
@@ -180,17 +187,17 @@ const UserInfo: NextPage = () => {
             </form>
           </div>
         )}
-        {!isLoading && !errAuth && !user && (
-          <div>
-            <a href="/api/auth/login">Login</a>
-          </div>
+        {!isLoading && !isDataLoading && !errAuth && !user && (
+          // Error component を呼び出す予定
+          <div className="text-center">データの取得に失敗しました</div>
         )}
       </div>
     </Nav>
   )
 }
 
+// ログイン必須にする処理
 export default withPageAuthRequired(UserInfo, {
-  // onRedirecting: () => <Loading />,
+  onRedirecting: () => <Loading />,
   // onError: error => <ErrorMessage>{error.message}</ErrorMessage>
 })
