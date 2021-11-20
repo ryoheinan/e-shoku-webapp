@@ -1,11 +1,11 @@
 import type { NextPage } from 'next'
-import { UserForm } from '../types/UserInfo'
+import { RoomForm } from '../../types/RoomInfo'
 import { useUser, withPageAuthRequired } from '@auth0/nextjs-auth0'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import axios from 'axios'
 import Head from 'next/head'
-import Nav from '../components/nav'
-import Loading from '../components/loading'
+import Nav from '../../components/nav'
+import Loading from '../../components/loading'
 
 const SignUp: NextPage = () => {
   const { user, error: errAuth, isLoading } = useUser()
@@ -13,14 +13,12 @@ const SignUp: NextPage = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<UserForm>() //4行目のからimport、react-hook-form
+  } = useForm<RoomForm>() //4行目のからimport、react-hook-form
 
-  const onSubmit: SubmitHandler<UserForm> = (data) => {
+  const onSubmit: SubmitHandler<RoomForm> = (data) => {
     //データの送信
-    const dt = new Date(data.date_of_birth)
-    data.date_of_birth = `${dt.getFullYear()}-${
-      dt.getMonth() + 1
-    }-${dt.getDate()}`
+    const dt = new Date(data.date)
+    data.date = `${dt.getFullYear()}-${dt.getMonth() + 1}-${dt.getDate()}`
     axios.post('/api/user', data).then((res) => console.log(res.data))
     //プロミス構文 データを取得してから、待ってやる
     //axios;PythonのRequest
@@ -31,10 +29,10 @@ const SignUp: NextPage = () => {
   return (
     <Nav bottomNav={false}>
       <Head>
-        <title>ユーザー登録 | e-Shoku</title>
+        <title>ルーム作成 | e-Shoku</title>
       </Head>
       <div className="container">
-        <h2 className="title">ユーザー登録</h2>
+        <h2 className="title">ルーム作成</h2>
         {isLoading && <Loading />}
         {errAuth && (
           // Error component を呼び出す予定
@@ -47,103 +45,75 @@ const SignUp: NextPage = () => {
           <div>
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className="mb-3 row">
-                <label
-                  htmlFor="staticEmail"
-                  className="col-sm-3 col-form-label"
-                >
-                  メールアドレス
+                <label htmlFor="roomName" className="col-sm-3 col-form-label">
+                  タイトル
                 </label>
                 <div className="col-sm-9">
                   <input
-                    type="text"
-                    className="form-control-plaintext"
-                    id="staticEmail"
-                    value={user.email as string}
-                    readOnly
-                  />
-                </div>
-              </div>
-              <div className="mb-3 row">
-                <label
-                  htmlFor="displayName"
-                  className="col-sm-3 col-form-label"
-                >
-                  名前
-                </label>
-                <div className="col-sm-9">
-                  <input
-                    {...register('display_name', {
+                    {...register('roomName', {
                       required: true,
-                      maxLength: 128,
+                      maxLength: 64,
                     })}
                     className={`form-control`}
-                    id="displayName"
-                    placeholder="例) 坂村 一郎"
+                    id="roomName"
+                    placeholder="例)フットボールサークル飲み会"
                   />
-                  {errors.display_name && (
+                  {errors.roomName && (
                     <p className="small text-danger">正しく入力してください</p>
                   )}
                 </div>
               </div>
               <div className="mb-3 row">
-                <label htmlFor="usernameId" className="col-sm-3 col-form-label">
-                  ユーザーネーム（半角英数）
+                <label
+                  htmlFor="description"
+                  className="col-sm-3 col-form-label"
+                >
+                  説明
                 </label>
                 <div className="col-sm-9">
                   <input
-                    {...register('username', {
+                    {...register('description', {
                       required: true,
-                      minLength: 2,
-                      maxLength: 128,
-                      pattern: /^[A-Za-z]+$/i,
+                      minLength: 10,
+                      maxLength: 256,
                     })}
                     className={`form-control`}
-                    id="usernameId"
+                    id="description"
                     placeholder="例) ichiro"
                   />
-                  {errors.username && (
+                  {errors.description && (
                     <p className="small text-danger">正しく入力してください</p>
                   )}
                 </div>
               </div>
               <div className="mb-3 row">
-                <label
-                  htmlFor="dateOfBirthId"
-                  className="col-sm-3 col-form-label"
-                >
-                  生年月日
+                <label htmlFor="date" className="col-sm-3 col-form-label">
+                  日付
                 </label>
                 <div className="col-sm-9">
                   <input
-                    {...register('date_of_birth', { required: true })}
+                    {...register('date', { required: true })}
                     className={`form-control`}
-                    id="dateOfBirthId"
+                    id="date"
                     type="date"
                   />
-                  {errors.date_of_birth && (
+                  {errors.date && (
                     <p className="small text-danger">正しく入力してください</p>
                   )}
                 </div>
               </div>
               <div className="mb-3 row">
-                <label htmlFor="genderId" className="col-sm-3 col-form-label">
-                  性別
+                <label htmlFor="time" className="col-sm-3 col-form-label">
+                  時間
                 </label>
                 <div className="col-sm-9">
-                  <select
-                    {...register('gender', { required: true })}
-                    className="form-select"
+                  <input
+                    {...register('time', { required: true })}
+                    className={`form-control`}
                     id="genderId"
-                    aria-label="性別を選択してください"
-                  >
-                    <option value="">選択してください…</option>
-                    <option value="MALE">男性</option>
-                    <option value="FEMALE">女性</option>
-                    <option value="PNTS">答えない</option>
-                    <option value="OTHERS">その他</option>
-                  </select>
-                  {errors.gender && (
-                    <p className="small text-danger">正しく選択してください</p>
+                  ></input>
+                  {errors.time && (
+                    <p className="small text-danger">正しく入力してください</p>
                   )}
                 </div>
               </div>

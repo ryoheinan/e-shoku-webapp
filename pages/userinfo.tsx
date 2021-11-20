@@ -34,12 +34,14 @@ const UserInfo: NextPage = () => {
      * ユーザー情報の取得
      */
     const getUser = async () => {
+      //async{await}は非同期処理
+      //async内のawaitが完了するまで次へは進まない、という意味
       try {
-        setIsDataLoading(true)
+        setIsDataLoading(true) //ローディング画面開始
         const res = await axios.get<UserData>('/api/user')
         const inputValues: UserForm = res.data
-        setIsDataLoading(false)
-        reset(inputValues)
+        setIsDataLoading(false) //ローディング画面終了
+        reset(inputValues) //resetでフォームにデータを表示
       } catch {
         alert('データの取得に失敗しました')
       }
@@ -53,7 +55,7 @@ const UserInfo: NextPage = () => {
       dt.getMonth() + 1
     }-${dt.getDate()}`
     axios
-      .post('/api/user', data)
+      .post('/api/user', data) //postは登録、getは取得、patchは一部更新
       .then(() => alert('正常に更新されました'))
       .catch(() => alert('更新できませんでした'))
   }
