@@ -1,16 +1,23 @@
-import type { NextPage } from 'next'
+import type { GetServerSideProps } from 'next'
+import { RoomData } from '../../types/RoomInfo'
+import { Params } from 'next/dist/server/router'
 import Head from 'next/head'
-import Link from 'next/link'
 import Image from 'next/image'
-import Nav from '../components/nav'
-import ButtonCard from '../components/buttonCard'
-import styles from '../styles/room.module.scss'
+import { getAccessToken } from '@auth0/nextjs-auth0'
+import axios from '../../utils/commonAxios'
+import Nav from '../../components/nav'
+import ButtonCard from '../../components/buttonCard'
+import styles from '../../styles/room.module.scss'
 
-const Room: NextPage = () => {
+type Props = {
+  roomData: RoomData
+}
+
+const Room = ({ roomData }: Props) => {
   return (
     <Nav isRoom={true}>
       <Head>
-        <title>e-Shoku</title>
+        <title>{roomData.room_name} | e-Shoku</title>
       </Head>
       <div className={`mb-4 ${styles.topImage}`}>
         <Image
@@ -36,7 +43,7 @@ const Room: NextPage = () => {
       </div>{' '}
       <section className={`container ${styles.section}`}>
         <div className={styles.title}>
-          <h1>Online dinner</h1>
+          <h1>{roomData.room_name}</h1>
         </div>
         <p className={styles.schedule}>2021.08.20 18:30~</p>
         <p className={styles.host}>
@@ -45,10 +52,7 @@ const Room: NextPage = () => {
             @Ken
           </a>
         </p>
-        <p>
-          This is an online dinner. Lets enjoy! I like sushi. I ll play
-          baseball. This is a pen. He is a pen. Oh my god.
-        </p>
+        <p>{roomData.description}</p>
       </section>
       <section className={`container ${styles.section}`}>
         <ButtonCard
@@ -56,7 +60,7 @@ const Room: NextPage = () => {
           color="#6fd8a3"
           fontSize="1.5rem"
           shadow={true}
-          link={{ to: '/' }}
+          link={{ to: `/` }} // `join/${roomData.id}`
         />
       </section>
     </Nav>
@@ -64,3 +68,24 @@ const Room: NextPage = () => {
 }
 
 export default Room
+
+/**
+ * サーバーサイドでRoom情報を取得してroomDataに渡す
+ * @param context
+ */
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const { id } = context.params as Params
+  const { req, res } = context
+  const { accessToken } = await getAccessToken(req, res, {
+    scopes: ['openid', 'profile'],
+  })
+  const targetUrl = `/rooms/${id}/`
+
+  const response = await axios.get<RoomData>(targetUrl, {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  })
+  const roomData = response.data
+  return { props: { roomData } }
+}
