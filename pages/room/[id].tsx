@@ -35,8 +35,8 @@ const Room = ({ roomData }: Props) => {
           >
             <div>
               <div className="text-center small text-muted mb-1">参加人数</div>
-              <div className="h2 text-center mb-0">500</div>
-              <div className={styles.denom}>/1000人</div>
+              <div className="h2 text-center mb-0">{roomData.guests?.length}</div>
+              <div className={styles.denom}>/{roomData.capacity}人</div>
             </div>
           </div>
         </div>
