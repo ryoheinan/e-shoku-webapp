@@ -12,7 +12,12 @@ interface Params {
  * ルームに関するREST APIの呼び出し
  * @param {Params} { req, res, accessToken, id }
  */
-export const roomApiController = async ({ req, res, accessToken, id }: Params) => {
+export const roomApiController = async ({
+  req,
+  res,
+  accessToken,
+  id,
+}: Params) => {
   try {
     const data = req.body
     let resData: object
@@ -26,7 +31,7 @@ export const roomApiController = async ({ req, res, accessToken, id }: Params) =
         },
       })
       resData = response.data
-      res.status(200).json(resData)
+      res.status(201).json(resData)
     }
     // ルーム情報取得時に用いる
     else if (req.method === 'GET') {
@@ -37,11 +42,31 @@ export const roomApiController = async ({ req, res, accessToken, id }: Params) =
       })
       resData = response.data
       res.status(200).json(resData)
+    }
+    // ルーム情報更新時に用いる
+    else if (req.method === 'PUT') {
+      const response = await axios.put(targetUrl, data, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      resData = response.data
+      res.status(200).json(resData)
+    }
+    // ルーム削除時に用いる
+    else if (req.method === 'DELETE') {
+      const response = await axios.delete(targetUrl, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      })
+      resData = response.data
+      res.status(204).json(resData)
     } else {
       resData = {
         detail: `"${req.method}" method is not allowed.`,
       }
-      res.setHeader('Allow', 'GET, POST')
+      res.setHeader('Allow', 'GET, POST, PUT, DELETE')
       res.status(405).json(resData)
     }
   } catch (error: any) {

@@ -15,7 +15,7 @@ export default withApiAuthRequired(async function user(req, res) {
         },
       })
       resData = await response.data
-      res.status(200).json(resData)
+      res.status(201).json(resData)
     } else if (req.method === 'GET') {
       const response = await axios.get(`/users/`, {
         headers: {
