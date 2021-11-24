@@ -29,7 +29,7 @@ export const roomApiController = async ({
     const targetUrl = id ? `/rooms/${id}/` : '/rooms/'
 
     // ルーム作成時に用いる
-    if (req.method === 'POST' && !id) {
+    if (req.method === 'POST' && !id && accessToken) {
       const response = await axios.post<UserData>(targetUrl, data, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
@@ -38,14 +38,14 @@ export const roomApiController = async ({
       resData = response.data
       res.status(201).json(resData)
     }
-    // ルーム情報取得時に用いる
+    // ルーム情報取得時に用いる（アクセストークン無し）
     else if (req.method === 'GET') {
       const response = await axios.get<UserData>(targetUrl)
       resData = response.data
       res.status(200).json(resData)
     }
     // ルーム情報更新時に用いる
-    else if (req.method === 'PUT') {
+    else if (req.method === 'PUT' && accessToken) {
       const response = await axios.put<UserData>(targetUrl, data, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
@@ -55,7 +55,7 @@ export const roomApiController = async ({
       res.status(200).json(resData)
     }
     // ルーム削除時に用いる
-    else if (req.method === 'DELETE') {
+    else if (req.method === 'DELETE' && accessToken) {
       const response = await axios.delete<UserData>(targetUrl, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
@@ -63,7 +63,16 @@ export const roomApiController = async ({
       })
       resData = response.data
       res.status(204).json(resData)
-    } else {
+    }
+    // アクセストークンがない場合（GETメソッド以外）
+    else if (!accessToken) {
+      resData = {
+        detail: `Need access token to access.`,
+      }
+      res.status(500).json(resData)
+    }
+    // 対応しないメソッドが呼ばれた場合
+    else {
       resData = {
         detail: `"${req.method}" method is not allowed.`,
       }
@@ -71,12 +80,11 @@ export const roomApiController = async ({
       res.status(405).json(resData)
     }
   } catch (error: unknown) {
+    // Axiosに関するエラーの場合
     if (isAxiosError(error) && error.response && error.response.data) {
       res.status(error.response.status).json(error.response.data)
     } else {
-      res.status(500).json({
-        detail: 'Internal Server Error',
-      })
+      res.status(500).json({ detail: 'Internal Server Error' })
     }
   }
 }
