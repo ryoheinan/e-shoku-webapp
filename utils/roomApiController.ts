@@ -72,7 +72,11 @@ export const roomApiController = async ({
     }
   } catch (error: unknown) {
     if (isAxiosError(error) && error.response && error.response.data) {
-      res.status(error.response.status || 500).json(error.response.data)
+      res.status(error.response.status).json(error.response.data)
+    } else {
+      res.status(500).json({
+        detail: 'Internal Server Error',
+      })
     }
   }
 }
