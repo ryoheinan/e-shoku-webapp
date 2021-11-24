@@ -1,12 +1,12 @@
-import type { NextApiRequest, NextApiResponse } from 'next'
-
+import { getAccessToken, withApiAuthRequired } from '@auth0/nextjs-auth0'
 import { roomApiController } from '../../../utils/roomApiController'
 
-const handler = async (req: NextApiRequest, res: NextApiResponse) => {
+export default withApiAuthRequired(async function user(req, res) {
+  const { accessToken } = await getAccessToken(req, res, {
+    scopes: ['openid', 'profile'],
+  })
   const { id } = req.query
   if (typeof id === 'string') {
-    roomApiController({ req, res, id })
+    roomApiController({ req, res, accessToken, id })
   }
-}
-
-export default handler
+})
