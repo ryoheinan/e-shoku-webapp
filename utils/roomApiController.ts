@@ -40,11 +40,7 @@ export const roomApiController = async ({
     }
     // ルーム情報取得時に用いる
     else if (req.method === 'GET') {
-      const response = await axios.get<UserData>(targetUrl, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`, // 必要なくなる予定
-        },
-      })
+      const response = await axios.get<UserData>(targetUrl)
       resData = response.data
       res.status(200).json(resData)
     }
