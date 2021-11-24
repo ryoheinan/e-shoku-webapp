@@ -3,8 +3,8 @@ import { RoomData } from '../../types/RoomInfo'
 import { Params } from 'next/dist/server/router'
 import Head from 'next/head'
 import Image from 'next/image'
-import { getAccessToken } from '@auth0/nextjs-auth0'
-import axios from '../../utils/commonAxios'
+import Link from 'next/link'
+import axios, { isAxiosError } from '../../utils/commonAxios'
 import Nav from '../../components/nav'
 import ButtonCard from '../../components/buttonCard'
 import styles from '../../styles/room.module.scss'
@@ -35,7 +35,9 @@ const Room = ({ roomData }: Props) => {
           >
             <div>
               <div className="text-center small text-muted mb-1">参加人数</div>
-              <div className="h2 text-center mb-0">{roomData.guests?.length}</div>
+              <div className="h2 text-center mb-0">
+                {roomData.guests?.length}
+              </div>
               <div className={styles.denom}>/{roomData.capacity}人</div>
             </div>
           </div>
@@ -48,9 +50,11 @@ const Room = ({ roomData }: Props) => {
         <p className={styles.schedule}>2021.08.20 18:30~</p>
         <p className={styles.host}>
           Host:{' '}
-          <a href="#" className={styles.username}>
-            @Ken
-          </a>
+          {roomData.hosts?.map((host) => (
+            <Link key={host.id} href={`/user/${host.id}`}>
+              <a className={styles.username}>{host.username}</a>
+            </Link>
+          ))}
         </p>
         <p>{roomData.description}</p>
       </section>
@@ -75,17 +79,21 @@ export default Room
  */
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { id } = context.params as Params
-  const { req, res } = context
-  const { accessToken } = await getAccessToken(req, res, {
-    scopes: ['openid', 'profile'],
-  })
   const targetUrl = `/rooms/${id}/`
 
-  const response = await axios.get<RoomData>(targetUrl, {
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
-  })
+  //try {
+  const response = await axios.get<RoomData>(targetUrl)
   const roomData = response.data
   return { props: { roomData } }
+  /*
+  } catch (error: unknown) {
+    // Axiosに関するエラーの場合
+    if (isAxiosError(error) && error.response && error.response.data) {
+      // error.response.status error
+    } else {
+      // 500 error
+    }
+    return error page
+  }
+  */
 }

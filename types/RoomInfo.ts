@@ -1,5 +1,3 @@
-import { UserData } from './UserInfo'
-
 /**
  * ルーム情報の共通型
  */
@@ -23,8 +21,14 @@ export interface RoomForm extends RoomDataCommon {
  */
 export interface RoomData extends RoomDataCommon {
   id: string
-  hosts?: UserData[]
-  guests?: UserData[]
+  hosts?: {
+    id: string
+    username: string
+  }[]
+  guests?: {
+    id: string
+    username: string
+  }[]
   created_at: string
   capacity: number
   datetime: string
