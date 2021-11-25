@@ -49,6 +49,10 @@ const UserInfo: NextPage = () => {
     getUser()
   }, [reset])
 
+  /**
+   * 送信時の処理
+   * @param {UserForm} data
+   */
   const onSubmit: SubmitHandler<UserForm> = (data) => {
     const dt = new Date(data.date_of_birth)
     data.date_of_birth = `${dt.getFullYear()}-${

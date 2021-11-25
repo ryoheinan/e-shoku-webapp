@@ -48,7 +48,7 @@ const Settings: NextPage = () => {
             </div>
 
             <div className={styles.settingsItem}>
-              <Link href="#">
+              <Link href="/userinfo">
                 <a>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
