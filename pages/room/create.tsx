@@ -1,5 +1,5 @@
 import type { NextPage } from 'next'
-import { RoomForm } from '../../types/RoomInfo'
+import { RoomForm, RoomData } from '../../types/RoomInfo'
 import { useUser, withPageAuthRequired } from '@auth0/nextjs-auth0'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import axios from 'axios'
@@ -17,9 +17,11 @@ const SignUp: NextPage = () => {
 
   const onSubmit: SubmitHandler<RoomForm> = (data) => {
     //データの送信
+    let sendData: RoomData = data
     const dt = new Date(data.date)
     data.date = `${dt.getFullYear()}-${dt.getMonth() + 1}-${dt.getDate()}`
-    axios.post('/api/user', data).then((res) => console.log(res.data))
+    sendData.datetime = data.date + 'T' + data.time
+    axios.post('/api/room', sendData).then((res) => console.log(res.data))
     //プロミス構文 データを取得してから、待ってやる
     //axios;PythonのRequest
     //thenは成功したら
@@ -45,20 +47,20 @@ const SignUp: NextPage = () => {
           <div>
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className="mb-3 row">
-                <label htmlFor="roomName" className="col-sm-3 col-form-label">
+                <label htmlFor="room_name" className="col-sm-3 col-form-label">
                   タイトル
                 </label>
                 <div className="col-sm-9">
                   <input
-                    {...register('roomName', {
+                    {...register('room_name', {
                       required: true,
                       maxLength: 64,
                     })}
                     className={`form-control`}
-                    id="roomName"
-                    placeholder="例)フットボールサークル飲み会"
+                    id="room_name"
+                    placeholder="例)サークル飲み会"
                   />
-                  {errors.roomName && (
+                  {errors.room_name && (
                     <p className="small text-danger">正しく入力してください</p>
                   )}
                 </div>
@@ -71,15 +73,14 @@ const SignUp: NextPage = () => {
                   説明
                 </label>
                 <div className="col-sm-9">
-                  <input
+                  <textarea
                     {...register('description', {
                       required: true,
-                      minLength: 10,
                       maxLength: 256,
                     })}
                     className={`form-control`}
                     id="description"
-                    placeholder="例) ichiro"
+                    placeholder="256文字以内で入力してください"
                   />
                   {errors.description && (
                     <p className="small text-danger">正しく入力してください</p>
@@ -111,6 +112,7 @@ const SignUp: NextPage = () => {
                     {...register('time', { required: true })}
                     className={`form-control`}
                     id="genderId"
+                    type="time"
                   ></input>
                   {errors.time && (
                     <p className="small text-danger">正しく入力してください</p>
