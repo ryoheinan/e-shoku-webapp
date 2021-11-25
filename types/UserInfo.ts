@@ -12,7 +12,7 @@ export interface UserForm {
  * APIでやりとりするユーザー情報の型
  */
 export interface UserData extends UserForm {
-  id: string
-  internal_id: string
+  readonly id: string
+  readonly internal_id: string
   is_info_filled: boolean
 }
