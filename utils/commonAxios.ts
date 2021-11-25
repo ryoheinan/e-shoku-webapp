@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios, { AxiosError } from 'axios'
 
 const instance = axios.create()
 let url: string
@@ -9,7 +9,7 @@ if (process.env.NODE_ENV === 'production') {
   url = `http://localhost:${apiPort}/api`
 }
 
-instance.interceptors.request.use(async (config) => {
+instance.interceptors.request.use((config) => {
   config.baseURL = url
   config.headers.common['Accept'] = 'application/json'
   config.headers.common['User-Agent'] = 'e-Shoku Frontend'
@@ -17,5 +17,9 @@ instance.interceptors.request.use(async (config) => {
   config.timeout = 2500
   return config
 })
+
+export const isAxiosError = (error: any): error is AxiosError => {
+  return axios.isAxiosError(error)
+}
 
 export default instance
