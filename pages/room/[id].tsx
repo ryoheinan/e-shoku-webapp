@@ -52,7 +52,7 @@ const Room = ({ roomData }: Props) => {
           Host:{' '}
           {roomData.hosts?.map((host) => (
             <Link key={host.id} href={`/user/${host.id}`}>
-              <a className={styles.username}>{host.username}</a>
+              <a className="me-1">{host.username}</a>
             </Link>
           ))}
         </p>
