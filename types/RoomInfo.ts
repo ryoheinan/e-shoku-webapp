@@ -5,7 +5,7 @@ export interface RoomDataCommon {
   room_name: string
   description: string
   topic?: string // 後日実装
-  inviteCode?: string // 後日実装
+  invite_code?: string // 後日実装
 }
 
 /**
