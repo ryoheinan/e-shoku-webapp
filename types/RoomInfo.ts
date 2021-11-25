@@ -4,6 +4,7 @@
 export interface RoomDataCommon {
   room_name: string
   description: string
+  datetime: string
   topic?: string // 後日実装
   inviteCode?: string // 後日実装
 }
@@ -14,14 +15,15 @@ export interface RoomDataCommon {
 export interface RoomForm extends RoomDataCommon {
   date: string
   time: string
+  hosts: string[]
 }
 
 /**
  * ルーム情報をbackendとやりとりするための型
  */
 export interface RoomData extends RoomDataCommon {
-  id: string
-  hosts?: {
+  readonly id: string
+  hosts: {
     id: string
     username: string
   }[]
@@ -29,7 +31,6 @@ export interface RoomData extends RoomDataCommon {
     id: string
     username: string
   }[]
-  created_at: string
-  capacity: number
-  datetime: string
+  readonly created_at: string
+  readonly capacity: number
 }
