@@ -23,11 +23,11 @@ export interface RoomData extends RoomDataCommon {
   id: string
   hosts?: {
     id: string
-    username: string
+    username?: string
   }[]
   guests?: {
     id: string
-    username: string
+    username?: string
   }[]
   created_at: string
   capacity: number
