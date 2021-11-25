@@ -1,33 +1,47 @@
 import type { NextPage } from 'next'
-import { RoomForm } from '../../types/RoomInfo'
+import { RoomData, RoomForm } from '../../types/RoomInfo'
 import { useUser, withPageAuthRequired } from '@auth0/nextjs-auth0'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import axios from 'axios'
 import Head from 'next/head'
 import Nav from '../../components/nav'
 import Loading from '../../components/loading'
+import { useCurrentUser } from '../../hooks/useCurrentUser'
+import { useRequireUserInfo } from '../../hooks/useRequireUserInfo'
 
-const SignUp: NextPage = () => {
+const CreateRoom: NextPage = () => {
   const { user, error: errAuth, isLoading } = useUser()
+
+  useRequireUserInfo() // ユーザー情報登録済みかどうかをチェック
+  const { currentUser } = useCurrentUser() // ユーザー情報を取得
+
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<RoomForm>() //4行目のからimport、react-hook-form
+  } = useForm<RoomForm>() // RoomForm型のフォームの宣言
 
   const onSubmit: SubmitHandler<RoomForm> = (data) => {
-    //データの送信
+    // データの送信
     const dt = new Date(data.date)
     data.date = `${dt.getFullYear()}-${dt.getMonth() + 1}-${dt.getDate()}`
-    axios.post('/api/user', data).then((res) => console.log(res.data))
-    //プロミス構文 データを取得してから、待ってやる
-    //axios;PythonのRequest
-    //thenは成功したら
-    //catchはエラー
-    //(res) => console.log(res.data)はfunction(res)と同じ
+    data.time = '' // 修正必須
+    data.datetime = data.date + 'T' + data.time
+    if (currentUser) {
+      data.hosts = [currentUser.id]
+      axios
+        .post<RoomData>('/api/room/create', data)
+        .then((res) => console.log(res.data)) //ここで詳細ページにリダイレクト予定
+    }
+
+    // プロミス構文 データを取得してから、待ってやる
+    // axios;PythonのRequest
+    // thenは成功したら
+    // catchはエラー
+    // (res) => console.log(res.data)はfunction(res)と同じ
   }
   return (
-    <Nav bottomNav={false}>
+    <Nav>
       <Head>
         <title>ルーム作成 | e-Shoku</title>
       </Head>
@@ -50,7 +64,7 @@ const SignUp: NextPage = () => {
                 </label>
                 <div className="col-sm-9">
                   <input
-                    {...register('roomName', {
+                    {...register('room_name', {
                       required: true,
                       maxLength: 64,
                     })}
@@ -58,7 +72,7 @@ const SignUp: NextPage = () => {
                     id="roomName"
                     placeholder="例)フットボールサークル飲み会"
                   />
-                  {errors.roomName && (
+                  {errors.room_name && (
                     <p className="small text-danger">正しく入力してください</p>
                   )}
                 </div>
@@ -136,7 +150,7 @@ const SignUp: NextPage = () => {
 
 // ログイン必須にする処理
 // ログインしてない場合はログイン画面に飛ばされる
-export default withPageAuthRequired(SignUp, {
+export default withPageAuthRequired(CreateRoom, {
   onRedirecting: () => <Loading />,
   // onError: error => <ErrorMessage>{error.message}</ErrorMessage>
 })
