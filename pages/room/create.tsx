@@ -25,7 +25,9 @@ const CreateRoom: NextPage = () => {
     // データの送信
     const dt = new Date(data.date)
     data.date = `${dt.getFullYear()}-${dt.getMonth() + 1}-${dt.getDate()}`
-    data.time = '' // 修正必須
+    const tm = new Date(data.time)
+    data.time =
+      `${tm.getHours()}-${tm.getMinutes()}-${tm.getSeconds()}` + '+09:00' // 修正必須
     data.datetime = data.date + 'T' + data.time
     if (currentUser) {
       data.hosts = [currentUser.id]
