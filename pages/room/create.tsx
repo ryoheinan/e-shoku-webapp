@@ -25,7 +25,7 @@ const CreateRoom: NextPage = () => {
     formState: { errors },
   } = useForm<RoomForm>() // RoomForm型のフォームの宣言
 
-  const onSubmit: SubmitHandler<RoomForm> = async (data) => {
+  const onSubmit: SubmitHandler<RoomForm> = (data) => {
     // データの送信
     setIsDataLoading(true) // ローディング画面開始
     const dt = new Date(data.date)
@@ -42,12 +42,6 @@ const CreateRoom: NextPage = () => {
       // 本来我々がいるはずのない世界線
       setIsDataLoading(false)
     }
-
-    // プロミス構文 データを取得してから、待ってやる
-    // axios;PythonのRequest
-    // thenは成功したら
-    // catchはエラー
-    // (res) => console.log(res.data)はfunction(res)と同じ
   }
   return (
     <Nav>
