@@ -8,12 +8,14 @@ import Nav from '../../components/nav'
 import Loading from '../../components/loading'
 import { useCurrentUser } from '../../hooks/useCurrentUser'
 import { useRequireUserInfo } from '../../hooks/useRequireUserInfo'
+import { useRouter } from 'next/router'
 
 const CreateRoom: NextPage = () => {
   const { user, error: errAuth, isLoading } = useUser()
 
   useRequireUserInfo() // ユーザー情報登録済みかどうかをチェック
   const { currentUser } = useCurrentUser() // ユーザー情報を取得
+  const router = useRouter()
 
   const {
     register,
@@ -25,15 +27,12 @@ const CreateRoom: NextPage = () => {
     // データの送信
     const dt = new Date(data.date)
     data.date = `${dt.getFullYear()}-${dt.getMonth() + 1}-${dt.getDate()}`
-    const tm = new Date(data.time)
-    data.time =
-      `${tm.getHours()}-${tm.getMinutes()}-${tm.getSeconds()}` + '+09:00' // 修正必須
     data.datetime = data.date + 'T' + data.time
     if (currentUser) {
       data.hosts = [currentUser.id]
       axios
         .post<RoomData>('/api/room/create', data)
-        .then((res) => console.log(res.data)) //ここで詳細ページにリダイレクト予定
+        .then((res) => router.push(`/room/${res.data.id}`)) //ここで詳細ページにリダイレクト予定
     }
 
     // プロミス構文 データを取得してから、待ってやる
