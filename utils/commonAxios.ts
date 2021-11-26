@@ -3,7 +3,9 @@ import axios, { AxiosError } from 'axios'
 const instance = axios.create()
 let url: string
 if (process.env.NODE_ENV === 'production') {
-  // production url
+  url = 'https://e-shoku.herokuapp.com/api'
+} else if (process.env.API_CONNECTION === 'heroku') {
+  url = 'https://e-shoku.herokuapp.com/api'
 } else {
   const apiPort = process.env.API_PORT || 8000
   url = `http://localhost:${apiPort}/api`
