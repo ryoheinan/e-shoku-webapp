@@ -9,9 +9,11 @@ import Loading from '../../components/loading'
 import { useCurrentUser } from '../../hooks/useCurrentUser'
 import { useRequireUserInfo } from '../../hooks/useRequireUserInfo'
 import { useRouter } from 'next/router'
+import { useState } from 'react'
 
 const CreateRoom: NextPage = () => {
   const { user, error: errAuth, isLoading } = useUser()
+  const [isDataLoading, setIsDataLoading] = useState(false)
 
   useRequireUserInfo() // ユーザー情報登録済みかどうかをチェック
   const { currentUser } = useCurrentUser() // ユーザー情報を取得
@@ -23,8 +25,9 @@ const CreateRoom: NextPage = () => {
     formState: { errors },
   } = useForm<RoomForm>() // RoomForm型のフォームの宣言
 
-  const onSubmit: SubmitHandler<RoomForm> = (data) => {
+  const onSubmit: SubmitHandler<RoomForm> = async (data) => {
     // データの送信
+    setIsDataLoading(true) // ローディング画面開始
     const dt = new Date(data.date)
     data.date = `${dt.getFullYear()}-${dt.getMonth() + 1}-${dt.getDate()}`
     data.datetime = data.date + 'T' + data.time
@@ -33,6 +36,11 @@ const CreateRoom: NextPage = () => {
       axios
         .post<RoomData>('/api/room/create', data)
         .then((res) => router.push(`/room/${res.data.id}`)) //ここで詳細ページにリダイレクト予定
+        .then(() => setIsDataLoading(false))
+        .catch(() => alert('データの送信に失敗しました'))
+    } else {
+      // 本来我々がいるはずのない世界線
+      setIsDataLoading(false)
     }
 
     // プロミス構文 データを取得してから、待ってやる
@@ -48,7 +56,7 @@ const CreateRoom: NextPage = () => {
       </Head>
       <div className="container">
         <h2 className="title">ルーム作成</h2>
-        {isLoading && <Loading />}
+        {(isLoading || isDataLoading) && <Loading />}
         {errAuth && (
           // Error component を呼び出す予定
           <>
@@ -56,7 +64,7 @@ const CreateRoom: NextPage = () => {
             <pre>{errAuth.message}</pre>
           </>
         )}
-        {user && (
+        {user && !isLoading && !isDataLoading && (
           <div>
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className="mb-3 row">
@@ -140,7 +148,7 @@ const CreateRoom: NextPage = () => {
             </form>
           </div>
         )}
-        {!isLoading && !errAuth && !user && (
+        {!isLoading && !isDataLoading && !errAuth && !user && (
           // Error component を呼び出す予定
           <div className="text-center">データの取得に失敗しました</div>
         )}
