@@ -4,16 +4,26 @@ import { Params } from 'next/dist/server/router'
 import Head from 'next/head'
 import Image from 'next/image'
 import Link from 'next/link'
-import axios, { isAxiosError } from '../../utils/commonAxios'
+import axios from '../../utils/commonAxios'
 import Nav from '../../components/nav'
-import ButtonCard from '../../components/buttonCard'
 import styles from '../../styles/room.module.scss'
+import { RoomActionBtn } from '../../components/roomActionBtn'
+import { useCurrentUser } from '../../hooks/useCurrentUser'
 
 type Props = {
   roomData: RoomData
 }
 
 const Room = ({ roomData }: Props) => {
+  const { currentUser } = useCurrentUser()
+  let roomBtnState: 'canJoin' | 'canCancel' | 'disabled' = 'disabled'
+  if (currentUser && roomData.guests) {
+    if (roomData.guests.some((guest) => guest.id === currentUser.id)) {
+      roomBtnState = 'canCancel'
+    } else {
+      roomBtnState = 'canJoin'
+    }
+  }
   return (
     <Nav isRoom={true}>
       <Head>
@@ -36,7 +46,7 @@ const Room = ({ roomData }: Props) => {
             <div>
               <div className="text-center small text-muted mb-1">参加人数</div>
               <div className="h2 text-center mb-0">
-                {roomData.guests?.length}
+                {roomData.guests_count}
               </div>
               <div className={styles.denom}>/{roomData.capacity}人</div>
             </div>
@@ -49,7 +59,7 @@ const Room = ({ roomData }: Props) => {
         </div>
         <p className={styles.schedule}>2021.08.20 18:30~</p>
         <p className={styles.host}>
-          Host:{' '}
+          主催者:{' '}
           {roomData.hosts?.map((host) => (
             <Link key={host.id} href={`/user/${host.id}`}>
               <a className="me-1">{host.username}</a>
@@ -59,13 +69,24 @@ const Room = ({ roomData }: Props) => {
         <p>{roomData.description}</p>
       </section>
       <section className={`container ${styles.section}`}>
-        <ButtonCard
-          title="参加する"
-          color="#6fd8a3"
-          fontSize="1.5rem"
-          shadow={true}
-          link={{ to: `/` }} // `join/${roomData.id}`
-        />
+        {roomBtnState == 'canJoin' && (
+          <RoomActionBtn mode="join" roomId={roomData.id} text="参加する" />
+        )}
+        {roomBtnState == 'canCancel' && (
+          <RoomActionBtn
+            mode="leave"
+            roomId={roomData.id}
+            text="キャンセルする"
+          />
+        )}
+        {roomBtnState == 'disabled' && (
+          <RoomActionBtn
+            mode="join"
+            roomId={roomData.id}
+            text="ログインが必要です"
+            disabled
+          />
+        )}
       </section>
     </Nav>
   )
@@ -90,6 +111,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     // Axiosに関するエラーの場合
     if (isAxiosError(error) && error.response && error.response.data) {
       // error.response.status error
+        if(e.response.status === 404) {
+        }
     } else {
       // 500 error
     }

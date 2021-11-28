@@ -33,4 +33,6 @@ export interface RoomData extends RoomDataCommon {
   }[]
   readonly created_at: string
   readonly capacity: number
+  readonly hosts_count: number
+  readonly guests_count: number
 }
