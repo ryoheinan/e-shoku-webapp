@@ -23,11 +23,7 @@ export const RoomActionBtn = ({
       try {
         if (currentUser) {
           const sendData = { id: currentUser.id }
-          const response = await axios.post(
-            `/api/room/${mode}/${roomId}`,
-            sendData
-          )
-          console.log(response)
+          await axios.post(`/api/room/${mode}/${roomId}`, sendData)
         }
       } catch (e) {
         if (axios.isAxiosError(e) && e.response) {
