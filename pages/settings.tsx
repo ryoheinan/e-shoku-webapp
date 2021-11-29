@@ -7,10 +7,12 @@ import Nav from '../components/nav'
 import ButtonCard from '../components/buttonCard'
 import Loading from '../components/loading'
 import styles from '../styles/settings.module.scss'
+import { useCurrentUser } from '../hooks/useCurrentUser'
+import { UserProfile } from '../components/userProfile'
 
 const Settings: NextPage = () => {
   const { user, error, isLoading } = useUser()
-
+  const { currentUser } = useCurrentUser()
   return (
     <Nav category="settings">
       <Head>
@@ -29,24 +31,11 @@ const Settings: NextPage = () => {
             <pre>{error.message}</pre>
           </>
         )}
-        {user && (
+        {user && currentUser && (
           //Userがいる状態(ログイン状態の処理)
           <>
             <h2 className="title">プロフィール</h2>
-            <div className="d-flex align-items-center mb-3">
-              <Image
-                src={user.picture ? user.picture : '/images/default_icon.jpg'}
-                alt="プロフィール画像"
-                width={75}
-                height={75}
-                className={styles.profileImage}
-              />
-              <div className={styles.displayName}>{user.name}</div>
-            </div>
-            <div className={styles.profileDescription}>
-              Hello World! Happy coding! Nice to meet you!
-            </div>
-
+            <UserProfile data={currentUser} profileIcon={user?.picture} />
             <div className={styles.settingsItem}>
               <Link href="/userinfo">
                 <a>
