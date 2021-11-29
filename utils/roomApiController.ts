@@ -69,7 +69,7 @@ export const roomApiController = async ({
       resData = {
         detail: `Need access token to access.`,
       }
-      res.status(500).json(resData)
+      res.status(401).json(resData)
     }
     // 対応しないメソッドが呼ばれた場合
     else {
