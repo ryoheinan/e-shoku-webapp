@@ -35,8 +35,11 @@ const CreateRoom: NextPage = () => {
       data.hosts = [currentUser.id]
       axios
         .post<RoomData>('/api/room/create', data)
+        .then((res) => {
+          setIsDataLoading(false)
+          return res
+        })
         .then((res) => router.push(`/room/${res.data.id}`)) //ここで詳細ページにリダイレクト予定
-        .then(() => setIsDataLoading(false))
         .catch(() => alert('データの送信に失敗しました'))
     } else {
       // 本来我々がいるはずのない世界線
