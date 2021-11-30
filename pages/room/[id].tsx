@@ -19,16 +19,16 @@ const Room = ({ roomData }: Props) => {
   const { currentUser } = useCurrentUser()
   let roomBtnState: 'canJoin' | 'canCancel' | 'canEdit' | 'disabled' =
     'disabled'
-  if (currentUser && roomData.guests) {
+  if (currentUser && roomData.guests && roomData.hosts) {
     if (roomData.guests.some((guest) => guest.id === currentUser.id)) {
       roomBtnState = 'canCancel'
+    } else if (roomData.hosts.some((host) => host.id === currentUser.id)) {
+      roomBtnState = 'canEdit'
     } else {
       roomBtnState = 'canJoin'
     }
   }
-  if (currentUser && roomData.hosts) {
-    roomBtnState = 'canEdit'
-  }
+
   return (
     <Nav isRoom={true}>
       <Head>
