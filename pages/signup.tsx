@@ -13,13 +13,20 @@ const SignUp: NextPage = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<UserForm>()
+  } = useForm<UserForm>() //4行目のからimport、react-hook-form
+
   const onSubmit: SubmitHandler<UserForm> = (data) => {
+    //データの送信
     const dt = new Date(data.date_of_birth)
     data.date_of_birth = `${dt.getFullYear()}-${
       dt.getMonth() + 1
     }-${dt.getDate()}`
     axios.post('/api/user', data).then((res) => console.log(res.data))
+    //プロミス構文 データを取得してから、待ってやる
+    //axios;PythonのRequest
+    //thenは成功したら
+    //catchはエラー
+    //(res) => console.log(res.data)はfunction(res)と同じ
   }
   return (
     <Nav bottomNav={false}>
@@ -158,6 +165,7 @@ const SignUp: NextPage = () => {
 }
 
 // ログイン必須にする処理
+// ログインしてない場合はログイン画面に飛ばされる
 export default withPageAuthRequired(SignUp, {
   onRedirecting: () => <Loading />,
   // onError: error => <ErrorMessage>{error.message}</ErrorMessage>

@@ -6,7 +6,7 @@ export interface RoomDataCommon {
   description: string
   datetime: string
   topic?: string // 後日実装
-  inviteCode?: string // 後日実装
+  invite_code?: string // 後日実装
 }
 
 /**
@@ -25,11 +25,11 @@ export interface RoomData extends RoomDataCommon {
   readonly id: string
   hosts: {
     id: string
-    username: string
+    username?: string
   }[]
   guests?: {
     id: string
-    username: string
+    username?: string
   }[]
   readonly created_at: string
   readonly capacity: number
