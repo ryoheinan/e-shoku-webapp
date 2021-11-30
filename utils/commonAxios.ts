@@ -16,7 +16,7 @@ instance.interceptors.request.use((config) => {
   config.headers.common['Accept'] = 'application/json'
   config.headers.common['User-Agent'] = 'e-Shoku Frontend'
   config.headers.post['Content-Type'] = 'application/json'
-  config.timeout = 2500
+  config.timeout = 5500
   return config
 })
 
