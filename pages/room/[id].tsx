@@ -9,6 +9,7 @@ import Nav from '../../components/nav'
 import styles from '../../styles/room.module.scss'
 import { RoomActionBtn } from '../../components/roomActionBtn'
 import { useCurrentUser } from '../../hooks/useCurrentUser'
+import ButtonCard from '../../components/buttonCard'
 
 type Props = {
   roomData: RoomData
@@ -90,7 +91,13 @@ const Room = ({ roomData }: Props) => {
           />
         )}
         {roomBtnState == 'canEdit' && (
-          <RoomActionBtn mode="edit" roomId={roomData.id} text="編集する" />
+          <ButtonCard
+            title="編集する"
+            color="#FCE37E"
+            fontSize="1.5rem"
+            shadow={true}
+            link={{ to: `edit/${roomData.id}` }}
+          />
         )}
       </section>
     </Nav>
