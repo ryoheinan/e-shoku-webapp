@@ -9,7 +9,7 @@ import axios from 'axios'
 import Head from 'next/head'
 import Nav from '../../../components/nav'
 import Loading from '../../../components/loading'
-import { useRouter } from 'next/router'
+import router, { useRouter } from 'next/router'
 import { RoomData, RoomForm } from '../../../types/RoomInfo'
 
 const EditRoom: NextPage = () => {
@@ -68,7 +68,11 @@ const EditRoom: NextPage = () => {
       data.hosts = [currentUser.id]
       axios
         .put<RoomData>(`/api/room/edit/${id}`, data)
-        .then(() => setIsDataLoading(false))
+        .then((res) => {
+          setIsDataLoading(false)
+          return res
+        })
+        .then((res) => router.push(`../${res.data.id}`))
         .catch(() => alert('データの送信に失敗しました'))
     } else {
       // 本来我々がいるはずのない世界線

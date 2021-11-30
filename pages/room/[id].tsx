@@ -16,13 +16,17 @@ type Props = {
 
 const Room = ({ roomData }: Props) => {
   const { currentUser } = useCurrentUser()
-  let roomBtnState: 'canJoin' | 'canCancel' | 'disabled' = 'disabled'
+  let roomBtnState: 'canJoin' | 'canCancel' | 'canEdit' | 'disabled' =
+    'disabled'
   if (currentUser && roomData.guests) {
     if (roomData.guests.some((guest) => guest.id === currentUser.id)) {
       roomBtnState = 'canCancel'
     } else {
       roomBtnState = 'canJoin'
     }
+  }
+  if (currentUser && roomData.hosts) {
+    roomBtnState = 'canEdit'
   }
   return (
     <Nav isRoom={true}>
@@ -45,9 +49,7 @@ const Room = ({ roomData }: Props) => {
           >
             <div>
               <div className="text-center small text-muted mb-1">参加人数</div>
-              <div className="h2 text-center mb-0">
-                {roomData.guests_count}
-              </div>
+              <div className="h2 text-center mb-0">{roomData.guests_count}</div>
               <div className={styles.denom}>/{roomData.capacity}人</div>
             </div>
           </div>
@@ -86,6 +88,9 @@ const Room = ({ roomData }: Props) => {
             text="ログインが必要です"
             disabled
           />
+        )}
+        {roomBtnState == 'canEdit' && (
+          <RoomActionBtn mode="edit" roomId={roomData.id} text="編集する" />
         )}
       </section>
     </Nav>
