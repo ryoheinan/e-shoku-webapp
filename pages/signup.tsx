@@ -4,11 +4,19 @@ import { useUser, withPageAuthRequired } from '@auth0/nextjs-auth0'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import axios from 'axios'
 import Head from 'next/head'
+import { useRouter } from 'next/router'
 import Nav from '../components/nav'
 import Loading from '../components/loading'
+import { useCurrentUser } from '../hooks/useCurrentUser'
 
 const SignUp: NextPage = () => {
   const { user, error: errAuth, isLoading } = useUser()
+  const { currentUser } = useCurrentUser()
+  const router = useRouter()
+  if (currentUser?.is_info_filled) {
+    router.push('/')
+  }
+
   const {
     register,
     handleSubmit,
@@ -45,6 +53,9 @@ const SignUp: NextPage = () => {
         )}
         {user && (
           <div>
+            <p className="text-danger">
+              e-Shokuを使うにはユーザー情報を登録する必要があります
+            </p>
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className="mb-3 row">
                 <label
