@@ -33,7 +33,7 @@ const EditRoom: NextPage = () => {
     /**
      * ユーザー情報の取得
      */
-    const getUser = async () => {
+    const getRoom = async () => {
       // async{await}は非同期処理
       // async内のawaitが完了するまで次へは進まない、という意味
       try {
@@ -55,7 +55,7 @@ const EditRoom: NextPage = () => {
         alert('データの取得に失敗しました')
       }
     }
-    getUser()
+    getRoom()
   }, [id, reset])
 
   const onSubmit: SubmitHandler<RoomForm> = (data) => {
@@ -150,7 +150,7 @@ const EditRoom: NextPage = () => {
                   )}
                 </div>
               </div>
-              <div className="mb-3 row">
+              <div className="mb-5 row">
                 <label htmlFor="time" className="col-sm-3 col-form-label">
                   時間
                 </label>
@@ -166,7 +166,10 @@ const EditRoom: NextPage = () => {
                   )}
                 </div>
               </div>
-              <div className="text-end">
+              <div className="d-flex justify-content-between">
+                <button className="btn btn-danger btn-delete">
+                  ルーム削除
+                </button>
                 <button type="submit" className="btn btn-form">
                   保存
                 </button>
