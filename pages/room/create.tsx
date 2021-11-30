@@ -98,10 +98,11 @@ const CreateRoom: NextPage = () => {
                     })}
                     className={`form-control`}
                     id="description"
-                    placeholder="256文字以内で入力してください"
                   />
                   {errors.description && (
-                    <p className="small text-danger">正しく入力してください</p>
+                    <p className="small text-danger">
+                      256文字以内で正しく入力してください
+                    </p>
                   )}
                 </div>
               </div>
