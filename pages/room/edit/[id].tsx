@@ -33,7 +33,7 @@ const EditRoom: NextPage = () => {
     /**
      * ユーザー情報の取得
      */
-    const getUser = async () => {
+    const getRoom = async () => {
       // async{await}は非同期処理
       // async内のawaitが完了するまで次へは進まない、という意味
       try {
@@ -55,7 +55,7 @@ const EditRoom: NextPage = () => {
         alert('データの取得に失敗しました')
       }
     }
-    getUser()
+    getRoom()
   }, [id, reset])
 
   const onSubmit: SubmitHandler<RoomForm> = (data) => {
@@ -79,6 +79,25 @@ const EditRoom: NextPage = () => {
       setIsDataLoading(false)
     }
   }
+
+  const deleteRoom = async () => {
+    if (confirm(`本当にルームを削除しますか？`)) {
+      setIsDataLoading(true)
+      try {
+        const res = await axios.delete(`/api/room/edit/${id}/`)
+        if (res.status === 204) {
+          setIsDataLoading(false)
+          router.push('/')
+        }
+      } catch (e) {
+        setIsDataLoading(false)
+        if (axios.isAxiosError(e) && e.response) {
+          alert(`ルームの削除に失敗しました`)
+        }
+      }
+    }
+  }
+
   return (
     <Nav>
       <Head>
@@ -154,7 +173,7 @@ const EditRoom: NextPage = () => {
                   )}
                 </div>
               </div>
-              <div className="mb-3 row">
+              <div className="mb-5 row">
                 <label htmlFor="time" className="col-sm-3 col-form-label">
                   時間
                 </label>
@@ -170,7 +189,13 @@ const EditRoom: NextPage = () => {
                   )}
                 </div>
               </div>
-              <div className="text-end">
+              <div className="d-flex justify-content-between">
+                <button
+                  onClick={deleteRoom}
+                  className="btn btn-danger btn-delete"
+                >
+                  ルーム削除
+                </button>
                 <button type="submit" className="btn btn-form">
                   保存
                 </button>
