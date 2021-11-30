@@ -75,6 +75,25 @@ const EditRoom: NextPage = () => {
       setIsDataLoading(false)
     }
   }
+
+  const deleteRoom = async () => {
+    if (confirm(`本当にルームを削除しますか？`)) {
+      setIsDataLoading(true)
+      try {
+        const res = await axios.delete(`/api/room/edit/${id}/`)
+        if (res.status === 204) {
+          setIsDataLoading(false)
+          router.push('/')
+        }
+      } catch (e) {
+        setIsDataLoading(false)
+        if (axios.isAxiosError(e) && e.response) {
+          alert(`ルームの削除に失敗しました`)
+        }
+      }
+    }
+  }
+
   return (
     <Nav>
       <Head>
@@ -167,7 +186,10 @@ const EditRoom: NextPage = () => {
                 </div>
               </div>
               <div className="d-flex justify-content-between">
-                <button className="btn btn-danger btn-delete">
+                <button
+                  onClick={deleteRoom}
+                  className="btn btn-danger btn-delete"
+                >
                   ルーム削除
                 </button>
                 <button type="submit" className="btn btn-form">
