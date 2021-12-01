@@ -47,7 +47,7 @@ export default class Error<P = {}> extends React.Component<P & ErrorProps> {
           <Head>
             <title>
               {statusCode
-                ? `${statusCode}: ${title}`
+                ? `${statusCode}: ${title} | e-Shoku`
                 : 'Application error: a client-side exception has occurred'}
             </title>
           </Head>
@@ -67,7 +67,7 @@ export default class Error<P = {}> extends React.Component<P & ErrorProps> {
             <style dangerouslySetInnerHTML={{ __html: 'body { margin: 0 }' }} />
             {statusCode ? <h1>{statusCode}</h1> : null}
             <div>
-              <h2 style={styles.h2}>
+              <p>
                 {this.props.title || statusCode ? (
                   title
                 ) : (
@@ -76,8 +76,7 @@ export default class Error<P = {}> extends React.Component<P & ErrorProps> {
                     the browser console for more information)
                   </>
                 )}
-                .
-              </h2>
+              </p>
             </div>
           </div>
         </Nav>
@@ -90,21 +89,11 @@ const styles: { [k: string]: React.CSSProperties } = {
   error: {
     color: '#000',
     background: '#fff',
-    fontFamily:
-      '-apple-system, BlinkMacSystemFont, Roboto, "Segoe UI", "Fira Sans", Avenir, "Helvetica Neue", "Lucida Grande", sans-serif',
     height: '100vh',
     textAlign: 'center',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
-  },
-
-  h2: {
-    fontSize: '18px',
-    fontWeight: 'normal',
-    lineHeight: 'inherit',
-    margin: 0,
-    padding: 0,
   },
 }
