@@ -9,7 +9,6 @@ import Nav from '../../components/nav'
 import styles from '../../styles/room.module.scss'
 import { RoomActionBtn } from '../../components/roomActionBtn'
 import { useCurrentUser } from '../../hooks/useCurrentUser'
-import dayjs from 'dayjs'
 
 type Props = {
   roomData: RoomData
@@ -46,7 +45,9 @@ const Room = ({ roomData }: Props) => {
           >
             <div>
               <div className="text-center small text-muted mb-1">参加人数</div>
-              <div className="h2 text-center mb-0">{roomData.guests_count}</div>
+              <div className="h2 text-center mb-0">
+                {roomData.guests_count}
+              </div>
               <div className={styles.denom}>/{roomData.capacity}人</div>
             </div>
           </div>
@@ -56,9 +57,7 @@ const Room = ({ roomData }: Props) => {
         <div className={styles.title}>
           <h1>{roomData.room_name}</h1>
         </div>
-        <p className={styles.schedule}>
-          {dayjs(roomData.datetime).format('YYYY/MM/DD HH:mm:ss')}~
-        </p>
+        <p className={styles.schedule}>2021.08.20 18:30~</p>
         <p className={styles.host}>
           主催者:{' '}
           {roomData.hosts?.map((host) => (
