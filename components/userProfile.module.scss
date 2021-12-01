@@ -1,0 +1,21 @@
+.profileImage {
+  border-radius: 50%;
+}
+
+.displayName {
+  font-size: 1.5rem;
+  font-weight: 700;
+  padding-left: 0.6rem;
+}
+
+.profileDescription {
+  font-size: 1.1rem;
+  margin-bottom: 0.2rem;
+}
+
+.profileItem {
+  font-size: 0.8rem;
+  dl {
+    margin-bottom: 0.25rem;
+  }
+}

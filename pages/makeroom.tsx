@@ -1,87 +1,40 @@
 import type { NextPage } from 'next'
-import { UserForm, UserData } from '../types/UserInfo'
-import React, { useEffect, useState } from 'react'
-import { useUser } from '@auth0/nextjs-auth0'
+import type { UserForm } from '../types/UserInfo'
+import { useUser, withPageAuthRequired } from '@auth0/nextjs-auth0'
 import { useForm, SubmitHandler } from 'react-hook-form'
-import { withPageAuthRequired } from '@auth0/nextjs-auth0'
-import { useRequireUserInfo } from '../hooks/useRequireUserInfo'
-import { useCurrentUser } from '../hooks/useCurrentUser'
 import axios from 'axios'
 import Head from 'next/head'
 import Nav from '../components/nav'
-import Loading from '../components/loading'
 
-const UserInfo: NextPage = () => {
+const MakeRoom: NextPage = () => {
   const { user, error: errAuth, isLoading } = useUser()
-  const [isDataLoading, setIsDataLoading] = useState(true)
-
   const {
     register,
-    reset,
     handleSubmit,
     formState: { errors },
-  } = useForm<UserForm>({
-    defaultValues: {
-      username: '',
-      display_name: '',
-      date_of_birth: '',
-      gender: undefined,
-    },
-  })
-
-  useEffect(() => {
-    /**
-     * ユーザー情報の取得
-     */
-    const getUser = async () => {
-      //async{await}は非同期処理
-      //async内のawaitが完了するまで次へは進まない、という意味
-      try {
-        setIsDataLoading(true) //ローディング画面開始
-        const res = await axios.get<UserData>('/api/user')
-        const inputValues: UserForm = res.data
-        setIsDataLoading(false) //ローディング画面終了
-        reset(inputValues) //resetでフォームにデータを表示
-      } catch {
-        alert('データの取得に失敗しました')
-      }
-    }
-    getUser()
-  }, [reset])
-
-  /**
-   * 送信時の処理
-   * @param {UserForm} data
-   */
+  } = useForm<UserForm>()
   const onSubmit: SubmitHandler<UserForm> = (data) => {
     const dt = new Date(data.date_of_birth)
     data.date_of_birth = `${dt.getFullYear()}-${
       dt.getMonth() + 1
     }-${dt.getDate()}`
-    axios
-      .post('/api/user', data) //postは登録、getは取得、patchは一部更新
-      .then(() => alert('正常に更新されました'))
-      .catch(() => alert('更新できませんでした'))
+    axios.post('/api/user', data).then((res) => console.log(res.data))
   }
-
-  useRequireUserInfo()
-  const { userChecking } = useCurrentUser()
-
   return (
-    <Nav>
+    <Nav bottomNav={false}>
       <Head>
-        <title>ユーザー設定 | e-Shoku</title>
+        <title>ユーザー登録 | e-Shoku</title>
       </Head>
       <div className="container">
-        <h2 className="title">ユーザー設定</h2>
-        {(isLoading || isDataLoading || userChecking) && <Loading />}
+        <h2>ユーザー登録</h2>
+        {isLoading && <p>Loading login info...</p>}
         {errAuth && (
           <>
             <h4>Error</h4>
             <pre>{errAuth.message}</pre>
           </>
         )}
-        {user && !isLoading && !isDataLoading && (
+        {user && (
           <div>
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className="mb-3 row">
@@ -187,23 +140,18 @@ const UserInfo: NextPage = () => {
               </div>
               <div className="text-end">
                 <button type="submit" className="btn btn-form">
-                  保存
+                  作成
                 </button>
               </div>
             </form>
           </div>
         )}
-        {!isLoading && !isDataLoading && !errAuth && !user && (
-          // Error component を呼び出す予定
-          <div className="text-center">データの取得に失敗しました</div>
+        {!isLoading && !errAuth && !user && (
+          <div>
+            <a href="/api/auth/login">Login</a>
+          </div>
         )}
       </div>
     </Nav>
   )
 }
-
-// ログイン必須にする処理
-export default withPageAuthRequired(UserInfo, {
-  onRedirecting: () => <Loading />,
-  // onError: error => <ErrorMessage>{error.message}</ErrorMessage>
-})

@@ -13,6 +13,7 @@
 @import '../node_modules/bootstrap/scss/navbar';
 @import '../node_modules/bootstrap/scss/forms';
 @import '../node_modules/bootstrap/scss/buttons';
+@import '../node_modules/bootstrap/scss/card';
 @import '../node_modules/bootstrap/scss/utilities/api';
 
 body {
@@ -37,6 +38,11 @@ h6 {
   font-weight: 700;
 }
 
+h1,
+h2 {
+  color: #773f00;
+}
+
 ul.scrollable {
   overflow-x: auto;
   white-space: nowrap;
@@ -53,9 +59,21 @@ ul.scrollable {
   }
 }
 
+textarea {
+  resize: vertical;
+}
+
 .btn-form {
   background-color: #5eafff;
   color: #000000;
+  padding: 0.5rem 1rem;
+  box-shadow: 0 0.2rem 0.4rem rgb(0 0 0 / 14%);
+  font-weight: 500;
+}
+
+.btn-delete {
+  background-color: #dc3545;
+  color: #ffffff;
   padding: 0.5rem 1rem;
   box-shadow: 0 0.2rem 0.4rem rgb(0 0 0 / 14%);
   font-weight: 500;

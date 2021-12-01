@@ -4,12 +4,13 @@ import { Params } from 'next/dist/server/router'
 import Head from 'next/head'
 import Image from 'next/image'
 import Link from 'next/link'
+import dayjs from 'dayjs'
 import axios from '../../utils/commonAxios'
 import Nav from '../../components/nav'
 import styles from '../../styles/room.module.scss'
 import { RoomActionBtn } from '../../components/roomActionBtn'
 import { useCurrentUser } from '../../hooks/useCurrentUser'
-import dayjs from 'dayjs'
+import ButtonCard from '../../components/buttonCard'
 
 type Props = {
   roomData: RoomData
@@ -17,14 +18,18 @@ type Props = {
 
 const Room = ({ roomData }: Props) => {
   const { currentUser } = useCurrentUser()
-  let roomBtnState: 'canJoin' | 'canCancel' | 'disabled' = 'disabled'
-  if (currentUser && roomData.guests) {
+  let roomBtnState: 'canJoin' | 'canCancel' | 'canEdit' | 'disabled' =
+    'disabled'
+  if (currentUser && roomData.guests && roomData.hosts) {
     if (roomData.guests.some((guest) => guest.id === currentUser.id)) {
       roomBtnState = 'canCancel'
+    } else if (roomData.hosts.some((host) => host.id === currentUser.id)) {
+      roomBtnState = 'canEdit'
     } else {
       roomBtnState = 'canJoin'
     }
   }
+
   return (
     <Nav isRoom={true}>
       <Head>
@@ -86,6 +91,15 @@ const Room = ({ roomData }: Props) => {
             roomId={roomData.id}
             text="ログインが必要です"
             disabled
+          />
+        )}
+        {roomBtnState == 'canEdit' && (
+          <ButtonCard
+            title="編集する"
+            color="#FCE37E"
+            fontSize="1.5rem"
+            shadow={true}
+            link={{ to: `edit/${roomData.id}` }}
           />
         )}
       </section>

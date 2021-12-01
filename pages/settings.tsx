@@ -7,10 +7,12 @@ import Nav from '../components/nav'
 import ButtonCard from '../components/buttonCard'
 import Loading from '../components/loading'
 import styles from '../styles/settings.module.scss'
+import { useCurrentUser } from '../hooks/useCurrentUser'
+import { UserProfile } from '../components/userProfile'
 
 const Settings: NextPage = () => {
   const { user, error, isLoading } = useUser()
-
+  const { currentUser } = useCurrentUser()
   return (
     <Nav category="settings">
       <Head>
@@ -29,24 +31,11 @@ const Settings: NextPage = () => {
             <pre>{error.message}</pre>
           </>
         )}
-        {user && (
+        {user && currentUser && (
           //Userがいる状態(ログイン状態の処理)
           <>
             <h2 className="title">プロフィール</h2>
-            <div className="d-flex align-items-center mb-3">
-              <Image
-                src={user.picture ? user.picture : '/images/default_icon.jpg'}
-                alt="プロフィール画像"
-                width={75}
-                height={75}
-                className={styles.profileImage}
-              />
-              <div className={styles.displayName}>{user.name}</div>
-            </div>
-            <div className={styles.profileDescription}>
-              Hello World! Happy coding! Nice to meet you!
-            </div>
-
+            <UserProfile data={currentUser} profileIcon={user?.picture} />
             <div className={styles.settingsItem}>
               <Link href="/userinfo">
                 <a>
@@ -59,7 +48,7 @@ const Settings: NextPage = () => {
                   >
                     <path d="M 12 2 C 6.48 2 2 6.48 2 12 s 4.48 10 10 10 s 10 -4.48 10 -10 S 17.52 2 12 2 Z m 0 3 c 1.66 0 3 1.34 3 3 s -1.34 3 -3 3 s -3 -1.34 -3 -3 s 1.34 -3 3 -3 Z m 0 14.2 c -2.5 0 -4.71 -1.28 -6 -3.22 c 0.03 -1.99 4 -3.08 6 -3.08 c 1.99 0 5.97 1.09 6 3.08 c -1.29 1.94 -3.5 3.22 -6 3.22 Z" />
                   </svg>{' '}
-                  ユーザ設定
+                  ユーザー設定
                 </a>
               </Link>
             </div>
