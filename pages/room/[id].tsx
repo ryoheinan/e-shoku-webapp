@@ -4,6 +4,7 @@ import { Params } from 'next/dist/server/router'
 import Head from 'next/head'
 import Image from 'next/image'
 import Link from 'next/link'
+import dayjs from 'dayjs'
 import axios from '../../utils/commonAxios'
 import Nav from '../../components/nav'
 import styles from '../../styles/room.module.scss'
@@ -60,7 +61,9 @@ const Room = ({ roomData }: Props) => {
         <div className={styles.title}>
           <h1>{roomData.room_name}</h1>
         </div>
-        <p className={styles.schedule}>2021.08.20 18:30~</p>
+        <p className={styles.schedule}>
+          {dayjs(roomData.datetime).format('YYYY/MM/DD HH:mm')}~
+        </p>
         <p className={styles.host}>
           主催者:{' '}
           {roomData.hosts?.map((host) => (
