@@ -26,6 +26,7 @@ const UserInfo: NextPage = () => {
       display_name: '',
       date_of_birth: '',
       gender: undefined,
+      description: '',
     },
   })
 
@@ -182,6 +183,27 @@ const UserInfo: NextPage = () => {
                   </select>
                   {errors.gender && (
                     <p className="small text-danger">正しく選択してください</p>
+                  )}
+                </div>
+              </div>
+              <div className="mb-3 row">
+                <label
+                  htmlFor="description"
+                  className="col-sm-3 col-form-label"
+                >
+                  コメント
+                </label>
+                <div className="col-sm-9">
+                  <textarea
+                    {...register('description', {
+                      required: false,
+                      maxLength: 500,
+                    })}
+                    className={`form-control`}
+                    id="description"
+                  />
+                  {errors.description && (
+                    <p className="small text-danger">正しく入力してください</p>
                   )}
                 </div>
               </div>

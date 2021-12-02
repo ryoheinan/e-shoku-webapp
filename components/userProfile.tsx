@@ -21,7 +21,7 @@ export const UserProfile = ({
         />
         <div className={styles.displayName}>{data.display_name}</div>
       </div>
-      <p className={styles.profileDescription}>This is a description</p>
+      <p className={styles.profileDescription}>{data.description}</p>
       <div className={styles.profileItem}>
         <dl>
           <dt>ユーザーネーム</dt>
