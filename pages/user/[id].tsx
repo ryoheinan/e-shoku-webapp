@@ -54,9 +54,17 @@ export default UserProfilePage
  * サーバーサイドでRoom情報を取得してroomDataに渡す
  * @param context
  */
-export const getServerSideProps: GetServerSideProps = async (context) => {
+export const getServerSideProps: GetServerSideProps<Props> = async (
+  context
+) => {
   const { id } = context.params as Params
   const targetUrl = `/users/${id}/`
+
+  // idがUUIDの形式でない場合はエラー（404）
+  const reUuid = /[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/
+  if (!reUuid.test(id)) {
+    return { props: { userData: null, error: { statusCode: 404 } } }
+  }
 
   try {
     const response = await axios.get<UserData>(targetUrl)

@@ -132,6 +132,12 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   const { id } = context.params as Params
   const targetUrl = `/rooms/${id}/`
 
+  // idがUUIDの形式でない場合はエラー（404）
+  const reUuid = /[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/
+  if (!reUuid.test(id)) {
+    return { props: { roomData: null, error: { statusCode: 404 } } }
+  }
+
   try {
     const response = await axios.get<RoomData>(targetUrl)
     const roomData = response.data
