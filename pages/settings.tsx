@@ -34,7 +34,7 @@ const Settings: NextPage = () => {
         {user && currentUser && (
           //Userがいる状態(ログイン状態の処理)
           <>
-            <h2 className="title">プロフィール</h2>
+            <h2 className="title">設定</h2>
             <UserProfile data={currentUser} profileIcon={user?.picture} />
             <div className={styles.settingsItem}>
               <Link href="/userinfo">
