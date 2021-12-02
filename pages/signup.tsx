@@ -23,12 +23,17 @@ const SignUp: NextPage = () => {
     formState: { errors },
   } = useForm<UserForm>() //4行目のからimport、react-hook-form
 
-  const onSubmit: SubmitHandler<UserForm> = (data) => {
+  /**
+   * 送信時の処理
+   * @param {UserForm} data
+   */
+  const onSubmit: SubmitHandler<UserForm> = (data: UserForm) => {
     //データの送信
     const dt = new Date(data.date_of_birth)
     data.date_of_birth = `${dt.getFullYear()}-${
       dt.getMonth() + 1
     }-${dt.getDate()}`
+    data.image_url = user?.picture || ''
     axios.post('/api/user', data).then((res) => console.log(res.data))
     //プロミス構文 データを取得してから、待ってやる
     //axios;PythonのRequest
