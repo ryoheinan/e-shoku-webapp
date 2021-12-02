@@ -1,6 +1,5 @@
-import type { GetServerSideProps, NextPage } from 'next'
+import type { GetServerSideProps } from 'next'
 import { UserData } from '../../types/UserInfo'
-import React from 'react'
 import { useUser } from '@auth0/nextjs-auth0'
 import { useCurrentUser } from '../../hooks/useCurrentUser'
 import Head from 'next/head'
