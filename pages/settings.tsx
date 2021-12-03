@@ -9,10 +9,19 @@ import Loading from '../components/loading'
 import styles from '../styles/settings.module.scss'
 import { useCurrentUser } from '../hooks/useCurrentUser'
 import { UserProfile } from '../components/userProfile'
+import { useRouter } from 'next/router'
 
 const Settings: NextPage = () => {
   const { user, error, isLoading } = useUser()
   const { currentUser } = useCurrentUser()
+  const router = useRouter()
+  const isReady = router.isReady
+  if (!isReady) {
+    return <Loading />
+  }
+  if (!currentUser?.is_info_filled) {
+    router.push('/signup')
+  }
   return (
     <Nav category="settings">
       <Head>

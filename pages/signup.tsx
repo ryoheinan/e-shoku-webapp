@@ -163,7 +163,7 @@ const SignUp: NextPage = () => {
                   htmlFor="description"
                   className="col-sm-3 col-form-label"
                 >
-                  コメント
+                  自己紹介(500文字以内)
                 </label>
                 <div className="col-sm-9">
                   <textarea
