@@ -39,7 +39,7 @@ const UserProfilePage = ({ userData, error }: Props) => {
         <div className="container">
           <h2 className="title">プロフィール</h2>
           {user && currentUser && (
-            <UserProfile data={userData} profileIcon={userData.image_url} />
+            <UserProfile data={userData} profileIcon={userData.image_url} isShortDescription={false} />
           )}
           {isLoading && <Loading />}
         </div>
