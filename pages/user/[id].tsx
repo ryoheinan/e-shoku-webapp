@@ -8,7 +8,7 @@ import Nav from '../../components/nav'
 import Loading from '../../components/loading'
 import { Params } from 'next/dist/server/router'
 import axios, { isAxiosError } from '../../utils/commonAxios'
-import { UserProfile } from '../../components/userProfile'
+import UserProfile from '../../components/userProfile'
 
 type Props = {
   userData: UserData | null
@@ -39,7 +39,11 @@ const UserProfilePage = ({ userData, error }: Props) => {
         <div className="container">
           <h2 className="title">プロフィール</h2>
           {user && currentUser && (
-            <UserProfile data={userData} profileIcon={userData.image_url} isShortDescription={false} />
+            <UserProfile
+              data={userData}
+              profileIcon={userData.image_url}
+              isShortDescription={false}
+            />
           )}
           {isLoading && <Loading />}
         </div>

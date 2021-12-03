@@ -9,7 +9,7 @@ interface Props {
   disabled?: boolean
 }
 
-export const RoomActionBtn = ({
+const RoomActionBtn = ({
   mode,
   roomId,
   text,
@@ -42,3 +42,5 @@ export const RoomActionBtn = ({
     </button>
   )
 }
+
+export default RoomActionBtn
