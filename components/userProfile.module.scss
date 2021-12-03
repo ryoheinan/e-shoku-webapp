@@ -8,13 +8,29 @@
   padding-left: 0.6rem;
 }
 
-.profileDescription {
-  font-size: 1.1rem;
-  margin-bottom: 0.2rem;
+.profileShortDescription {
+  text-align: center;
+  max-width: 35rem;
+  font-size: 1.05rem;
+  margin-bottom: 1rem;
+  padding: 0 1rem;
   white-space: pre-wrap;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+
+.profileDescription {
+  font-size: 1.05rem;
+  margin-bottom: 1rem;
+  white-space: pre-wrap;
+  word-break: break-all;
+  padding: 0 1rem;
 }
 
 .profileItem {
+  text-align: center;
   font-size: 0.8rem;
   dl {
     margin-bottom: 0.25rem;

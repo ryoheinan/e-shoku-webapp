@@ -54,11 +54,12 @@ const UserInfo: NextPage = () => {
    * 送信時の処理
    * @param {UserForm} data
    */
-  const onSubmit: SubmitHandler<UserForm> = (data) => {
+  const onSubmit: SubmitHandler<UserForm> = (data: UserForm) => {
     const dt = new Date(data.date_of_birth)
     data.date_of_birth = `${dt.getFullYear()}-${
       dt.getMonth() + 1
     }-${dt.getDate()}`
+    data.image_url = user?.picture || ''
     axios
       .post('/api/user', data) //postは登録、getは取得、patchは一部更新
       .then(() => alert('正常に更新されました'))

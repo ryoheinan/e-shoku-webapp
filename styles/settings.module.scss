@@ -1,5 +1,3 @@
-
-
 .elementCenter {
   height: calc(100vh - 180px);
   display: flex;
@@ -17,6 +15,10 @@
 .settingsItem {
   padding: 1.25rem 0.25rem;
   border-bottom: 1px solid;
+
+  svg {
+    margin-top: -0.6px;
+  }
 
   a {
     font-size: 20px;
