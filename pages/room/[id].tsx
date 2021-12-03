@@ -82,7 +82,7 @@ const Room = ({ roomData, error }: Props) => {
             主催者:{' '}
             {roomData.hosts?.map((host) => (
               <Link key={host.id} href={`/user/${host.id}`}>
-                <a className="me-1">{host.username}</a>
+                <a className="me-1">@{host.username}</a>
               </Link>
             ))}
           </p>
