@@ -23,12 +23,17 @@ const SignUp: NextPage = () => {
     formState: { errors },
   } = useForm<UserForm>() //4行目のからimport、react-hook-form
 
-  const onSubmit: SubmitHandler<UserForm> = (data) => {
+  /**
+   * 送信時の処理
+   * @param {UserForm} data
+   */
+  const onSubmit: SubmitHandler<UserForm> = (data: UserForm) => {
     //データの送信
     const dt = new Date(data.date_of_birth)
     data.date_of_birth = `${dt.getFullYear()}-${
       dt.getMonth() + 1
     }-${dt.getDate()}`
+    data.image_url = user?.picture || ''
     axios.post('/api/user', data).then((res) => console.log(res.data))
     //プロミス構文 データを取得してから、待ってやる
     //axios;PythonのRequest
@@ -155,6 +160,27 @@ const SignUp: NextPage = () => {
                   </select>
                   {errors.gender && (
                     <p className="small text-danger">正しく選択してください</p>
+                  )}
+                </div>
+              </div>
+              <div className="mb-3 row">
+                <label
+                  htmlFor="description"
+                  className="col-sm-3 col-form-label"
+                >
+                  自己紹介(500文字以内)
+                </label>
+                <div className="col-sm-9">
+                  <textarea
+                    {...register('description', {
+                      required: false,
+                      maxLength: 500,
+                    })}
+                    className={`form-control`}
+                    id="description"
+                  />
+                  {errors.description && (
+                    <p className="small text-danger">正しく入力してください</p>
                   )}
                 </div>
               </div>

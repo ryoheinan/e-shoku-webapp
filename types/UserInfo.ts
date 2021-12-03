@@ -6,6 +6,8 @@ export interface UserForm {
   display_name: string
   date_of_birth: string
   gender: 'MALE' | 'FEMALE' | 'PNTS' | 'OTHERS'
+  description?: string
+  image_url?: string
 }
 
 /**
