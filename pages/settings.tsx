@@ -7,7 +7,7 @@ import ButtonCard from '../components/buttonCard'
 import Loading from '../components/loading'
 import styles from '../styles/settings.module.scss'
 import { useCurrentUser } from '../hooks/useCurrentUser'
-import { UserProfile } from '../components/userProfile'
+import UserProfile from '../components/userProfile'
 
 const Settings: NextPage = () => {
   const { user, error, isLoading } = useUser()

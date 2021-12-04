@@ -2,7 +2,7 @@ import Image from 'next/image'
 import { UserData } from '../types/UserInfo'
 import styles from './userProfile.module.scss'
 
-export const UserProfile = ({
+const UserProfile = ({
   data,
   profileIcon,
   isShortDescription = true,
@@ -39,3 +39,5 @@ export const UserProfile = ({
     </div>
   )
 }
+
+export default UserProfile
