@@ -3,10 +3,14 @@ import { NextApiRequest, NextApiResponse } from 'next'
 import { roomApiController } from '../../../utils/roomApiController'
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
-  const { accessToken } = await getAccessToken(req, res, {
-    scopes: ['openid', 'profile'],
-  })
-  roomApiController({ req, res, accessToken })
+  if (req.method === 'GET') {
+    roomApiController({ req, res })
+  } else {
+    const { accessToken } = await getAccessToken(req, res, {
+      scopes: ['openid', 'profile'],
+    })
+    roomApiController({ req, res, accessToken })
+  }
 }
 
 export default withApiAuthRequired(handler)
