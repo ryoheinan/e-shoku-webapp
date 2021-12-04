@@ -36,7 +36,7 @@ const Home: NextPage = () => {
         <title>e-Shoku</title>
       </Head>
       {data && data?.length != 0 && currentUser && !fetchErr && (
-        <section className={'container mb-5'}>
+        <section className={'container mb-4'}>
           <h2 className="title">あなたの予定</h2>
           <Link href={`/room/${data[0].id}`}>
             <a>
@@ -50,8 +50,31 @@ const Home: NextPage = () => {
         </section>
       )}
       {fetchErr && <p className="py-5 text-center">{fetchErr.message}</p>}
+      <section className={'container mb-4'}>
+        <h2 className="title">ルームの作成</h2>
+        <ButtonCard
+          title="作成する"
+          color="#FF9E1F"
+          fontSize="1.5rem"
+          shadow={true}
+          link={{ to: '/room/create' }}
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            height="36px"
+            viewBox="0 0 24 24"
+            width="36px"
+            fill="#000000"
+          >
+            <path d="M0 0h24v24H0V0z" fill="none" />
+            <path d="M18 13h-5v5c0 .55-.45 1-1 1s-1-.45-1-1v-5H6c-.55 0-1-.45-1-1s.45-1 1-1h5V6c0-.55.45-1 1-1s1 .45 1 1v5h5c.55 0 1 .45 1 1s-.45 1-1 1z" />
+          </svg>{' '}
+        </ButtonCard>
+      </section>
       <section>
-        <h2 className="container">インフォメーション</h2>
+        <div className="container">
+          <h2 className="title">インフォメーション</h2>
+        </div>
         <ul className={'scrollable container'}>
           <li>
             <ButtonCard
