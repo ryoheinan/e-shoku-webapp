@@ -14,6 +14,7 @@ interface Params {
 interface LinkParams {
   to: string
   useAnchorOnly?: boolean
+  target?: '_blank' | '_self' | '_parent' | '_top'
 }
 
 const ButtonCard = ({
@@ -57,7 +58,13 @@ const ButtonCard = ({
         </Link>
       )}
       {link?.to && link?.useAnchorOnly && (
-        <a className={styles.link} href={link.to} style={{ color: linkColor }}>
+        <a
+          className={styles.link}
+          href={link.to}
+          rel="noopener noreferrer nofollow"
+          style={{ color: linkColor }}
+          {...(link.target && { target: link.target })}
+        >
           <div
             className={`rounded ${shadow ? styles.cardShadow : ''}`}
             style={{ backgroundColor: color }}
