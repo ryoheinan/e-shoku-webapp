@@ -55,7 +55,7 @@ const UserProfilePage = ({ userData, error }: Props) => {
 export default UserProfilePage
 
 /**
- * サーバーサイドでRoom情報を取得してroomDataに渡す
+ * サーバーサイドでidに基づくUser情報を取得してuserDataに渡す
  * @param context
  */
 export const getServerSideProps: GetServerSideProps<Props> = async (
