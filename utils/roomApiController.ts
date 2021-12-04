@@ -40,7 +40,13 @@ export const roomApiController = async ({
     }
     // ルーム情報取得時に用いる（アクセストークン無し）
     else if (req.method === 'GET') {
-      const response = await axios.get<UserData>(targetUrl)
+      let queryParams = ''
+      if (req.query) {
+        // @ts-ignore
+        queryParams = new URLSearchParams(req.query).toString()
+        queryParams = `?${queryParams}`
+      }
+      const response = await axios.get<UserData>(targetUrl + queryParams)
       resData = response.data
       res.status(200).json(resData)
     }
