@@ -1,28 +1,55 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import Link from 'next/link'
+import axios from 'axios'
+import useSWR from 'swr'
 import Nav from '../components/nav'
 import RoomCard from '../components/roomCard'
 import ButtonCard from '../components/buttonCard'
+import { RoomData } from '../types/RoomInfo'
+import { useCurrentUser } from '../hooks/useCurrentUser'
 
 const Home: NextPage = () => {
+  const { currentUser } = useCurrentUser()
+  const fetcher = async (url: string) => {
+    try {
+      const res = await axios.get<RoomData[]>(url)
+      return res.data
+    } catch (err: unknown) {
+      // Axiosに関するエラーの場合
+      if (axios.isAxiosError(err) && err.response) {
+        throw new Error(
+          `${err.response.status}エラー: あなたの予定が取得できませんでした`
+        )
+      } else {
+        throw new Error('あなたの予定が取得できませんでした')
+      }
+    }
+  }
+  const { data, error: fetchErr } = useSWR(
+    currentUser ? `/api/room/?guests=${currentUser.id}` : null,
+    fetcher
+  )
   return (
     <Nav category="home">
       <Head>
         <title>e-Shoku</title>
       </Head>
-      <section className={'container mb-5'}>
-        <h2 className="title">あなたの予定</h2>
-        <Link href="/">
-          <a>
-            <RoomCard
-              title="Hello World Party"
-              date="2021.08.21"
-              imageUrl="/images/foods.jpg"
-            ></RoomCard>
-          </a>
-        </Link>
-      </section>
+      {data && data?.length != 0 && currentUser && !fetchErr && (
+        <section className={'container mb-5'}>
+          <h2 className="title">あなたの予定</h2>
+          <Link href={`/room/${data[0].id}`}>
+            <a>
+              <RoomCard
+                title={data[0].room_name}
+                date={data[0].datetime}
+                imageUrl="/images/foods.jpg"
+              />
+            </a>
+          </Link>
+        </section>
+      )}
+      {fetchErr && <p className="py-5 text-center">{fetchErr.message}</p>}
       <section>
         <h2 className="container">インフォメーション</h2>
         <ul className={'scrollable container'}>
