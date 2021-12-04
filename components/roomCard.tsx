@@ -18,7 +18,7 @@ const RoomCard = ({
         src={imageUrl}
         layout="fill"
         objectFit="cover"
-        quality={100}
+        quality={50}
         className={styles.image}
       />
       <div className={`d-flex ${styles.content}`}>
