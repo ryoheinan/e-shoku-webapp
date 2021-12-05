@@ -67,7 +67,7 @@ const EditRoom: NextPage = () => {
     if (currentUser) {
       data.hosts = [currentUser.id]
       axios
-        .put<RoomData>(`/api/room/edit/${id}`, data)
+        .put<RoomData>(`/api/room/${id}`, data)
         .then((res) => {
           setIsDataLoading(false)
           return res
@@ -84,7 +84,7 @@ const EditRoom: NextPage = () => {
     if (confirm(`本当にルームを削除しますか？`)) {
       setIsDataLoading(true)
       try {
-        const res = await axios.delete(`/api/room/edit/${id}/`)
+        const res = await axios.delete(`/api/room/${id}/`)
         if (res.status === 204) {
           setIsDataLoading(false)
           router.push('/')
