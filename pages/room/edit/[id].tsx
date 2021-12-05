@@ -7,9 +7,10 @@ import { useRequireUserInfo } from '../../../hooks/useRequireUserInfo'
 import { useCurrentUser } from '../../../hooks/useCurrentUser'
 import axios from 'axios'
 import Head from 'next/head'
+import Error from '../../_error'
 import Nav from '../../../components/nav'
 import Loading from '../../../components/loading'
-import router, { useRouter } from 'next/router'
+import { useRouter } from 'next/router'
 import { RoomData, RoomForm } from '../../../types/RoomInfo'
 
 const EditRoom: NextPage = () => {
@@ -51,12 +52,22 @@ const EditRoom: NextPage = () => {
           .padStart(2, '0')}`
         setIsDataLoading(false) // ローディング画面終了
         reset(inputValues) // resetでフォームにデータを表示
-      } catch {
-        alert('データの取得に失敗しました')
+      } catch (error: unknown) {
+        setIsDataLoading(false) // ローディング画面終了
+        // Axiosに関するエラーの場合
+        if (axios.isAxiosError(error) && error.response) {
+          if (error.response.status === 500) {
+            router.replace('/500')
+          } else {
+            router.replace('/404')
+          }
+        } else {
+          router.replace('/500')
+        }
       }
     }
     getRoom()
-  }, [id, reset])
+  }, [router, id, reset])
 
   const onSubmit: SubmitHandler<RoomForm> = (data) => {
     // データの送信
@@ -98,6 +109,9 @@ const EditRoom: NextPage = () => {
     }
   }
 
+  if ((errAuth || (!user && currentUser)) && !isLoading && !isDataLoading) {
+    return <Error statusCode={400} />
+  }
   return (
     <Nav>
       <Head>
@@ -106,13 +120,6 @@ const EditRoom: NextPage = () => {
       <div className="container">
         <h2 className="title">ルーム編集</h2>
         {(isLoading || isDataLoading) && <Loading />}
-        {errAuth && (
-          // Error component を呼び出す予定
-          <>
-            <h4>Error</h4>
-            <pre>{errAuth.message}</pre>
-          </>
-        )}
         {user && !isLoading && !isDataLoading && (
           <div>
             <form onSubmit={handleSubmit(onSubmit)}>
@@ -215,5 +222,5 @@ const EditRoom: NextPage = () => {
 // ログイン必須にする処理
 export default withPageAuthRequired(EditRoom, {
   onRedirecting: () => <Loading />,
-  // onError: error => <ErrorMessage>{error.message}</ErrorMessage>
+  onError: (error) => <Error statusCode={400} title={error.message} />,
 })
