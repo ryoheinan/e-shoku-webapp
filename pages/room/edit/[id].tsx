@@ -28,7 +28,15 @@ const EditRoom: NextPage = () => {
     reset,
     handleSubmit,
     formState: { errors },
-  } = useForm<RoomForm>() // RoomForm型のフォームの宣言
+  } = useForm<RoomForm>({
+    defaultValues: {
+      room_name: '',
+      description: '',
+      date: '',
+      time: '',
+      capacity: 10,
+    },
+  }) // RoomForm型のフォームの宣言
 
   useEffect(() => {
     /**
@@ -122,10 +130,12 @@ const EditRoom: NextPage = () => {
         {(isLoading || isDataLoading) && <Loading />}
         {user && !isLoading && !isDataLoading && (
           <div>
+            <p className="text-end text-danger">必須*</p>
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className="mb-3 row">
                 <label htmlFor="room_name" className="col-sm-3 col-form-label">
                   タイトル
+                  <span className="text-danger">*</span>
                 </label>
                 <div className="col-sm-9">
                   <input
@@ -148,6 +158,7 @@ const EditRoom: NextPage = () => {
                   className="col-sm-3 col-form-label"
                 >
                   説明
+                  <span className="text-danger">*</span>
                 </label>
                 <div className="col-sm-9">
                   <textarea
@@ -167,6 +178,7 @@ const EditRoom: NextPage = () => {
               <div className="mb-3 row">
                 <label htmlFor="date" className="col-sm-3 col-form-label">
                   日付
+                  <span className="text-danger">*</span>
                 </label>
                 <div className="col-sm-9">
                   <input
@@ -180,9 +192,10 @@ const EditRoom: NextPage = () => {
                   )}
                 </div>
               </div>
-              <div className="mb-5 row">
+              <div className="mb-3 row">
                 <label htmlFor="time" className="col-sm-3 col-form-label">
                   時間
+                  <span className="text-danger">*</span>
                 </label>
                 <div className="col-sm-9">
                   <input
@@ -193,6 +206,28 @@ const EditRoom: NextPage = () => {
                   ></input>
                   {errors.time && (
                     <p className="small text-danger">正しく入力してください</p>
+                  )}
+                </div>
+              </div>
+              <div className="mb-5 row">
+                <label htmlFor="capacity" className="col-sm-3 col-form-label">
+                  参加上限人数
+                  <span className="text-danger">*</span>
+                </label>
+                <div className="col-sm-9">
+                  <input
+                    {...register('capacity', {
+                      required: true,
+                      min: 1,
+                    })}
+                    className={`form-control`}
+                    id="capacity"
+                    type="number"
+                  />
+                  {errors.capacity && (
+                    <p className="small text-danger">
+                      1以上の数字を入力してください
+                    </p>
                   )}
                 </div>
               </div>
