@@ -14,7 +14,7 @@ const Settings: NextPage = () => {
   const { user, error, isLoading } = useUser()
   const { currentUser } = useCurrentUser()
 
-  if (!user && !currentUser && !isLoading) {
+  if (error) {
     return <Error statusCode={400} />
   }
   return (
@@ -128,7 +128,7 @@ const Settings: NextPage = () => {
             </div>
           </>
         )}
-        {!isLoading && !error && !user && (
+        {!isLoading && !error && !user && !currentUser && (
           //Userがない状態(ログアウト状態の処理)
           <>
             <h2 className="title">はじめる</h2>
