@@ -34,7 +34,7 @@ const CreateRoom: NextPage = () => {
     if (currentUser) {
       data.hosts = [currentUser.id]
       axios
-        .post<RoomData>('/api/room/create', data)
+        .post<RoomData>('/api/room/', data)
         .then((res) => {
           setIsDataLoading(false)
           return res

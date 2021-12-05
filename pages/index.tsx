@@ -1,49 +1,103 @@
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import Link from 'next/link'
+import axios from 'axios'
+import useSWR from 'swr'
 import Nav from '../components/nav'
 import RoomCard from '../components/roomCard'
 import ButtonCard from '../components/buttonCard'
+import { RoomData } from '../types/RoomInfo'
+import { useCurrentUser } from '../hooks/useCurrentUser'
 
 const Home: NextPage = () => {
+  const { currentUser } = useCurrentUser()
+  const fetcher = async (url: string) => {
+    try {
+      const res = await axios.get<RoomData[]>(url)
+      return res.data
+    } catch (err: unknown) {
+      // Axiosに関するエラーの場合
+      if (axios.isAxiosError(err) && err.response) {
+        throw new Error(
+          `${err.response.status}エラー: あなたの予定が取得できませんでした`
+        )
+      } else {
+        throw new Error('あなたの予定が取得できませんでした')
+      }
+    }
+  }
+  const { data, error: fetchErr } = useSWR(
+    currentUser ? `/api/room/?guests=${currentUser.id}` : null,
+    fetcher
+  )
   return (
     <Nav category="home">
       <Head>
         <title>e-Shoku</title>
       </Head>
-      <section className={'container mb-5'}>
-        <h2 className="title">あなたの予定</h2>
-        <Link href="/">
-          <a>
-            <RoomCard
-              title="Hello World Party"
-              date="2021.08.21"
-              imageUrl="/images/foods.jpg"
-            ></RoomCard>
-          </a>
-        </Link>
+      {data && data?.length != 0 && currentUser && !fetchErr && (
+        <section className={'container mb-4'}>
+          <h2 className="title">あなたの予定</h2>
+          <Link href={`/room/${data[0].id}`}>
+            <a>
+              <RoomCard
+                title={data[0].room_name}
+                date={data[0].datetime}
+                imageUrl="/images/foods.jpg"
+              />
+            </a>
+          </Link>
+        </section>
+      )}
+      {fetchErr && <p className="py-5 text-center">{fetchErr.message}</p>}
+      <section className={'container mb-4'}>
+        <h2 className="title">ルームの作成</h2>
+        <ButtonCard
+          title="作成する"
+          color="#FF9E1F"
+          fontSize="1.5rem"
+          shadow={true}
+          link={{ to: '/room/create' }}
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            height="36px"
+            viewBox="0 0 24 24"
+            width="36px"
+            fill="#000000"
+          >
+            <path d="M0 0h24v24H0V0z" fill="none" />
+            <path d="M18 13h-5v5c0 .55-.45 1-1 1s-1-.45-1-1v-5H6c-.55 0-1-.45-1-1s.45-1 1-1h5V6c0-.55.45-1 1-1s1 .45 1 1v5h5c.55 0 1 .45 1 1s-.45 1-1 1z" />
+          </svg>{' '}
+        </ButtonCard>
       </section>
       <section>
-        <h2 className="container">インフォメーション</h2>
+        <div className="container">
+          <h2 className="title">インフォメーション</h2>
+        </div>
         <ul className={'scrollable container'}>
           <li>
             <ButtonCard
-              title="安全について"
+              title="COVID-19"
               color="#6fd8a3"
               fontSize="1.5rem"
               shadow={true}
-              link={{ to: '/' }}
+              link={{
+                to: 'https://www.mhlw.go.jp/stf/seisakunitsuite/bunya/0000164708_00001.html',
+                useAnchorOnly: true,
+                target: '_blank',
+              }}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 enableBackground="new 0 0 24 24"
-                height="35px"
+                height="36px"
                 viewBox="0 0 24 24"
-                width="35px"
+                width="36px"
                 fill="#000000"
               >
                 <rect fill="none" height="24" width="24" />
-                <path d="M10.5,13H8v-3h2.5V7.5h3V10H16v3h-2.5v2.5h-3V13z M12,2L4,5v6.09c0,5.05,3.41,9.76,8,10.91c4.59-1.15,8-5.86,8-10.91V5L12,2 z M18,11.09c0,4-2.55,7.7-6,8.83c-3.45-1.13-6-4.82-6-8.83v-4.7l6-2.25l6,2.25V11.09z" />
+                <path d="M19.5,6c-1.31,0-2.37,1.01-2.48,2.3C15.14,7.8,14.18,6.5,12,6.5c-2.19,0-3.14,1.3-5.02,1.8C6.87,7.02,5.81,6,4.5,6 C3.12,6,2,7.12,2,8.5V9c0,6,3.6,7.81,6.52,7.98C9.53,17.62,10.72,18,12,18s2.47-0.38,3.48-1.02C18.4,16.81,22,15,22,9V8.5 C22,7.12,20.88,6,19.5,6z M3.5,9V8.5c0-0.55,0.45-1,1-1s1,0.45,1,1v3c0,1.28,0.38,2.47,1.01,3.48C4.99,14.27,3.5,12.65,3.5,9z M7,11.5V9.85c1.12-0.23,1.95-0.69,2.66-1.08C10.48,8.33,11.07,8,12,8c0.93,0,1.52,0.33,2.34,0.78c0.71,0.39,1.54,0.84,2.66,1.08 v1.65c0,2.76-2.24,5-5,5S7,14.26,7,11.5z M20.5,9c0,3.65-1.49,5.27-3.01,5.98c0.64-1.01,1.01-2.2,1.01-3.48v-3c0-0.55,0.45-1,1-1 s1,0.45,1,1V9z M10.69,10.48c-0.44,0.26-0.96,0.56-1.69,0.76V10.2c0.48-0.17,0.84-0.38,1.18-0.58C10.72,9.3,11.23,9,12,9 s1.27,0.3,1.8,0.62c0.34,0.2,0.71,0.42,1.2,0.59v1.04c-0.75-0.21-1.26-0.51-1.71-0.78C12.83,10.2,12.49,10,12,10 C11.51,10,11.16,10.2,10.69,10.48z" />
               </svg>
             </ButtonCard>
           </li>
