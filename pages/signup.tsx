@@ -9,11 +9,13 @@ import Error from './_error'
 import Nav from '../components/nav'
 import Loading from '../components/loading'
 import { useCurrentUser } from '../hooks/useCurrentUser'
+import { useState } from 'react'
 
 const SignUp: NextPage = () => {
   const { user, error: errAuth, isLoading } = useUser()
   const { currentUser } = useCurrentUser()
   const router = useRouter()
+  const [isDataLoading, setIsDataLoading] = useState(false)
   if (currentUser?.is_info_filled) {
     router.push('/')
   }
@@ -30,15 +32,20 @@ const SignUp: NextPage = () => {
    */
   const onSubmit: SubmitHandler<UserForm> = (data: UserForm) => {
     //データの送信
+    setIsDataLoading(true)
     const dt = new Date(data.date_of_birth)
     data.date_of_birth = `${dt.getFullYear()}-${
       dt.getMonth() + 1
     }-${dt.getDate()}`
     data.image_url = user?.picture || ''
-    axios.post('/api/user', data).then((res) => console.log(res.data)) // ここでホームに遷移 console logは削除する
-    // thenは成功したら
-    // catchはエラー
-    // (res) => console.log(res.data)はfunction(res)と同じ
+    axios
+      .post('/api/user', data)
+      .then((res) => {
+        setIsDataLoading(false)
+        return res
+      })
+      .then((res) => router.push(`/`))
+      .catch(() => alert('登録に失敗しました'))
   }
 
   if (errAuth || !user) {
