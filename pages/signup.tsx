@@ -21,7 +21,7 @@ const SignUp: NextPage = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<UserForm>() //4行目のからimport、react-hook-form
+  } = useForm<UserForm>() // react-hook-formの宣言的なもの
 
   /**
    * 送信時の処理
@@ -34,12 +34,10 @@ const SignUp: NextPage = () => {
       dt.getMonth() + 1
     }-${dt.getDate()}`
     data.image_url = user?.picture || ''
-    axios.post('/api/user', data).then((res) => console.log(res.data))
-    //プロミス構文 データを取得してから、待ってやる
-    //axios;PythonのRequest
-    //thenは成功したら
-    //catchはエラー
-    //(res) => console.log(res.data)はfunction(res)と同じ
+    axios.post('/api/user', data).then((res) => console.log(res.data)) // ここでホームに遷移 console logは削除する
+    // thenは成功したら
+    // catchはエラー
+    // (res) => console.log(res.data)はfunction(res)と同じ
   }
   return (
     <Nav bottomNav={false}>
