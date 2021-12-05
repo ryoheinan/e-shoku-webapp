@@ -8,7 +8,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   })
   const { id } = req.query
   if (typeof id === 'string') {
-    roomApiController({ req, res, accessToken, id })
+    await roomApiController({ req, res, accessToken, id })
   }
 }
 

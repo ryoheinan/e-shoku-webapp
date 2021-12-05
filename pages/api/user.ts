@@ -15,7 +15,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
           Authorization: `Bearer ${accessToken}`,
         },
       })
-      resData = await response.data
+      resData = response.data
       res.status(201).json(resData)
     } else if (req.method === 'GET') {
       const response = await axios.get(`/users/`, {
@@ -23,7 +23,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
           Authorization: `Bearer ${accessToken}`,
         },
       })
-      resData = await response.data
+      resData = response.data
       res.status(200).json(resData)
     } else {
       resData = {
