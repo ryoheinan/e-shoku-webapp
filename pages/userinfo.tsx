@@ -35,14 +35,13 @@ const UserInfo: NextPage = () => {
      * ユーザー情報の取得
      */
     const getUser = async () => {
-      //async{await}は非同期処理
-      //async内のawaitが完了するまで次へは進まない、という意味
+      // async/awaitは非同期処理
       try {
-        setIsDataLoading(true) //ローディング画面開始
+        setIsDataLoading(true) // ローディング画面開始
         const res = await axios.get<UserData>('/api/user')
         const inputValues: UserForm = res.data
-        setIsDataLoading(false) //ローディング画面終了
-        reset(inputValues) //resetでフォームにデータを表示
+        setIsDataLoading(false) // ローディング画面終了
+        reset(inputValues) // resetでフォームにデータを表示
       } catch {
         alert('データの取得に失敗しました')
       }

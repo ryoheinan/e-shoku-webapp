@@ -1,5 +1,4 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import { UserData } from '../types/UserInfo'
 import axios, { isAxiosError } from './commonAxios'
 
 interface Props {
