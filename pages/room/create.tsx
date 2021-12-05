@@ -4,6 +4,7 @@ import { useUser, withPageAuthRequired } from '@auth0/nextjs-auth0'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import axios from 'axios'
 import Head from 'next/head'
+import Error from '../_error'
 import Nav from '../../components/nav'
 import Loading from '../../components/loading'
 import { useCurrentUser } from '../../hooks/useCurrentUser'
@@ -39,12 +40,16 @@ const CreateRoom: NextPage = () => {
           setIsDataLoading(false)
           return res
         })
-        .then((res) => router.push(`/room/${res.data.id}`)) //ここで詳細ページにリダイレクト予定
+        .then((res) => router.push(`/room/${res.data.id}`))
         .catch(() => alert('データの送信に失敗しました'))
     } else {
       // 本来我々がいるはずのない世界線
       setIsDataLoading(false)
     }
+  }
+
+  if ((errAuth || (!user && currentUser)) && !isLoading && !isDataLoading) {
+    return <Error statusCode={400} />
   }
   return (
     <Nav>
@@ -54,13 +59,6 @@ const CreateRoom: NextPage = () => {
       <div className="container">
         <h2 className="title">ルーム作成</h2>
         {(isLoading || isDataLoading) && <Loading />}
-        {errAuth && (
-          // Error component を呼び出す予定
-          <>
-            <h4>Error</h4>
-            <pre>{errAuth.message}</pre>
-          </>
-        )}
         {user && !isLoading && !isDataLoading && (
           <div>
             <form onSubmit={handleSubmit(onSubmit)}>
@@ -146,10 +144,6 @@ const CreateRoom: NextPage = () => {
             </form>
           </div>
         )}
-        {!isLoading && !isDataLoading && !errAuth && !user && (
-          // Error component を呼び出す予定
-          <div className="text-center">データの取得に失敗しました</div>
-        )}
       </div>
     </Nav>
   )
@@ -159,5 +153,5 @@ const CreateRoom: NextPage = () => {
 // ログインしてない場合はログイン画面に飛ばされる
 export default withPageAuthRequired(CreateRoom, {
   onRedirecting: () => <Loading />,
-  // onError: error => <ErrorMessage>{error.message}</ErrorMessage>
+  onError: (error) => <Error statusCode={400} title={error.message} />,
 })

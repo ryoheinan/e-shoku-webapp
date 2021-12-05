@@ -5,6 +5,7 @@ import { useForm, SubmitHandler } from 'react-hook-form'
 import axios from 'axios'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
+import Error from './_error'
 import Nav from '../components/nav'
 import Loading from '../components/loading'
 import { useCurrentUser } from '../hooks/useCurrentUser'
@@ -39,6 +40,10 @@ const SignUp: NextPage = () => {
     // catchはエラー
     // (res) => console.log(res.data)はfunction(res)と同じ
   }
+
+  if (errAuth || !user) {
+    return <Error statusCode={400} />
+  }
   return (
     <Nav bottomNav={false}>
       <Head>
@@ -47,13 +52,6 @@ const SignUp: NextPage = () => {
       <div className="container">
         <h2 className="title">ユーザー登録</h2>
         {isLoading && <Loading />}
-        {errAuth && (
-          // Error component を呼び出す予定
-          <>
-            <h4>Error</h4>
-            <pre>{errAuth.message}</pre>
-          </>
-        )}
         {user && (
           <div>
             <p className="text-danger">
@@ -190,10 +188,6 @@ const SignUp: NextPage = () => {
             </form>
           </div>
         )}
-        {!isLoading && !errAuth && !user && (
-          // Error component を呼び出す予定
-          <div className="text-center">データの取得に失敗しました</div>
-        )}
       </div>
     </Nav>
   )
@@ -203,5 +197,5 @@ const SignUp: NextPage = () => {
 // ログインしてない場合はログイン画面に飛ばされる
 export default withPageAuthRequired(SignUp, {
   onRedirecting: () => <Loading />,
-  // onError: error => <ErrorMessage>{error.message}</ErrorMessage>
+  onError: (error) => <Error statusCode={400} title={error.message} />,
 })

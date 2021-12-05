@@ -4,7 +4,7 @@ import { roomApiController } from '../../../utils/roomApiController'
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'GET') {
-    await roomApiController({ req, res })
+    await roomApiController({ req, res }) // ここのファイル内だと、withApiAuthRequiredが適用されてログイン必須になる
   } else {
     const { accessToken } = await getAccessToken(req, res, {
       scopes: ['openid', 'profile'],
