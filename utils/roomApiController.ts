@@ -26,6 +26,13 @@ export const roomApiController = async ({
   try {
     const data = req.body
     let resData: RoomData | ErrorMessage
+
+    // idがUUIDの形式でない場合はエラー（404）
+    const reUuid =
+      /[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/
+    if (id && !reUuid.test(id)) {
+      res.status(404).json({ detail: 'Not found' })
+    }
     const targetUrl = id ? `/rooms/${id}/` : '/rooms/'
 
     // ルーム作成時に用いる
