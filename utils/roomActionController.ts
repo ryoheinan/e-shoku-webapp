@@ -28,6 +28,7 @@ export const roomActionController = async ({
       /[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/
     if (!reUuid.test(id)) {
       res.status(404).json({ detail: 'Not found' })
+      return
     }
     const targetUrl = `/rooms/${mode}/${id}/`
 
