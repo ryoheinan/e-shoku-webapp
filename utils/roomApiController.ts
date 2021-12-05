@@ -1,10 +1,10 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import { UserData } from '../types/UserInfo'
+import { RoomData } from '../types/RoomInfo'
 import axios, { isAxiosError } from './commonAxios'
 
 interface Params {
   req: NextApiRequest
-  res: NextApiResponse<UserData | ErrorMessage>
+  res: NextApiResponse<RoomData | ErrorMessage>
   accessToken?: string
   id?: string
 }
@@ -25,12 +25,12 @@ export const roomApiController = async ({
 }: Params) => {
   try {
     const data = req.body
-    let resData: UserData | ErrorMessage
+    let resData: RoomData | ErrorMessage
     const targetUrl = id ? `/rooms/${id}/` : '/rooms/'
 
     // ルーム作成時に用いる
     if (req.method === 'POST' && !id && accessToken) {
-      const response = await axios.post<UserData>(targetUrl, data, {
+      const response = await axios.post<RoomData>(targetUrl, data, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
@@ -46,13 +46,13 @@ export const roomApiController = async ({
         queryParams = new URLSearchParams(req.query).toString()
         queryParams = `?${queryParams}`
       }
-      const response = await axios.get<UserData>(targetUrl + queryParams)
+      const response = await axios.get<RoomData>(targetUrl + queryParams)
       resData = response.data
       res.status(200).json(resData)
     }
     // ルーム情報更新時に用いる
     else if (req.method === 'PUT' && accessToken) {
-      const response = await axios.put<UserData>(targetUrl, data, {
+      const response = await axios.put<RoomData>(targetUrl, data, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
@@ -62,7 +62,7 @@ export const roomApiController = async ({
     }
     // ルーム削除時に用いる
     else if (req.method === 'DELETE' && accessToken) {
-      const response = await axios.delete<UserData>(targetUrl, {
+      const response = await axios.delete(targetUrl, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
