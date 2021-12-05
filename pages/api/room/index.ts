@@ -4,12 +4,12 @@ import { roomApiController } from '../../../utils/roomApiController'
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'GET') {
-    roomApiController({ req, res })
+    await roomApiController({ req, res })
   } else {
     const { accessToken } = await getAccessToken(req, res, {
       scopes: ['openid', 'profile'],
     })
-    roomApiController({ req, res, accessToken })
+    await roomApiController({ req, res, accessToken })
   }
 }
 
