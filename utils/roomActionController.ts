@@ -1,5 +1,4 @@
 import { NextApiRequest, NextApiResponse } from 'next'
-import { UserData } from '../types/UserInfo'
 import axios, { isAxiosError } from './commonAxios'
 
 interface Props {
@@ -23,7 +22,16 @@ export const roomActionController = async ({
 }: Props) => {
   try {
     const data = req.body
+
+    // idがUUIDの形式でない場合はエラー（404）
+    const reUuid =
+      /[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/
+    if (!reUuid.test(id)) {
+      res.status(404).json({ detail: 'Not found' })
+      return
+    }
     const targetUrl = `/rooms/${mode}/${id}/`
+
     if (req.method === 'POST') {
       const response = await axios.post(targetUrl, data, {
         headers: {

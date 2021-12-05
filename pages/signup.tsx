@@ -5,14 +5,17 @@ import { useForm, SubmitHandler } from 'react-hook-form'
 import axios from 'axios'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
+import Error from './_error'
 import Nav from '../components/nav'
 import Loading from '../components/loading'
 import { useCurrentUser } from '../hooks/useCurrentUser'
+import { useState } from 'react'
 
 const SignUp: NextPage = () => {
   const { user, error: errAuth, isLoading } = useUser()
   const { currentUser } = useCurrentUser()
   const router = useRouter()
+  const [isDataLoading, setIsDataLoading] = useState(false)
   if (currentUser?.is_info_filled) {
     router.push('/')
   }
@@ -21,7 +24,7 @@ const SignUp: NextPage = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<UserForm>() //4行目のからimport、react-hook-form
+  } = useForm<UserForm>() // react-hook-formの宣言的なもの
 
   /**
    * 送信時の処理
@@ -29,17 +32,24 @@ const SignUp: NextPage = () => {
    */
   const onSubmit: SubmitHandler<UserForm> = (data: UserForm) => {
     //データの送信
+    setIsDataLoading(true)
     const dt = new Date(data.date_of_birth)
     data.date_of_birth = `${dt.getFullYear()}-${
       dt.getMonth() + 1
     }-${dt.getDate()}`
     data.image_url = user?.picture || ''
-    axios.post('/api/user', data).then((res) => console.log(res.data))
-    //プロミス構文 データを取得してから、待ってやる
-    //axios;PythonのRequest
-    //thenは成功したら
-    //catchはエラー
-    //(res) => console.log(res.data)はfunction(res)と同じ
+    axios
+      .post('/api/user', data)
+      .then((res) => {
+        setIsDataLoading(false)
+        return res
+      })
+      .then((res) => router.push(`/`))
+      .catch(() => alert('登録に失敗しました'))
+  }
+
+  if (errAuth || !user) {
+    return <Error statusCode={400} />
   }
   return (
     <Nav bottomNav={false}>
@@ -49,13 +59,6 @@ const SignUp: NextPage = () => {
       <div className="container">
         <h2 className="title">ユーザー登録</h2>
         {isLoading && <Loading />}
-        {errAuth && (
-          // Error component を呼び出す予定
-          <>
-            <h4>Error</h4>
-            <pre>{errAuth.message}</pre>
-          </>
-        )}
         {user && (
           <div>
             <p className="text-danger">
@@ -192,10 +195,6 @@ const SignUp: NextPage = () => {
             </form>
           </div>
         )}
-        {!isLoading && !errAuth && !user && (
-          // Error component を呼び出す予定
-          <div className="text-center">データの取得に失敗しました</div>
-        )}
       </div>
     </Nav>
   )
@@ -205,5 +204,5 @@ const SignUp: NextPage = () => {
 // ログインしてない場合はログイン画面に飛ばされる
 export default withPageAuthRequired(SignUp, {
   onRedirecting: () => <Loading />,
-  // onError: error => <ErrorMessage>{error.message}</ErrorMessage>
+  onError: (error) => <Error statusCode={400} title={error.message} />,
 })

@@ -9,7 +9,7 @@ import Error from '../_error'
 import axios, { isAxiosError } from '../../utils/commonAxios'
 import Nav from '../../components/nav'
 import styles from '../../styles/room.module.scss'
-import { RoomActionBtn } from '../../components/roomActionBtn'
+import RoomActionBtn from '../../components/roomActionBtn'
 import { useCurrentUser } from '../../hooks/useCurrentUser'
 import ButtonCard from '../../components/buttonCard'
 

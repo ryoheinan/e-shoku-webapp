@@ -1,8 +1,9 @@
-import Image from 'next/image'
 import { UserData } from '../types/UserInfo'
+import Image from 'next/image'
+import dayjs from 'dayjs'
 import styles from './userProfile.module.scss'
 
-export const UserProfile = ({
+const UserProfile = ({
   data,
   profileIcon,
   isShortDescription = true,
@@ -27,6 +28,8 @@ export const UserProfile = ({
         <dl>
           <dt>ユーザーネーム</dt>
           <dd>@{data.username}</dd>
+          <dt>アカウント登録日</dt>
+          <dd>{dayjs(data.created_at).format('YYYY/MM/DD')}</dd>
         </dl>
       </div>
       <div className="d-flex justify-content-center">
@@ -39,3 +42,5 @@ export const UserProfile = ({
     </div>
   )
 }
+
+export default UserProfile

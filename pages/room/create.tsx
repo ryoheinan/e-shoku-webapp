@@ -4,6 +4,7 @@ import { useUser, withPageAuthRequired } from '@auth0/nextjs-auth0'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import axios from 'axios'
 import Head from 'next/head'
+import Error from '../_error'
 import Nav from '../../components/nav'
 import Loading from '../../components/loading'
 import { useCurrentUser } from '../../hooks/useCurrentUser'
@@ -23,7 +24,11 @@ const CreateRoom: NextPage = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<RoomForm>() // RoomForm型のフォームの宣言
+  } = useForm<RoomForm>({
+    defaultValues: {
+      capacity: 10,
+    },
+  }) // RoomForm型のフォームの宣言
 
   const onSubmit: SubmitHandler<RoomForm> = (data) => {
     // データの送信
@@ -34,17 +39,21 @@ const CreateRoom: NextPage = () => {
     if (currentUser) {
       data.hosts = [currentUser.id]
       axios
-        .post<RoomData>('/api/room/create', data)
+        .post<RoomData>('/api/room/', data)
         .then((res) => {
           setIsDataLoading(false)
           return res
         })
-        .then((res) => router.push(`/room/${res.data.id}`)) //ここで詳細ページにリダイレクト予定
+        .then((res) => router.push(`/room/${res.data.id}`))
         .catch(() => alert('データの送信に失敗しました'))
     } else {
       // 本来我々がいるはずのない世界線
       setIsDataLoading(false)
     }
+  }
+
+  if ((errAuth || (!user && currentUser)) && !isLoading && !isDataLoading) {
+    return <Error statusCode={400} />
   }
   return (
     <Nav>
@@ -54,19 +63,14 @@ const CreateRoom: NextPage = () => {
       <div className="container">
         <h2 className="title">ルーム作成</h2>
         {(isLoading || isDataLoading) && <Loading />}
-        {errAuth && (
-          // Error component を呼び出す予定
-          <>
-            <h4>Error</h4>
-            <pre>{errAuth.message}</pre>
-          </>
-        )}
         {user && !isLoading && !isDataLoading && (
           <div>
+            <p className="text-end text-danger">必須*</p>
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className="mb-3 row">
                 <label htmlFor="room_name" className="col-sm-3 col-form-label">
                   タイトル
+                  <span className="text-danger">*</span>
                 </label>
                 <div className="col-sm-9">
                   <input
@@ -89,6 +93,7 @@ const CreateRoom: NextPage = () => {
                   className="col-sm-3 col-form-label"
                 >
                   説明
+                  <span className="text-danger">*</span>
                 </label>
                 <div className="col-sm-9">
                   <textarea
@@ -109,6 +114,7 @@ const CreateRoom: NextPage = () => {
               <div className="mb-3 row">
                 <label htmlFor="date" className="col-sm-3 col-form-label">
                   日付
+                  <span className="text-danger">*</span>
                 </label>
                 <div className="col-sm-9">
                   <input
@@ -125,6 +131,7 @@ const CreateRoom: NextPage = () => {
               <div className="mb-3 row">
                 <label htmlFor="time" className="col-sm-3 col-form-label">
                   時間
+                  <span className="text-danger">*</span>
                 </label>
                 <div className="col-sm-9">
                   <input
@@ -138,6 +145,28 @@ const CreateRoom: NextPage = () => {
                   )}
                 </div>
               </div>
+              <div className="mb-3 row">
+                <label htmlFor="capacity" className="col-sm-3 col-form-label">
+                  参加上限人数
+                  <span className="text-danger">*</span>
+                </label>
+                <div className="col-sm-9">
+                  <input
+                    {...register('capacity', {
+                      required: true,
+                      min: 1,
+                    })}
+                    className={`form-control`}
+                    id="capacity"
+                    type="number"
+                  />
+                  {errors.capacity && (
+                    <p className="small text-danger">
+                      1以上の数字を入力してください
+                    </p>
+                  )}
+                </div>
+              </div>
               <div className="text-end">
                 <button type="submit" className="btn btn-form">
                   作成
@@ -145,10 +174,6 @@ const CreateRoom: NextPage = () => {
               </div>
             </form>
           </div>
-        )}
-        {!isLoading && !isDataLoading && !errAuth && !user && (
-          // Error component を呼び出す予定
-          <div className="text-center">データの取得に失敗しました</div>
         )}
       </div>
     </Nav>
@@ -159,5 +184,5 @@ const CreateRoom: NextPage = () => {
 // ログインしてない場合はログイン画面に飛ばされる
 export default withPageAuthRequired(CreateRoom, {
   onRedirecting: () => <Loading />,
-  // onError: error => <ErrorMessage>{error.message}</ErrorMessage>
+  onError: (error) => <Error statusCode={400} title={error.message} />,
 })

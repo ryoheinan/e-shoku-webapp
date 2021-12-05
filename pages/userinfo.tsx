@@ -8,6 +8,7 @@ import { useRequireUserInfo } from '../hooks/useRequireUserInfo'
 import { useCurrentUser } from '../hooks/useCurrentUser'
 import axios from 'axios'
 import Head from 'next/head'
+import Error from './_error'
 import Nav from '../components/nav'
 import Loading from '../components/loading'
 
@@ -35,14 +36,13 @@ const UserInfo: NextPage = () => {
      * ユーザー情報の取得
      */
     const getUser = async () => {
-      //async{await}は非同期処理
-      //async内のawaitが完了するまで次へは進まない、という意味
+      // async/awaitは非同期処理
       try {
-        setIsDataLoading(true) //ローディング画面開始
+        setIsDataLoading(true) // ローディング画面開始
         const res = await axios.get<UserData>('/api/user')
         const inputValues: UserForm = res.data
-        setIsDataLoading(false) //ローディング画面終了
-        reset(inputValues) //resetでフォームにデータを表示
+        setIsDataLoading(false) // ローディング画面終了
+        reset(inputValues) // resetでフォームにデータを表示
       } catch {
         alert('データの取得に失敗しました')
       }
@@ -69,6 +69,9 @@ const UserInfo: NextPage = () => {
   useRequireUserInfo()
   const { userChecking } = useCurrentUser()
 
+  if (errAuth || !user) {
+    return <Error statusCode={400} />
+  }
   return (
     <Nav>
       <Head>
@@ -77,12 +80,6 @@ const UserInfo: NextPage = () => {
       <div className="container">
         <h2 className="title">ユーザー設定</h2>
         {(isLoading || isDataLoading || userChecking) && <Loading />}
-        {errAuth && (
-          <>
-            <h4>Error</h4>
-            <pre>{errAuth.message}</pre>
-          </>
-        )}
         {user && !isLoading && !isDataLoading && (
           <div>
             <form onSubmit={handleSubmit(onSubmit)}>
@@ -216,10 +213,6 @@ const UserInfo: NextPage = () => {
             </form>
           </div>
         )}
-        {!isLoading && !isDataLoading && !errAuth && !user && (
-          // Error component を呼び出す予定
-          <div className="text-center">データの取得に失敗しました</div>
-        )}
       </div>
     </Nav>
   )
@@ -228,5 +221,5 @@ const UserInfo: NextPage = () => {
 // ログイン必須にする処理
 export default withPageAuthRequired(UserInfo, {
   onRedirecting: () => <Loading />,
-  // onError: error => <ErrorMessage>{error.message}</ErrorMessage>
+  onError: (error) => <Error statusCode={400} title={error.message} />,
 })

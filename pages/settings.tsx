@@ -2,16 +2,21 @@ import type { NextPage } from 'next'
 import { useUser } from '@auth0/nextjs-auth0'
 import Head from 'next/head'
 import Link from 'next/link'
+import Error from './_error'
 import Nav from '../components/nav'
 import ButtonCard from '../components/buttonCard'
 import Loading from '../components/loading'
 import styles from '../styles/settings.module.scss'
 import { useCurrentUser } from '../hooks/useCurrentUser'
-import { UserProfile } from '../components/userProfile'
+import UserProfile from '../components/userProfile'
 
 const Settings: NextPage = () => {
   const { user, error, isLoading } = useUser()
   const { currentUser } = useCurrentUser()
+
+  if (error) {
+    return <Error statusCode={400} />
+  }
   return (
     <Nav category="settings">
       <Head>
@@ -21,14 +26,6 @@ const Settings: NextPage = () => {
         {isLoading && (
           //ロード状態
           <Loading />
-        )}
-        {error && (
-          // エラー発生の処理
-          // Error component を呼び出す予定
-          <>
-            <h4>Error</h4>
-            <pre>{error.message}</pre>
-          </>
         )}
         {user && currentUser && (
           //Userがいる状態(ログイン状態の処理)
@@ -131,7 +128,7 @@ const Settings: NextPage = () => {
             </div>
           </>
         )}
-        {!isLoading && !error && !user && (
+        {!isLoading && !error && !user && !currentUser && (
           //Userがない状態(ログアウト状態の処理)
           <>
             <h2 className="title">はじめる</h2>

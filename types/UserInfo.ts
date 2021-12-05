@@ -16,5 +16,6 @@ export interface UserForm {
 export interface UserData extends UserForm {
   readonly id: string
   readonly internal_id: string
+  readonly created_at: string
   is_info_filled: boolean
 }

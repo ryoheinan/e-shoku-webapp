@@ -7,9 +7,10 @@ import { useRequireUserInfo } from '../../../hooks/useRequireUserInfo'
 import { useCurrentUser } from '../../../hooks/useCurrentUser'
 import axios from 'axios'
 import Head from 'next/head'
+import Error from '../../_error'
 import Nav from '../../../components/nav'
 import Loading from '../../../components/loading'
-import router, { useRouter } from 'next/router'
+import { useRouter } from 'next/router'
 import { RoomData, RoomForm } from '../../../types/RoomInfo'
 
 const EditRoom: NextPage = () => {
@@ -27,7 +28,15 @@ const EditRoom: NextPage = () => {
     reset,
     handleSubmit,
     formState: { errors },
-  } = useForm<RoomForm>() // RoomForm型のフォームの宣言
+  } = useForm<RoomForm>({
+    defaultValues: {
+      room_name: '',
+      description: '',
+      date: '',
+      time: '',
+      capacity: 10,
+    },
+  }) // RoomForm型のフォームの宣言
 
   useEffect(() => {
     /**
@@ -51,12 +60,22 @@ const EditRoom: NextPage = () => {
           .padStart(2, '0')}`
         setIsDataLoading(false) // ローディング画面終了
         reset(inputValues) // resetでフォームにデータを表示
-      } catch {
-        alert('データの取得に失敗しました')
+      } catch (error: unknown) {
+        setIsDataLoading(false) // ローディング画面終了
+        // Axiosに関するエラーの場合
+        if (axios.isAxiosError(error) && error.response) {
+          if (error.response.status === 500) {
+            router.replace('/500')
+          } else {
+            router.replace('/404')
+          }
+        } else {
+          router.replace('/500')
+        }
       }
     }
     getRoom()
-  }, [id, reset])
+  }, [router, id, reset])
 
   const onSubmit: SubmitHandler<RoomForm> = (data) => {
     // データの送信
@@ -67,7 +86,7 @@ const EditRoom: NextPage = () => {
     if (currentUser) {
       data.hosts = [currentUser.id]
       axios
-        .put<RoomData>(`/api/room/edit/${id}`, data)
+        .put<RoomData>(`/api/room/${id}`, data)
         .then((res) => {
           setIsDataLoading(false)
           return res
@@ -84,7 +103,7 @@ const EditRoom: NextPage = () => {
     if (confirm(`本当にルームを削除しますか？`)) {
       setIsDataLoading(true)
       try {
-        const res = await axios.delete(`/api/room/edit/${id}/`)
+        const res = await axios.delete(`/api/room/${id}/`)
         if (res.status === 204) {
           setIsDataLoading(false)
           router.push('/')
@@ -98,6 +117,9 @@ const EditRoom: NextPage = () => {
     }
   }
 
+  if ((errAuth || (!user && currentUser)) && !isLoading && !isDataLoading) {
+    return <Error statusCode={400} />
+  }
   return (
     <Nav>
       <Head>
@@ -106,19 +128,14 @@ const EditRoom: NextPage = () => {
       <div className="container">
         <h2 className="title">ルーム編集</h2>
         {(isLoading || isDataLoading) && <Loading />}
-        {errAuth && (
-          // Error component を呼び出す予定
-          <>
-            <h4>Error</h4>
-            <pre>{errAuth.message}</pre>
-          </>
-        )}
         {user && !isLoading && !isDataLoading && (
           <div>
+            <p className="text-end text-danger">必須*</p>
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className="mb-3 row">
                 <label htmlFor="room_name" className="col-sm-3 col-form-label">
                   タイトル
+                  <span className="text-danger">*</span>
                 </label>
                 <div className="col-sm-9">
                   <input
@@ -141,6 +158,7 @@ const EditRoom: NextPage = () => {
                   className="col-sm-3 col-form-label"
                 >
                   説明
+                  <span className="text-danger">*</span>
                 </label>
                 <div className="col-sm-9">
                   <textarea
@@ -160,6 +178,7 @@ const EditRoom: NextPage = () => {
               <div className="mb-3 row">
                 <label htmlFor="date" className="col-sm-3 col-form-label">
                   日付
+                  <span className="text-danger">*</span>
                 </label>
                 <div className="col-sm-9">
                   <input
@@ -173,9 +192,10 @@ const EditRoom: NextPage = () => {
                   )}
                 </div>
               </div>
-              <div className="mb-5 row">
+              <div className="mb-3 row">
                 <label htmlFor="time" className="col-sm-3 col-form-label">
                   時間
+                  <span className="text-danger">*</span>
                 </label>
                 <div className="col-sm-9">
                   <input
@@ -186,6 +206,28 @@ const EditRoom: NextPage = () => {
                   ></input>
                   {errors.time && (
                     <p className="small text-danger">正しく入力してください</p>
+                  )}
+                </div>
+              </div>
+              <div className="mb-5 row">
+                <label htmlFor="capacity" className="col-sm-3 col-form-label">
+                  参加上限人数
+                  <span className="text-danger">*</span>
+                </label>
+                <div className="col-sm-9">
+                  <input
+                    {...register('capacity', {
+                      required: true,
+                      min: 1,
+                    })}
+                    className={`form-control`}
+                    id="capacity"
+                    type="number"
+                  />
+                  {errors.capacity && (
+                    <p className="small text-danger">
+                      1以上の数字を入力してください
+                    </p>
                   )}
                 </div>
               </div>
@@ -215,5 +257,5 @@ const EditRoom: NextPage = () => {
 // ログイン必須にする処理
 export default withPageAuthRequired(EditRoom, {
   onRedirecting: () => <Loading />,
-  // onError: error => <ErrorMessage>{error.message}</ErrorMessage>
+  onError: (error) => <Error statusCode={400} title={error.message} />,
 })

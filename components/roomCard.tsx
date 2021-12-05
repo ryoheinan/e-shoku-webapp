@@ -1,5 +1,6 @@
 import styles from './roomCard.module.scss'
 import Image from 'next/image'
+import dayjs from 'dayjs'
 
 const RoomCard = ({
   title,
@@ -17,13 +18,13 @@ const RoomCard = ({
         src={imageUrl}
         layout="fill"
         objectFit="cover"
-        quality={100}
+        quality={50}
         className={styles.image}
       />
       <div className={`d-flex ${styles.content}`}>
         <div>
           <h3 className={'mb-2'}>{title}</h3>
-          <p className={'mb-0'}>{date}</p>
+          <p className={'mb-0'}>{dayjs(date).format('YYYY/MM/DD')}</p>
         </div>
       </div>
     </div>

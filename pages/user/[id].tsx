@@ -1,14 +1,13 @@
 import type { GetServerSideProps } from 'next'
 import { UserData } from '../../types/UserInfo'
 import { useUser } from '@auth0/nextjs-auth0'
-import { useCurrentUser } from '../../hooks/useCurrentUser'
 import Head from 'next/head'
 import Error from '../_error'
 import Nav from '../../components/nav'
 import Loading from '../../components/loading'
 import { Params } from 'next/dist/server/router'
 import axios, { isAxiosError } from '../../utils/commonAxios'
-import { UserProfile } from '../../components/userProfile'
+import UserProfile from '../../components/userProfile'
 
 type Props = {
   userData: UserData | null
@@ -19,8 +18,7 @@ type Props = {
 }
 
 const UserProfilePage = ({ userData, error }: Props) => {
-  const { user, error: errAuth, isLoading } = useUser()
-  const { currentUser } = useCurrentUser()
+  const { error: errAuth, isLoading } = useUser()
   if (userData === null) {
     if (error) {
       return <Error statusCode={error.statusCode} />
@@ -28,8 +26,8 @@ const UserProfilePage = ({ userData, error }: Props) => {
   } else {
     if (errAuth) {
       return <Error statusCode={400} title={errAuth.message} />
-    } else if (!isLoading && !user) {
-      return <Error statusCode={400} title="データの取得に失敗しました" />
+    } else if (isLoading) {
+      return <Loading />
     }
     return (
       <Nav>
@@ -38,10 +36,11 @@ const UserProfilePage = ({ userData, error }: Props) => {
         </Head>
         <div className="container">
           <h2 className="title">プロフィール</h2>
-          {user && currentUser && (
-            <UserProfile data={userData} profileIcon={userData.image_url} isShortDescription={false} />
-          )}
-          {isLoading && <Loading />}
+          <UserProfile
+            data={userData}
+            profileIcon={userData.image_url}
+            isShortDescription={false}
+          />
         </div>
       </Nav>
     )
@@ -51,7 +50,7 @@ const UserProfilePage = ({ userData, error }: Props) => {
 export default UserProfilePage
 
 /**
- * サーバーサイドでRoom情報を取得してroomDataに渡す
+ * サーバーサイドでidに基づくUser情報を取得してuserDataに渡す
  * @param context
  */
 export const getServerSideProps: GetServerSideProps<Props> = async (
