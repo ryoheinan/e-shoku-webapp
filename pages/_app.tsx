@@ -2,21 +2,27 @@ import type { AppProps } from 'next/app'
 import { UserData } from '../types/UserInfo'
 import { useEffect } from 'react'
 import { useSetRecoilState, RecoilRoot } from 'recoil'
-import { currentUserState } from '../states/currentUser'
+import { useRouter } from 'next/router'
 import { UserProvider } from '@auth0/nextjs-auth0'
 import axios from 'axios'
+import { currentUserState } from '../states/currentUser'
 import '../styles/globals.scss'
 
-function AppInit() {
+const AppInit = () => {
   const setCurrentUser = useSetRecoilState(currentUserState)
+  const router = useRouter()
 
   useEffect(() => {
     const checkUserInfo = async () => {
       try {
         const res = await axios.get<UserData>('/api/user')
-        const currentUser: UserData = res.data
-        if (currentUser.is_info_filled === false) {
+        const currentUser = res.data
+        if (
+          currentUser.is_info_filled === false &&
+          router.pathname !== '/signup'
+        ) {
           setCurrentUser(null)
+          router.push('/signup')
         } else {
           setCurrentUser(currentUser)
         }
@@ -25,12 +31,13 @@ function AppInit() {
       }
     }
     checkUserInfo()
-  })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [router.pathname])
 
   return null
 }
 
-function MyApp({ Component, pageProps }: AppProps) {
+const MyApp = ({ Component, pageProps }: AppProps) => {
   return (
     <UserProvider>
       <RecoilRoot>

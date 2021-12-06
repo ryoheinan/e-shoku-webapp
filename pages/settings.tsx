@@ -23,7 +23,7 @@ const Settings: NextPage = () => {
         <title>設定 | e-Shoku</title>
       </Head>
       <div className="container">
-        {isLoading && (
+        {(isLoading || (user && !currentUser)) && (
           //ロード状態
           <Loading />
         )}

@@ -58,7 +58,7 @@ const SignUp: NextPage = () => {
       </Head>
       <div className="container">
         <h2 className="title">ユーザー登録</h2>
-        {isLoading && <Loading />}
+        {(isLoading || isDataLoading) && <Loading />}
         {user && (
           <div>
             <p className="text-danger">
@@ -171,7 +171,7 @@ const SignUp: NextPage = () => {
                   htmlFor="description"
                   className="col-sm-3 col-form-label"
                 >
-                  自己紹介(500文字以内)
+                  自己紹介（500文字以内）
                 </label>
                 <div className="col-sm-9">
                   <textarea
