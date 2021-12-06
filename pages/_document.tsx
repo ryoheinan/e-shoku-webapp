@@ -15,7 +15,7 @@ class MyDocument extends Document {
           <meta name="description" content="オンライン食事会のニューノーマル" />
           <meta name="format-detection" content="telephone=no" />
           <meta name="mobile-web-app-capable" content="yes" />
-          <meta name="theme-color" content="#ff9e1f" />
+          <meta name="theme-color" content="#f3ae56" />
           <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
           <link rel="manifest" href="/manifest.json" />
           <link rel="shortcut icon" href="/favicon.ico" />
