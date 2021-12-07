@@ -61,12 +61,14 @@ const Room = ({ roomData, error }: Props) => {
             </label>
           </section>
           <section>
-            <RoomActionBtn
-              mode="join"
-              roomId={roomData.id}
-              text="参加する"
-              disabled={!isChecked || !isChecked2 || !isChecked3}
-            />
+            <a href={`/room/${roomData.id}`}>
+              <RoomActionBtn
+                mode="join"
+                roomId={roomData.id}
+                text="参加する"
+                disabled={!isChecked || !isChecked2 || !isChecked3}
+              />
+            </a>
           </section>
         </div>
       </Nav>
