@@ -51,24 +51,25 @@ const Room = ({ roomData, error }: Props) => {
           </section>
           <section>
             <label className={styles.check_lb}>
-              <input type="checkbox" onChange={() => toggleCheckbox1()} /> text
+              <input type="checkbox" onChange={() => toggleCheckbox1()} />{' '}
+              会話の際には必ずマスクを着用してください。
             </label>
             <label className={styles.check_lb}>
-              <input type="checkbox" onChange={() => toggleCheckbox2()} /> text
+              <input type="checkbox" onChange={() => toggleCheckbox2()} />{' '}
+              周りの迷惑になるような大声での会話はお控えください。
             </label>
             <label className={styles.check_lb}>
-              <input type="checkbox" onChange={() => toggleCheckbox3()} /> text
+              <input type="checkbox" onChange={() => toggleCheckbox3()} />{' '}
+              こまめな手洗い・消毒を行ってください。
             </label>
           </section>
           <section>
-            <a href={`/room/${roomData.id}`}>
-              <RoomActionBtn
-                mode="join"
-                roomId={roomData.id}
-                text="参加する"
-                disabled={!isChecked || !isChecked2 || !isChecked3}
-              />
-            </a>
+            <RoomActionBtn
+              mode="join"
+              roomId={roomData.id}
+              text="参加する"
+              disabled={!isChecked || !isChecked2 || !isChecked3}
+            />
           </section>
         </div>
       </Nav>
