@@ -20,8 +20,16 @@ type Props = {
 
 const Room = ({ roomData, error }: Props) => {
   const [isChecked, setIsChecked] = useState(false)
-  const toggleCheckbox = () => {
+  const [isChecked2, setIsChecked2] = useState(false)
+  const [isChecked3, setIsChecked3] = useState(false)
+  const toggleCheckbox1 = () => {
     setIsChecked(!isChecked)
+  }
+  const toggleCheckbox2 = () => {
+    setIsChecked2(!isChecked2)
+  }
+  const toggleCheckbox3 = () => {
+    setIsChecked3(!isChecked3)
   }
   if (roomData === null) {
     if (error) {
@@ -34,7 +42,7 @@ const Room = ({ roomData, error }: Props) => {
           <title>{roomData.room_name} | e-Shoku</title>
         </Head>
         <div className={'container'}>
-          <section>
+          <section className={styles.RoomCard}>
             <RoomCard
               title={roomData.room_name}
               date={roomData.datetime}
@@ -43,16 +51,13 @@ const Room = ({ roomData, error }: Props) => {
           </section>
           <section>
             <label className={styles.check_lb}>
-              <input type="checkbox" onChange={() => toggleCheckbox()} />
-              text
+              <input type="checkbox" onChange={() => toggleCheckbox1()} /> text
             </label>
             <label className={styles.check_lb}>
-              <input type="checkbox" onChange={() => toggleCheckbox()} />
-              text
+              <input type="checkbox" onChange={() => toggleCheckbox2()} /> text
             </label>
             <label className={styles.check_lb}>
-              <input type="checkbox" onChange={() => toggleCheckbox()} />
-              text
+              <input type="checkbox" onChange={() => toggleCheckbox3()} /> text
             </label>
           </section>
           <section>
@@ -60,7 +65,7 @@ const Room = ({ roomData, error }: Props) => {
               mode="join"
               roomId={roomData.id}
               text="参加する"
-              disabled={!isChecked}
+              disabled={!isChecked || !isChecked2 || !isChecked3}
             />
           </section>
         </div>
