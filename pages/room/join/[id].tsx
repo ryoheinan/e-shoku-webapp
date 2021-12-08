@@ -69,6 +69,7 @@ const Room = ({ roomData, error }: Props) => {
               roomId={roomData.id}
               text="参加する"
               disabled={!isChecked || !isChecked2 || !isChecked3}
+              bgColor="#8AC75A"
             />
           </section>
         </div>

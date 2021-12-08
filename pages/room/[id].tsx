@@ -12,6 +12,7 @@ import styles from '../../styles/room.module.scss'
 import RoomActionBtn from '../../components/roomActionBtn'
 import { useCurrentUser } from '../../hooks/useCurrentUser'
 import ButtonCard from '../../components/buttonCard'
+import router from 'next/router'
 
 type Props = {
   roomData: RoomData | null
@@ -36,7 +37,7 @@ const Room = ({ roomData, error }: Props) => {
       } else if (roomData.hosts.some((host) => host.id === currentUser.id)) {
         roomBtnState = 'canEdit'
       } else {
-        roomBtnState = 'canJoin'
+        router.push(`/room/join/${roomData.id}`)
       }
     }
 
@@ -89,14 +90,12 @@ const Room = ({ roomData, error }: Props) => {
           <p>{roomData.description}</p>
         </section>
         <section className={`container ${styles.section}`}>
-          {roomBtnState == 'canJoin' && (
-            <RoomActionBtn mode="join" roomId={roomData.id} text="参加する" />
-          )}
           {roomBtnState == 'canCancel' && (
             <RoomActionBtn
               mode="leave"
               roomId={roomData.id}
               text="キャンセルする"
+              bgColor="#77bde2"
             />
           )}
           {roomBtnState == 'disabled' && (
