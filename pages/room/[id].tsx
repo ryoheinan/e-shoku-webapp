@@ -44,6 +44,12 @@ const Room = ({ roomData, error }: Props) => {
       <Nav isRoom={true}>
         <Head>
           <title>{roomData.room_name} | e-Shoku</title>
+          <meta name="description" content={roomData.description} />
+          <meta
+            property="og:title"
+            content={`${roomData.room_name} | e-Shoku`}
+          />
+          <meta property="og:description" content={roomData.description} />
         </Head>
         <div className={`mb-4 ${styles.topImage}`}>
           <Image
