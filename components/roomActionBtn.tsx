@@ -36,7 +36,7 @@ const RoomActionBtn = ({
         }
       } catch (e) {
         if (axios.isAxiosError(e) && e.response) {
-          alert(`${modeText}の処理が失敗しました`)
+          alert('処理が失敗しました')
         }
       }
     }
