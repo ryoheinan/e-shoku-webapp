@@ -132,7 +132,7 @@ const UserInfo: NextPage = () => {
                       required: true,
                       minLength: 2,
                       maxLength: 128,
-                      pattern: /^[A-Za-z]+$/i,
+                      pattern: /^[A-Za-z0-9\_]+$/i,
                     })}
                     className={`form-control`}
                     id="usernameId"
