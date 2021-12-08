@@ -37,7 +37,7 @@ const Room = ({ roomData, error }: Props) => {
       } else if (roomData.hosts.some((host) => host.id === currentUser.id)) {
         roomBtnState = 'canEdit'
       } else {
-        router.push(`/room/join/${roomData.id}`)
+        roomBtnState = 'canJoin'
       }
     }
 
@@ -90,6 +90,15 @@ const Room = ({ roomData, error }: Props) => {
           <p>{roomData.description}</p>
         </section>
         <section className={`container ${styles.section}`}>
+          {roomBtnState == 'canJoin' && (
+            <ButtonCard
+              title="参加する"
+              color="#ace84a"
+              fontSize="1.5rem"
+              shadow={true}
+              link={{ to: `join/${roomData.id}` }}
+            />
+          )}
           {roomBtnState == 'canCancel' && (
             <RoomActionBtn
               mode="leave"
