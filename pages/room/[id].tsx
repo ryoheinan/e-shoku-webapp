@@ -12,7 +12,6 @@ import styles from '../../styles/room.module.scss'
 import RoomActionBtn from '../../components/roomActionBtn'
 import { useCurrentUser } from '../../hooks/useCurrentUser'
 import ButtonCard from '../../components/buttonCard'
-import router from 'next/router'
 
 type Props = {
   roomData: RoomData | null
