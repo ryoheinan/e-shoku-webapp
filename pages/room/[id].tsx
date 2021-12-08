@@ -90,13 +90,20 @@ const Room = ({ roomData, error }: Props) => {
         </section>
         <section className={`container ${styles.section}`}>
           {roomBtnState == 'canJoin' && (
-            <RoomActionBtn mode="join" roomId={roomData.id} text="参加する" />
+            <ButtonCard
+              title="参加する"
+              color="#ace84a"
+              fontSize="1.5rem"
+              shadow={true}
+              link={{ to: `join/${roomData.id}` }}
+            />
           )}
           {roomBtnState == 'canCancel' && (
             <RoomActionBtn
               mode="leave"
               roomId={roomData.id}
               text="キャンセルする"
+              bgColor="#77bde2"
             />
           )}
           {roomBtnState == 'disabled' && (
