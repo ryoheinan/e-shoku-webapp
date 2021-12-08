@@ -21,9 +21,11 @@ const RoomActionBtn = ({
   const { currentUser } = useCurrentUser()
   const router = useRouter()
   const btnHandler = async () => {
-    const modeText = mode === 'join' ? '参加' : '参加キャンセル'
-    const result = confirm(`本当に${modeText}しますか？`)
-    if (result && !disabled) {
+    let isConfirm = mode === 'join' ? true : false
+    if (!isConfirm) {
+      isConfirm = confirm('本当に参加をキャンセルしますか？')
+    }
+    if (isConfirm && !disabled) {
       try {
         if (currentUser) {
           const sendData = { id: currentUser.id }
