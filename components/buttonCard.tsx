@@ -5,9 +5,11 @@ interface Params {
   title: string
   color: string
   fontSize: string
+  fontWeight?: number
   shadow: boolean
   link?: LinkParams
   linkColor?: string
+  disabled?: boolean
   children?: React.ReactNode
 }
 
@@ -21,9 +23,11 @@ const ButtonCard = ({
   title,
   color,
   fontSize,
+  fontWeight = 500,
   shadow,
   link,
   linkColor = '#000000',
+  disabled = false,
   children,
 }: Params) => {
   return (
@@ -33,7 +37,11 @@ const ButtonCard = ({
           <a className={styles.link} style={{ color: linkColor }}>
             <div
               className={`rounded ${shadow ? styles.cardShadow : ''}`}
-              style={{ backgroundColor: color }}
+              style={{
+                backgroundColor: color,
+                opacity: disabled ? 0.7 : 1,
+                cursor: disabled ? 'not-allowed' : 'pointer',
+              }}
             >
               {children ? (
                 <div
@@ -67,14 +75,18 @@ const ButtonCard = ({
         >
           <div
             className={`rounded ${shadow ? styles.cardShadow : ''}`}
-            style={{ backgroundColor: color }}
+            style={{
+              backgroundColor: color,
+              opacity: disabled ? 0.7 : 1,
+              cursor: disabled ? 'not-allowed' : 'pointer',
+            }}
           >
             {children ? (
               <div
                 className={
                   'd-flex justify-content-center align-items-center py-3 px-2'
                 }
-                style={{ fontSize: fontSize }}
+                style={{ fontSize: fontSize, fontWeight: fontWeight }}
               >
                 <div className={'me-1'}>{children}</div>
                 <div>{title}</div>
@@ -88,7 +100,11 @@ const ButtonCard = ({
       {!link && (
         <div
           className={`rounded ${shadow ? styles.cardShadow : ''}`}
-          style={{ backgroundColor: color }}
+          style={{
+            backgroundColor: color,
+            opacity: disabled ? 0.7 : 1,
+            cursor: disabled ? 'not-allowed' : 'pointer',
+          }}
         >
           {children ? (
             <div
@@ -101,7 +117,14 @@ const ButtonCard = ({
               <div>{title}</div>
             </div>
           ) : (
-            <div className={''}>{title}</div>
+            <div
+              className={
+                'd-flex justify-content-center align-items-center py-3 px-2'
+              }
+              style={{ fontSize: fontSize }}
+            >
+              {title}
+            </div>
           )}
         </div>
       )}
