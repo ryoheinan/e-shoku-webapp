@@ -85,7 +85,7 @@ const ButtonCard = ({
           </div>
         </a>
       )}
-      {!Link && (
+      {!link && (
         <div
           className={`rounded ${shadow ? styles.cardShadow : ''}`}
           style={{ backgroundColor: color }}
