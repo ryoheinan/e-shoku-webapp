@@ -36,19 +36,17 @@ const ButtonCard = ({
         <Link href={link.to}>
           <a className={styles.link} style={{ color: linkColor }}>
             <div
-              className={`rounded ${shadow ? styles.cardShadow : ''}`}
-              style={{
-                backgroundColor: color,
-                opacity: disabled ? 0.7 : 1,
-                cursor: disabled ? 'not-allowed' : 'pointer',
-              }}
+              className={`rounded ${shadow ? styles.cardShadow : ''} ${
+                disabled ? 'disabled' : ''
+              }`}
+              style={{ backgroundColor: color }}
             >
               {children ? (
                 <div
                   className={
                     'd-flex justify-content-center align-items-center py-3 px-2'
                   }
-                  style={{ fontSize: fontSize }}
+                  style={{ fontSize: fontSize, fontWeight: fontWeight }}
                 >
                   <div className={'me-1'}>{children}</div>
                   <div>{title}</div>
@@ -56,7 +54,7 @@ const ButtonCard = ({
               ) : (
                 <div
                   className={'text-center py-3 px-2'}
-                  style={{ fontSize: fontSize }}
+                  style={{ fontSize: fontSize, fontWeight: fontWeight }}
                 >
                   {title}
                 </div>
@@ -74,12 +72,10 @@ const ButtonCard = ({
           {...(link.target && { target: link.target })}
         >
           <div
-            className={`rounded ${shadow ? styles.cardShadow : ''}`}
-            style={{
-              backgroundColor: color,
-              opacity: disabled ? 0.7 : 1,
-              cursor: disabled ? 'not-allowed' : 'pointer',
-            }}
+            className={`rounded ${shadow ? styles.cardShadow : ''} ${
+              disabled ? 'disabled' : ''
+            }`}
+            style={{ backgroundColor: color }}
           >
             {children ? (
               <div
@@ -99,19 +95,17 @@ const ButtonCard = ({
       )}
       {!link && (
         <div
-          className={`rounded ${shadow ? styles.cardShadow : ''}`}
-          style={{
-            backgroundColor: color,
-            opacity: disabled ? 0.7 : 1,
-            cursor: disabled ? 'not-allowed' : 'pointer',
-          }}
+          className={`rounded ${shadow ? styles.cardShadow : ''} ${
+            disabled ? 'disabled' : ''
+          }`}
+          style={{ backgroundColor: color }}
         >
           {children ? (
             <div
               className={
                 'd-flex justify-content-center align-items-center py-3 px-2'
               }
-              style={{ fontSize: fontSize }}
+              style={{ fontSize: fontSize, fontWeight: fontWeight }}
             >
               <div className={'me-1'}>{children}</div>
               <div>{title}</div>
@@ -121,7 +115,7 @@ const ButtonCard = ({
               className={
                 'd-flex justify-content-center align-items-center py-3 px-2'
               }
-              style={{ fontSize: fontSize }}
+              style={{ fontSize: fontSize, fontWeight: fontWeight }}
             >
               {title}
             </div>

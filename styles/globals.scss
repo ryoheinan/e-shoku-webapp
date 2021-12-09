@@ -71,6 +71,14 @@ textarea {
   }
 }
 
+div.disabled,
+.btn:disabled,
+.btn.disabled,
+fieldset:disabled .btn {
+  pointer-events: none;
+  opacity: 0.65;
+}
+
 .btn-form {
   background-color: #5eafff;
   color: #000000;
