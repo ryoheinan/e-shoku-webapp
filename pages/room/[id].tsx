@@ -128,36 +128,38 @@ const Room = ({ roomData, error }: Props) => {
           <p>{roomData.description}</p>
         </section>
         <div className={`container ${styles.section} mb-4`}>
-          {roomBtnState == 'canJoin' && (
+          {roomBtnState === 'canJoin' && (
             <ButtonCard
               title="参加する"
               color="#ace84a"
-              fontSize="1.5rem"
+              fontSize="1.3rem"
               shadow={true}
               link={{ to: `join/${roomData.id}` }}
             />
           )}
-          {roomBtnState == 'canCancel' && (
+          {roomBtnState === 'canCancel' && (
             <RoomActionBtn
               mode="leave"
               roomId={roomData.id}
               text="キャンセルする"
-              bgColor="#77bde2"
+              bgColor="#dc3545"
+              textColor="#ffffff"
             />
           )}
-          {roomBtnState == 'disabled' && (
-            <RoomActionBtn
-              mode="join"
-              roomId={roomData.id}
-              text="ログインが必要です"
+          {roomBtnState === 'disabled' && (
+            <ButtonCard
+              title="ログインが必要です"
+              color="#ace84a"
+              fontSize="1.3rem"
+              shadow={true}
               disabled
             />
           )}
-          {roomBtnState == 'canEdit' && (
+          {roomBtnState === 'canEdit' && (
             <ButtonCard
               title="編集する"
               color="#FCE37E"
-              fontSize="1.5rem"
+              fontSize="1.3rem"
               shadow={true}
               link={{ to: `edit/${roomData.id}` }}
             />
