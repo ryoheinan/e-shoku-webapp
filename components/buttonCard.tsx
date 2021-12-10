@@ -5,9 +5,11 @@ interface Params {
   title: string
   color: string
   fontSize: string
+  fontWeight?: number
   shadow: boolean
   link?: LinkParams
   linkColor?: string
+  disabled?: boolean
   children?: React.ReactNode
 }
 
@@ -21,9 +23,11 @@ const ButtonCard = ({
   title,
   color,
   fontSize,
+  fontWeight = 500,
   shadow,
   link,
   linkColor = '#000000',
+  disabled = false,
   children,
 }: Params) => {
   return (
@@ -32,7 +36,9 @@ const ButtonCard = ({
         <Link href={link.to}>
           <a className={styles.link} style={{ color: linkColor }}>
             <div
-              className={`rounded ${shadow ? styles.cardShadow : ''}`}
+              className={`rounded ${shadow ? styles.cardShadow : ''} ${
+                disabled ? 'disabled' : ''
+              }`}
               style={{ backgroundColor: color }}
             >
               {children ? (
@@ -40,7 +46,7 @@ const ButtonCard = ({
                   className={
                     'd-flex justify-content-center align-items-center py-3 px-2'
                   }
-                  style={{ fontSize: fontSize }}
+                  style={{ fontSize: fontSize, fontWeight: fontWeight }}
                 >
                   <div className={'me-1'}>{children}</div>
                   <div>{title}</div>
@@ -48,7 +54,7 @@ const ButtonCard = ({
               ) : (
                 <div
                   className={'text-center py-3 px-2'}
-                  style={{ fontSize: fontSize }}
+                  style={{ fontSize: fontSize, fontWeight: fontWeight }}
                 >
                   {title}
                 </div>
@@ -66,7 +72,9 @@ const ButtonCard = ({
           {...(link.target && { target: link.target })}
         >
           <div
-            className={`rounded ${shadow ? styles.cardShadow : ''}`}
+            className={`rounded ${shadow ? styles.cardShadow : ''} ${
+              disabled ? 'disabled' : ''
+            }`}
             style={{ backgroundColor: color }}
           >
             {children ? (
@@ -74,7 +82,7 @@ const ButtonCard = ({
                 className={
                   'd-flex justify-content-center align-items-center py-3 px-2'
                 }
-                style={{ fontSize: fontSize }}
+                style={{ fontSize: fontSize, fontWeight: fontWeight }}
               >
                 <div className={'me-1'}>{children}</div>
                 <div>{title}</div>
@@ -85,9 +93,11 @@ const ButtonCard = ({
           </div>
         </a>
       )}
-      {!Link && (
+      {!link && (
         <div
-          className={`rounded ${shadow ? styles.cardShadow : ''}`}
+          className={`rounded ${shadow ? styles.cardShadow : ''} ${
+            disabled ? 'disabled' : ''
+          }`}
           style={{ backgroundColor: color }}
         >
           {children ? (
@@ -95,13 +105,20 @@ const ButtonCard = ({
               className={
                 'd-flex justify-content-center align-items-center py-3 px-2'
               }
-              style={{ fontSize: fontSize }}
+              style={{ fontSize: fontSize, fontWeight: fontWeight }}
             >
               <div className={'me-1'}>{children}</div>
               <div>{title}</div>
             </div>
           ) : (
-            <div className={''}>{title}</div>
+            <div
+              className={
+                'd-flex justify-content-center align-items-center py-3 px-2'
+              }
+              style={{ fontSize: fontSize, fontWeight: fontWeight }}
+            >
+              {title}
+            </div>
           )}
         </div>
       )}

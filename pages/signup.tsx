@@ -40,11 +40,10 @@ const SignUp: NextPage = () => {
     data.image_url = user?.picture || ''
     axios
       .post('/api/user', data)
-      .then((res) => {
+      .then(() => {
         setIsDataLoading(false)
-        return res
       })
-      .then((res) => router.push(`/`))
+      .then(() => router.push(`/`))
       .catch(() => alert('登録に失敗しました'))
   }
 

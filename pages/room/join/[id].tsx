@@ -18,7 +18,7 @@ type Props = {
   }
 }
 
-const Room = ({ roomData, error }: Props) => {
+const JoinRoom = ({ roomData, error }: Props) => {
   const [isChecked, setIsChecked] = useState(false)
   const [isChecked2, setIsChecked2] = useState(false)
   const [isChecked3, setIsChecked3] = useState(false)
@@ -40,6 +40,12 @@ const Room = ({ roomData, error }: Props) => {
       <Nav isRoom={true}>
         <Head>
           <title>{roomData.room_name} | e-Shoku</title>
+          <meta name="description" content={roomData.description} />
+          <meta
+            property="og:title"
+            content={`${roomData.room_name} | e-Shoku`}
+          />
+          <meta property="og:description" content={roomData.description} />
         </Head>
         <div className={'container'}>
           <section className={styles.RoomCard}>
@@ -78,7 +84,7 @@ const Room = ({ roomData, error }: Props) => {
   }
 }
 
-export default Room
+export default JoinRoom
 
 /**
  * サーバーサイドでRoom情報を取得してroomDataに渡す

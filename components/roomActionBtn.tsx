@@ -9,6 +9,7 @@ interface Props {
   text: string
   disabled?: boolean
   bgColor?: string
+  textColor?: string
 }
 
 const RoomActionBtn = ({
@@ -17,6 +18,7 @@ const RoomActionBtn = ({
   text,
   disabled = false,
   bgColor = '#6fd8a3',
+  textColor = '#000000',
 }: Props) => {
   const { currentUser } = useCurrentUser()
   const router = useRouter()
@@ -45,7 +47,10 @@ const RoomActionBtn = ({
     <button
       onClick={btnHandler}
       className={`btn rounded text-center py-3 px-2 ${styles.roomActionBtn}`}
-      style={{ backgroundColor: bgColor }}
+      style={{
+        backgroundColor: bgColor,
+        color: textColor,
+      }}
       disabled={disabled}
     >
       {text}

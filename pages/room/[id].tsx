@@ -12,6 +12,7 @@ import styles from '../../styles/room.module.scss'
 import RoomActionBtn from '../../components/roomActionBtn'
 import { useCurrentUser } from '../../hooks/useCurrentUser'
 import ButtonCard from '../../components/buttonCard'
+import { useEffect, useState } from 'react'
 
 type Props = {
   roomData: RoomData | null
@@ -23,8 +24,18 @@ type Props = {
 
 const Room = ({ roomData, error }: Props) => {
   const { currentUser } = useCurrentUser()
+  const [canWebShare, setCanWebShare] = useState(true)
+
   let roomBtnState: 'canJoin' | 'canCancel' | 'canEdit' | 'disabled' =
     'disabled'
+  let shareText = ''
+
+  useEffect(() => {
+    if (process.browser && !window.navigator.share) {
+      setCanWebShare(false)
+    }
+  }, [])
+
   if (roomData === null) {
     if (error) {
       return <Error statusCode={error.statusCode} />
@@ -33,17 +44,45 @@ const Room = ({ roomData, error }: Props) => {
     if (currentUser && roomData.guests && roomData.hosts) {
       if (roomData.guests.some((guest) => guest.id === currentUser.id)) {
         roomBtnState = 'canCancel'
+        shareText = `${roomData.room_name} に参加します!`
       } else if (roomData.hosts.some((host) => host.id === currentUser.id)) {
         roomBtnState = 'canEdit'
+        shareText = `${roomData.room_name} に参加しませんか?`
       } else {
         roomBtnState = 'canJoin'
+        shareText =
+          roomData.description.slice(0, 15) +
+          (roomData.description.length > 15 ? '...' : '')
       }
     }
+
+    const handleShare = async () => {
+      try {
+        await navigator.share({
+          title: `${roomData.room_name} | e-Shoku`,
+          text: shareText,
+          url: `https://e-shoku.netlify.app/room/${roomData.id}`,
+        })
+      } catch (ignore) {}
+    }
+
+    const shareUrlTwitter = encodeURI(
+      `https://twitter.com/share?url=https://e-shoku.netlify.app/room/${roomData.id}&text=${shareText}&hashtags=オンライン食事会,eshoku`
+    )
+    const shareUrlLine = encodeURI(
+      `https://social-plugins.line.me/lineit/share?url=https://e-shoku.netlify.app/room/${roomData.id}&text=${shareText}`
+    )
 
     return (
       <Nav isRoom={true}>
         <Head>
           <title>{roomData.room_name} | e-Shoku</title>
+          <meta name="description" content={roomData.description} />
+          <meta
+            property="og:title"
+            content={`${roomData.room_name} | e-Shoku`}
+          />
+          <meta property="og:description" content={shareText} />
         </Head>
         <div className={`mb-4 ${styles.topImage}`}>
           <Image
@@ -88,40 +127,67 @@ const Room = ({ roomData, error }: Props) => {
           </p>
           <p>{roomData.description}</p>
         </section>
-        <section className={`container ${styles.section}`}>
-          {roomBtnState == 'canJoin' && (
+        <div className={`container ${styles.section} mb-4`}>
+          {roomBtnState === 'canJoin' && (
             <ButtonCard
               title="参加する"
               color="#ace84a"
-              fontSize="1.5rem"
+              fontSize="1.3rem"
               shadow={true}
               link={{ to: `join/${roomData.id}` }}
             />
           )}
-          {roomBtnState == 'canCancel' && (
+          {roomBtnState === 'canCancel' && (
             <RoomActionBtn
               mode="leave"
               roomId={roomData.id}
               text="キャンセルする"
-              bgColor="#77bde2"
+              bgColor="#dc3545"
+              textColor="#ffffff"
             />
           )}
-          {roomBtnState == 'disabled' && (
-            <RoomActionBtn
-              mode="join"
-              roomId={roomData.id}
-              text="ログインが必要です"
+          {roomBtnState === 'disabled' && (
+            <ButtonCard
+              title="ログインが必要です"
+              color="#ace84a"
+              fontSize="1.3rem"
+              shadow={true}
               disabled
             />
           )}
-          {roomBtnState == 'canEdit' && (
+          {roomBtnState === 'canEdit' && (
             <ButtonCard
               title="編集する"
               color="#FCE37E"
-              fontSize="1.5rem"
+              fontSize="1.3rem"
               shadow={true}
               link={{ to: `edit/${roomData.id}` }}
             />
+          )}
+        </div>
+        <section className={`container ${styles.section}`}>
+          <div className="d-flex justify-content-between mb-2">
+            <a
+              className={`btn ${styles.btnShareTwitter}`}
+              href={shareUrlTwitter}
+              target="_blank"
+              rel="noopener noreferrer nofollow"
+            >
+              Twitterで共有
+            </a>
+            <a
+              className={`btn ${styles.btnShareLine}`}
+              href={shareUrlLine}
+              target="_blank"
+              rel="noopener noreferrer nofollow"
+            >
+              LINEで共有
+            </a>
+          </div>
+          {canWebShare && (
+            <button className={`btn ${styles.btnShare}`} onClick={handleShare}>
+              その他で共有
+            </button>
           )}
         </section>
       </Nav>

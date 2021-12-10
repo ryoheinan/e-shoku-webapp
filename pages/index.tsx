@@ -35,7 +35,7 @@ const Home: NextPage = () => {
       <Head>
         <title>e-Shoku</title>
       </Head>
-      {data && data?.length != 0 && currentUser && !fetchErr && (
+      {data && data?.length !== 0 && currentUser && !fetchErr && (
         <section className={'container mb-4'}>
           <h2 className="title">あなたの予定</h2>
           <Link href={`/room/${data[0].id}`}>
