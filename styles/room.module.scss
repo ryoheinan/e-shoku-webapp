@@ -6,7 +6,7 @@
 
 .circleArea {
   position: absolute;
-  top: 5rem;
+  top: 4rem;
 }
 
 .circle {
@@ -25,10 +25,7 @@
 }
 
 .section {
-  > div,
-  > p {
-    padding: 0 1%;
-  }
+  padding: 0 1rem;
 }
 
 .title {
@@ -56,4 +53,26 @@
 .RoomCard {
   padding-top: 0.75rem;
   padding-bottom: 1rem;
+}
+
+.btnShare {
+  background-color: #c5c6c7;
+  color: #000000;
+  padding: 0.75rem 1rem;
+  font-size: 0.95rem;
+  width: 100%;
+}
+
+.btnShareTwitter {
+  @extend .btnShare;
+  background-color: #1da1f2;
+  color: #ffffff;
+  margin-right: 0.25rem;
+}
+
+.btnShareLine {
+  @extend .btnShare;
+  background-color: #06c755;
+  color: #ffffff;
+  margin-left: 0.25rem;
 }
