@@ -5,6 +5,7 @@ import { useSetRecoilState, RecoilRoot } from 'recoil'
 import { useRouter } from 'next/router'
 import { UserProvider } from '@auth0/nextjs-auth0'
 import axios from 'axios'
+import { DefaultSeo } from 'next-seo'
 import { currentUserState } from '../states/currentUser'
 import '../styles/globals.scss'
 
@@ -41,6 +42,27 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
   return (
     <UserProvider>
       <RecoilRoot>
+        <DefaultSeo
+          dangerouslySetAllPagesToNoIndex={true}
+          description="オンライン食事会のニューノーマル"
+          openGraph={{
+            type: 'website',
+            url: 'https://e-shoku.netlify.app',
+            locale: 'ja_JP',
+            site_name: 'e-Shoku',
+            images: [
+              {
+                url: 'https://e-shoku.netlify.app/images/static_ogp.png',
+                width: 2048,
+                height: 1170,
+                alt: 'オンライン食事会のニューノーマル',
+              },
+            ],
+          }}
+          twitter={{
+            cardType: 'summary_large_image',
+          }}
+        />
         <Component {...pageProps} />
         <AppInit />
       </RecoilRoot>
