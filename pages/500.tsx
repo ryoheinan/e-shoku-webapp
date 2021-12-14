@@ -1,14 +1,15 @@
 import type { NextPage } from 'next'
-import Head from 'next/head'
+import { NextSeo } from 'next-seo'
 import Nav from '../components/nav'
 
 const Error500: NextPage = () => {
   return (
     <div style={styles.error}>
       <Nav>
-        <Head>
-          <title>500 Internal Server Error | e-Shoku</title>
-        </Head>
+        <NextSeo
+          title="500 Internal Server Error | e-Shoku"
+          openGraph={{ title: '500 Internal Server Error | e-Shoku' }}
+        />
 
         <section className="text-center mt-5">
           <svg

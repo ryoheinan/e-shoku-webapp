@@ -1,5 +1,5 @@
 import type { NextPageContext } from 'next'
-import Head from 'next/head'
+import { NextSeo } from 'next-seo'
 import React from 'react'
 import Nav from '../components/nav'
 
@@ -44,13 +44,18 @@ export default class Error<P = {}> extends React.Component<P & ErrorProps> {
     return (
       <div style={styles.error}>
         <Nav>
-          <Head>
-            <title>
-              {statusCode
+          <NextSeo
+            title={
+              statusCode
                 ? `${statusCode}: ${title} | e-Shoku`
-                : 'Application error: a client-side exception has occurred'}
-            </title>
-          </Head>
+                : 'Application error: a client-side exception has occurred'
+            }
+            openGraph={{
+              title: statusCode
+                ? `${statusCode}: ${title} | e-Shoku`
+                : 'Application error: a client-side exception has occurred',
+            }}
+          />
           <div>
             <section className="text-center mt-5">
               <svg

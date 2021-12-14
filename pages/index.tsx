@@ -1,5 +1,4 @@
 import type { NextPage } from 'next'
-import Head from 'next/head'
 import Link from 'next/link'
 import axios from 'axios'
 import useSWR from 'swr'
@@ -8,6 +7,7 @@ import RoomCard from '../components/roomCard'
 import ButtonCard from '../components/buttonCard'
 import { RoomData } from '../types/RoomInfo'
 import { useCurrentUser } from '../hooks/useCurrentUser'
+import { NextSeo } from 'next-seo'
 
 const Home: NextPage = () => {
   const { currentUser } = useCurrentUser()
@@ -32,9 +32,7 @@ const Home: NextPage = () => {
   )
   return (
     <Nav category="home">
-      <Head>
-        <title>e-Shoku</title>
-      </Head>
+      <NextSeo title="e-Shoku" openGraph={{ title: 'e-Shoku' }} />
       {data && data?.length !== 0 && currentUser && !fetchErr && (
         <section className={'container mb-4'}>
           <h2 className="title">あなたの予定</h2>
