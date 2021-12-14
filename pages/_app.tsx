@@ -46,6 +46,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
           dangerouslySetAllPagesToNoIndex={true}
           description="オンライン食事会のニューノーマル"
           openGraph={{
+            title: 'e-Shoku',
             type: 'website',
             url: 'https://e-shoku.netlify.app',
             locale: 'ja_JP',
