@@ -3,13 +3,13 @@ import { UserForm } from '../types/UserInfo'
 import { useUser, withPageAuthRequired } from '@auth0/nextjs-auth0'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import axios from 'axios'
-import Head from 'next/head'
 import { useRouter } from 'next/router'
 import Error from './_error'
 import Nav from '../components/nav'
 import Loading from '../components/loading'
 import { useCurrentUser } from '../hooks/useCurrentUser'
 import { useState } from 'react'
+import { NextSeo } from 'next-seo'
 
 const SignUp: NextPage = () => {
   const { user, error: errAuth, isLoading } = useUser()
@@ -52,9 +52,10 @@ const SignUp: NextPage = () => {
   }
   return (
     <Nav bottomNav={false}>
-      <Head>
-        <title>ユーザー登録 | e-Shoku</title>
-      </Head>
+      <NextSeo
+        title="ユーザー登録 | e-Shoku"
+        openGraph={{ title: 'ユーザー登録 | e-Shoku' }}
+      />
       <div className="container">
         <h2 className="title">ユーザー登録</h2>
         {(isLoading || isDataLoading) && <Loading />}

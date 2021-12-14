@@ -7,10 +7,10 @@ import { withPageAuthRequired } from '@auth0/nextjs-auth0'
 import { useRequireUserInfo } from '../hooks/useRequireUserInfo'
 import { useCurrentUser } from '../hooks/useCurrentUser'
 import axios from 'axios'
-import Head from 'next/head'
 import Error from './_error'
 import Nav from '../components/nav'
 import Loading from '../components/loading'
+import { NextSeo } from 'next-seo'
 
 const UserInfo: NextPage = () => {
   const { user, error: errAuth, isLoading } = useUser()
@@ -74,9 +74,10 @@ const UserInfo: NextPage = () => {
   }
   return (
     <Nav>
-      <Head>
-        <title>ユーザー設定 | e-Shoku</title>
-      </Head>
+      <NextSeo
+        title="ユーザー設定 | e-Shoku"
+        openGraph={{ title: 'ユーザー設定 | e-Shoku' }}
+      />
       <div className="container">
         <h2 className="title">ユーザー設定</h2>
         {(isLoading || isDataLoading || userChecking) && <Loading />}

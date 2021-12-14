@@ -1,7 +1,6 @@
 import type { GetServerSideProps } from 'next'
 import { RoomData } from '../../types/RoomInfo'
 import { Params } from 'next/dist/server/router'
-import Head from 'next/head'
 import Image from 'next/image'
 import Link from 'next/link'
 import dayjs from 'dayjs'
@@ -13,6 +12,7 @@ import RoomActionBtn from '../../components/roomActionBtn'
 import { useCurrentUser } from '../../hooks/useCurrentUser'
 import ButtonCard from '../../components/buttonCard'
 import { useEffect, useState } from 'react'
+import { NextSeo } from 'next-seo'
 
 type Props = {
   roomData: RoomData | null
@@ -72,18 +72,32 @@ const Room = ({ roomData, error }: Props) => {
     const shareUrlLine = encodeURI(
       `https://social-plugins.line.me/lineit/share?url=https://e-shoku.netlify.app/room/${roomData.id}&text=${shareText}`
     )
+    const ogpImageUrl = encodeURI(
+      `https://og-image.ryohei.dev/**${roomData.room_name}**.png?textColor=%23000000&md=1&fontSize=125px&marginTop=400px&background=https%3A%2F%2Fe-shoku.netlify.app%2Fimages%2Fdynamic_ogp.png`
+    )
 
     return (
       <Nav isRoom={true}>
-        <Head>
-          <title>{roomData.room_name} | e-Shoku</title>
-          <meta name="description" content={roomData.description} />
-          <meta
-            property="og:title"
-            content={`${roomData.room_name} | e-Shoku`}
-          />
-          <meta property="og:description" content={shareText} />
-        </Head>
+        <NextSeo
+          title={`${roomData.room_name} | e-Shoku`}
+          description={roomData.description}
+          openGraph={{
+            url: `https://e-shoku.netlify.app/room/${roomData.id}`,
+            title: `${roomData.room_name} | e-Shoku`,
+            description: roomData.description,
+            images: [
+              {
+                url: ogpImageUrl,
+                width: 2048,
+                height: 1170,
+                alt: roomData.room_name,
+              },
+            ],
+          }}
+          twitter={{
+            cardType: 'summary_large_image',
+          }}
+        />
         <div className={`mb-4 ${styles.topImage}`}>
           <Image
             alt="Foods"

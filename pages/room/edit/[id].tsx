@@ -6,12 +6,12 @@ import { withPageAuthRequired } from '@auth0/nextjs-auth0'
 import { useRequireUserInfo } from '../../../hooks/useRequireUserInfo'
 import { useCurrentUser } from '../../../hooks/useCurrentUser'
 import axios from 'axios'
-import Head from 'next/head'
 import Error from '../../_error'
 import Nav from '../../../components/nav'
 import Loading from '../../../components/loading'
 import { useRouter } from 'next/router'
 import { RoomData, RoomForm } from '../../../types/RoomInfo'
+import { NextSeo } from 'next-seo'
 
 const EditRoom: NextPage = () => {
   const { user, error: errAuth, isLoading } = useUser()
@@ -122,9 +122,10 @@ const EditRoom: NextPage = () => {
   }
   return (
     <Nav>
-      <Head>
-        <title>ルーム編集 | e-Shoku</title>
-      </Head>
+      <NextSeo
+        title="ルーム編集 | e-Shoku"
+        openGraph={{ title: 'ルーム編集 | e-Shoku' }}
+      />
       <div className="container">
         <h2 className="title">ルーム編集</h2>
         {(isLoading || isDataLoading) && <Loading />}

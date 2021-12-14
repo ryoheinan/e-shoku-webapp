@@ -12,7 +12,6 @@ class MyDocument extends Document {
             content="default"
           />
           <meta name="apple-mobile-web-app-title" content="e-Shoku" />
-          <meta name="description" content="オンライン食事会のニューノーマル" />
           <meta name="format-detection" content="telephone=no" />
           <meta name="mobile-web-app-capable" content="yes" />
           <meta name="theme-color" content="#f3ae56" />

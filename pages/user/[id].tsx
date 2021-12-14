@@ -1,13 +1,13 @@
 import type { GetServerSideProps } from 'next'
 import { UserData } from '../../types/UserInfo'
 import { useUser } from '@auth0/nextjs-auth0'
-import Head from 'next/head'
 import Error from '../_error'
 import Nav from '../../components/nav'
 import Loading from '../../components/loading'
 import { Params } from 'next/dist/server/router'
 import axios, { isAxiosError } from '../../utils/commonAxios'
 import UserProfile from '../../components/userProfile'
+import { NextSeo } from 'next-seo'
 
 type Props = {
   userData: UserData | null
@@ -31,9 +31,10 @@ const UserProfilePage = ({ userData, error }: Props) => {
     }
     return (
       <Nav>
-        <Head>
-          <title>{userData.display_name} | e-Shoku</title>
-        </Head>
+        <NextSeo
+          title={`${userData.display_name} | e-Shoku`}
+          openGraph={{ title: `${userData.display_name} | e-Shoku` }}
+        />
         <div className="container">
           <h2 className="title">プロフィール</h2>
           <UserProfile

@@ -3,7 +3,6 @@ import { RoomData, RoomForm } from '../../types/RoomInfo'
 import { useUser, withPageAuthRequired } from '@auth0/nextjs-auth0'
 import { useForm, SubmitHandler } from 'react-hook-form'
 import axios from 'axios'
-import Head from 'next/head'
 import Error from '../_error'
 import Nav from '../../components/nav'
 import Loading from '../../components/loading'
@@ -11,6 +10,7 @@ import { useCurrentUser } from '../../hooks/useCurrentUser'
 import { useRequireUserInfo } from '../../hooks/useRequireUserInfo'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
+import { NextSeo } from 'next-seo'
 
 const CreateRoom: NextPage = () => {
   const { user, error: errAuth, isLoading } = useUser()
@@ -57,9 +57,10 @@ const CreateRoom: NextPage = () => {
   }
   return (
     <Nav>
-      <Head>
-        <title>ルーム作成 | e-Shoku</title>
-      </Head>
+      <NextSeo
+        title="ルーム作成 | e-Shoku"
+        openGraph={{ title: 'ルーム作成 | e-Shoku' }}
+      />
       <div className="container">
         <h2 className="title">ルーム作成</h2>
         {(isLoading || isDataLoading) && <Loading />}
