@@ -35,12 +35,13 @@ const EditRoom: NextPage = () => {
       date: '',
       time: '',
       capacity: 10,
+      meeting_url: '',
     },
   }) // RoomForm型のフォームの宣言
 
   useEffect(() => {
     /**
-     * ユーザー情報の取得
+     * ルーム情報の取得
      */
     const getRoom = async () => {
       // async{await}は非同期処理
@@ -210,7 +211,7 @@ const EditRoom: NextPage = () => {
                   )}
                 </div>
               </div>
-              <div className="mb-5 row">
+              <div className="mb-3 row">
                 <label htmlFor="capacity" className="col-sm-3 col-form-label">
                   参加上限人数
                   <span className="text-danger">*</span>
@@ -228,6 +229,28 @@ const EditRoom: NextPage = () => {
                   {errors.capacity && (
                     <p className="small text-danger">
                       1以上の数字を入力してください
+                    </p>
+                  )}
+                </div>
+              </div>
+              <div className="mb-5 row">
+                <label htmlFor="meetingUrl" className="col-sm-3 col-form-label">
+                  ミーティングURL
+                  <div className="text-muted">ZoomもしくはGoogle Meet</div>
+                </label>
+                <div className="col-sm-9">
+                  <input
+                    {...register('meeting_url', {
+                      pattern:
+                        /^https:\/\/(meet\.google\.com|[A-Za-z0-9]+\.zoom\.us)\/[A-Za-z0-9/?=-]+$/,
+                    })}
+                    className={`form-control`}
+                    id="meetingUrl"
+                    type="url"
+                  />
+                  {errors.meeting_url && (
+                    <p className="small text-danger">
+                      正しいURLを入力してください
                     </p>
                   )}
                 </div>

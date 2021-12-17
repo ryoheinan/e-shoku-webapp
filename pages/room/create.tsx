@@ -168,6 +168,28 @@ const CreateRoom: NextPage = () => {
                   )}
                 </div>
               </div>
+              <div className="mb-3 row">
+                <label htmlFor="meetingUrl" className="col-sm-3 col-form-label">
+                  ミーティングURL
+                  <div className="text-muted">ZoomもしくはGoogle Meet</div>
+                </label>
+                <div className="col-sm-9">
+                  <input
+                    {...register('meeting_url', {
+                      pattern:
+                        /^https:\/\/(meet\.google\.com|[A-Za-z0-9]+\.zoom\.us)\/[A-Za-z0-9/?=-]+$/,
+                    })}
+                    className={`form-control`}
+                    id="meetingUrl"
+                    type="url"
+                  />
+                  {errors.meeting_url && (
+                    <p className="small text-danger">
+                      正しいURLを入力してください
+                    </p>
+                  )}
+                </div>
+              </div>
               <div className="text-end">
                 <button type="submit" className="btn btn-form">
                   作成
