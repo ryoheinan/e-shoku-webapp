@@ -13,6 +13,7 @@ import { useCurrentUser } from '../../hooks/useCurrentUser'
 import ButtonCard from '../../components/buttonCard'
 import { useEffect, useState } from 'react'
 import { NextSeo } from 'next-seo'
+import { AccessTokenError, getAccessToken } from '@auth0/nextjs-auth0'
 
 type Props = {
   roomData: RoomData | null
@@ -131,14 +132,31 @@ const Room = ({ roomData, error }: Props) => {
           <p className={styles.schedule}>
             {dayjs(roomData.datetime).format('YYYY/MM/DD HH:mm')}~
           </p>
-          <p className={styles.host}>
+          <div className={styles.roomInfo}>
             主催者:{' '}
             {roomData.hosts?.map((host) => (
               <Link key={host.id} href={`/user/${host.id}`}>
                 <a className="me-1">@{host.username}</a>
               </Link>
             ))}
-          </p>
+            {roomData.meeting_url !== undefined && (
+              <div>
+                ミーティングURL:{' '}
+                {roomData.meeting_url ? (
+                  <a
+                    href={roomData.meeting_url}
+                    target="_blank"
+                    rel="noopener noreferrer nofollow"
+                  >
+                    {roomData.meeting_url}
+                  </a>
+                ) : (
+                  <span className="text-muted">設定されていません</span>
+                )}
+              </div>
+            )}
+          </div>
+
           <p>{roomData.description}</p>
         </section>
         <div className={`container ${styles.section} mb-4`}>
@@ -225,8 +243,24 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
     return { props: { roomData: null, error: { statusCode: 404 } } }
   }
 
+  let token: string | undefined
   try {
-    const response = await axios.get<RoomData>(targetUrl)
+    // ログインしている場合はtokenを取得
+    const { accessToken } = await getAccessToken(context.req, context.res, {
+      scopes: ['openid', 'profile'],
+    })
+    token = accessToken
+  } catch (error: unknown) {
+    if (!(error instanceof AccessTokenError)) {
+      return { props: { userData: null, error: { statusCode: 500 } } }
+    }
+  }
+
+  try {
+    const response = await axios.get<RoomData>(
+      targetUrl,
+      token ? { headers: { Authorization: `Bearer ${token}` } } : {}
+    )
     const roomData = response.data
     return { props: { roomData } }
   } catch (error: unknown) {
