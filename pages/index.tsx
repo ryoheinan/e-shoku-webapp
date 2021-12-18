@@ -27,7 +27,7 @@ const Home: NextPage = () => {
     }
   }
   const { data, error: fetchErr } = useSWR(
-    currentUser ? `/api/room/?guests=${currentUser.id}` : null,
+    currentUser ? `/api/rooms/?guests=${currentUser.id}` : null,
     fetcher
   )
   return (
@@ -36,7 +36,7 @@ const Home: NextPage = () => {
       {data && data?.length !== 0 && currentUser && !fetchErr && (
         <section className={'container mb-4'}>
           <h2 className="title">あなたの予定</h2>
-          <Link href={`/room/${data[0].id}`}>
+          <Link href={`/rooms/${data[0].id}`}>
             <a>
               <RoomCard
                 title={data[0].room_name}
@@ -55,7 +55,7 @@ const Home: NextPage = () => {
           color="#FF9E1F"
           fontSize="1.5rem"
           shadow={true}
-          link={{ to: '/room/create' }}
+          link={{ to: '/rooms/create' }}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
