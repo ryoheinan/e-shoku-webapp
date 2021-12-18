@@ -62,16 +62,16 @@ const Room = ({ roomData, error }: Props) => {
         await navigator.share({
           title: `${roomData.room_name} | e-Shoku`,
           text: shareText,
-          url: `https://e-shoku.netlify.app/room/${roomData.id}`,
+          url: `https://e-shoku.netlify.app/rooms/${roomData.id}`,
         })
       } catch (ignore) {}
     }
 
     const shareUrlTwitter = encodeURI(
-      `https://twitter.com/share?url=https://e-shoku.netlify.app/room/${roomData.id}&text=${shareText}&hashtags=オンライン食事会,eshoku`
+      `https://twitter.com/share?url=https://e-shoku.netlify.app/rooms/${roomData.id}&text=${shareText}&hashtags=オンライン食事会,eshoku`
     )
     const shareUrlLine = encodeURI(
-      `https://social-plugins.line.me/lineit/share?url=https://e-shoku.netlify.app/room/${roomData.id}&text=${shareText}`
+      `https://social-plugins.line.me/lineit/share?url=https://e-shoku.netlify.app/rooms/${roomData.id}&text=${shareText}`
     )
     const ogpImageUrl = encodeURI(
       `https://og-image.ryohei.dev/**${roomData.room_name}**.png?textColor=%23000000&md=1&fontSize=125px&marginTop=400px&background=https%3A%2F%2Fe-shoku.netlify.app%2Fimages%2Fdynamic_ogp.png`
@@ -83,7 +83,7 @@ const Room = ({ roomData, error }: Props) => {
           title={`${roomData.room_name} | e-Shoku`}
           description={roomData.description}
           openGraph={{
-            url: `https://e-shoku.netlify.app/room/${roomData.id}`,
+            url: `https://e-shoku.netlify.app/rooms/${roomData.id}`,
             title: `${roomData.room_name} | e-Shoku`,
             description: roomData.description,
             images: [
@@ -135,7 +135,7 @@ const Room = ({ roomData, error }: Props) => {
           <div className={styles.roomInfo}>
             主催者:{' '}
             {roomData.hosts?.map((host) => (
-              <Link key={host.id} href={`/user/${host.id}`}>
+              <Link key={host.id} href={`/users/${host.id}`}>
                 <a className="me-1">@{host.username}</a>
               </Link>
             ))}

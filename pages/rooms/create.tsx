@@ -1,82 +1,34 @@
 import type { NextPage } from 'next'
-import React, { useEffect, useState } from 'react'
-import { useUser } from '@auth0/nextjs-auth0'
+import { RoomData, RoomForm } from '../../types/RoomInfo'
+import { useUser, withPageAuthRequired } from '@auth0/nextjs-auth0'
 import { useForm, SubmitHandler } from 'react-hook-form'
-import { withPageAuthRequired } from '@auth0/nextjs-auth0'
-import { useRequireUserInfo } from '../../../hooks/useRequireUserInfo'
-import { useCurrentUser } from '../../../hooks/useCurrentUser'
 import axios from 'axios'
-import Error from '../../_error'
-import Nav from '../../../components/nav'
-import Loading from '../../../components/loading'
+import Error from '../_error'
+import Nav from '../../components/nav'
+import Loading from '../../components/loading'
+import { useCurrentUser } from '../../hooks/useCurrentUser'
+import { useRequireUserInfo } from '../../hooks/useRequireUserInfo'
 import { useRouter } from 'next/router'
-import { RoomData, RoomForm } from '../../../types/RoomInfo'
+import { useState } from 'react'
 import { NextSeo } from 'next-seo'
 
-const EditRoom: NextPage = () => {
+const CreateRoom: NextPage = () => {
   const { user, error: errAuth, isLoading } = useUser()
   const [isDataLoading, setIsDataLoading] = useState(false)
 
   useRequireUserInfo() // ユーザー情報登録済みかどうかをチェック
   const { currentUser } = useCurrentUser() // ユーザー情報を取得
-
   const router = useRouter()
-  const { id } = router.query
 
   const {
     register,
-    reset,
     handleSubmit,
     formState: { errors },
   } = useForm<RoomForm>({
     defaultValues: {
-      room_name: '',
-      description: '',
-      date: '',
-      time: '',
       capacity: 10,
-      meeting_url: '',
     },
   }) // RoomForm型のフォームの宣言
-
-  useEffect(() => {
-    /**
-     * ルーム情報の取得
-     */
-    const getRoom = async () => {
-      // async{await}は非同期処理
-      // async内のawaitが完了するまで次へは進まない、という意味
-      try {
-        setIsDataLoading(true) // ローディング画面開始
-        const res = await axios.get(`/api/room/${id}`)
-        const dt = new Date(res.data.datetime)
-
-        let inputValues: RoomForm = res.data
-        inputValues.date = `${dt.getFullYear()}-${
-          dt.getMonth() + 1
-        }-${dt.getDate()}`
-        inputValues.time = `${dt.getHours().toString().padStart(2, '0')}:${dt
-          .getMinutes()
-          .toString()
-          .padStart(2, '0')}`
-        setIsDataLoading(false) // ローディング画面終了
-        reset(inputValues) // resetでフォームにデータを表示
-      } catch (error: unknown) {
-        setIsDataLoading(false) // ローディング画面終了
-        // Axiosに関するエラーの場合
-        if (axios.isAxiosError(error) && error.response) {
-          if (error.response.status === 500) {
-            router.replace('/500')
-          } else {
-            router.replace('/404')
-          }
-        } else {
-          router.replace('/500')
-        }
-      }
-    }
-    getRoom()
-  }, [router, id, reset])
 
   const onSubmit: SubmitHandler<RoomForm> = (data) => {
     // データの送信
@@ -87,34 +39,16 @@ const EditRoom: NextPage = () => {
     if (currentUser) {
       data.hosts = [currentUser.id]
       axios
-        .put<RoomData>(`/api/room/${id}`, data)
+        .post<RoomData>('/api/rooms/', data)
         .then((res) => {
           setIsDataLoading(false)
           return res
         })
-        .then((res) => router.push(`../${res.data.id}`))
+        .then((res) => router.push(`/rooms/${res.data.id}`))
         .catch(() => alert('データの送信に失敗しました'))
     } else {
       // 本来我々がいるはずのない世界線
       setIsDataLoading(false)
-    }
-  }
-
-  const deleteRoom = async () => {
-    if (confirm(`本当にルームを削除しますか？`)) {
-      setIsDataLoading(true)
-      try {
-        const res = await axios.delete(`/api/room/${id}/`)
-        if (res.status === 204) {
-          setIsDataLoading(false)
-          router.push('/')
-        }
-      } catch (e) {
-        setIsDataLoading(false)
-        if (axios.isAxiosError(e) && e.response) {
-          alert(`ルームの削除に失敗しました`)
-        }
-      }
     }
   }
 
@@ -124,11 +58,11 @@ const EditRoom: NextPage = () => {
   return (
     <Nav>
       <NextSeo
-        title="ルーム編集 | e-Shoku"
-        openGraph={{ title: 'ルーム編集 | e-Shoku' }}
+        title="ルーム作成 | e-Shoku"
+        openGraph={{ title: 'ルーム作成 | e-Shoku' }}
       />
       <div className="container">
-        <h2 className="title">ルーム編集</h2>
+        <h2 className="title">ルーム作成</h2>
         {(isLoading || isDataLoading) && <Loading />}
         {user && !isLoading && !isDataLoading && (
           <div>
@@ -170,10 +104,11 @@ const EditRoom: NextPage = () => {
                     })}
                     className={`form-control`}
                     id="description"
-                    placeholder="256文字以内で入力してください"
                   />
                   {errors.description && (
-                    <p className="small text-danger">正しく入力してください</p>
+                    <p className="small text-danger">
+                      256文字以内で正しく入力してください
+                    </p>
                   )}
                 </div>
               </div>
@@ -233,7 +168,7 @@ const EditRoom: NextPage = () => {
                   )}
                 </div>
               </div>
-              <div className="mb-5 row">
+              <div className="mb-3 row">
                 <label htmlFor="meetingUrl" className="col-sm-3 col-form-label">
                   ミーティングURL
                   <div className="text-muted">ZoomもしくはGoogle Meet</div>
@@ -255,23 +190,13 @@ const EditRoom: NextPage = () => {
                   )}
                 </div>
               </div>
-              <div className="d-flex justify-content-between">
-                <button
-                  onClick={deleteRoom}
-                  className="btn btn-danger btn-delete"
-                >
-                  ルーム削除
-                </button>
+              <div className="text-end">
                 <button type="submit" className="btn btn-form">
-                  保存
+                  作成
                 </button>
               </div>
             </form>
           </div>
-        )}
-        {!isLoading && !isDataLoading && !errAuth && !user && (
-          // Error component を呼び出す予定
-          <div className="text-center">データの取得に失敗しました</div>
         )}
       </div>
     </Nav>
@@ -279,7 +204,8 @@ const EditRoom: NextPage = () => {
 }
 
 // ログイン必須にする処理
-export default withPageAuthRequired(EditRoom, {
+// ログインしてない場合はログイン画面に飛ばされる
+export default withPageAuthRequired(CreateRoom, {
   onRedirecting: () => <Loading />,
   onError: (error) => <Error statusCode={400} title={error.message} />,
 })
