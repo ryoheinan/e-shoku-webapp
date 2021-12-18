@@ -6,6 +6,7 @@ export interface RoomDataCommon {
   description: string
   datetime: string
   capacity: number
+  meeting_url?: string
   topic?: string // 後日実装
   invite_code?: string // 後日実装
 }

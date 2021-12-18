@@ -54,7 +54,12 @@ export const roomApiController = async ({
         queryParams = new URLSearchParams(req.query).toString()
         queryParams = `?${queryParams}`
       }
-      const response = await axios.get<RoomData>(targetUrl + queryParams)
+      const response = await axios.get<RoomData>(
+        targetUrl + queryParams,
+        accessToken
+          ? { headers: { Authorization: `Bearer ${accessToken}` } }
+          : {}
+      )
       resData = response.data
       res.status(200).json(resData)
     }
