@@ -39,7 +39,7 @@ const SignUp: NextPage = () => {
     }-${dt.getDate()}`
     data.image_url = user?.picture || ''
     axios
-      .post('/api/user', data)
+      .post('/api/users', data)
       .then(() => {
         setIsDataLoading(false)
       })

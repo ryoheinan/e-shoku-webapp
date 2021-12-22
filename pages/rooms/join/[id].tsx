@@ -46,7 +46,7 @@ const JoinRoom = ({ roomData, error }: Props) => {
           title={`${roomData.room_name}に参加する | e-Shoku`}
           description={roomData.description}
           openGraph={{
-            url: `https://e-shoku.netlify.app/room/${roomData.id}`,
+            url: `https://e-shoku.netlify.app/rooms/${roomData.id}`,
             title: `${roomData.room_name} | e-Shoku`,
             description: roomData.description,
             images: [

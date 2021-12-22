@@ -47,7 +47,7 @@ const Settings: NextPage = () => {
               </Link>
             </div>
             <div className={styles.settingsItem}>
-              <Link href={`/user/${currentUser.id}`}>
+              <Link href={`/users/${currentUser.id}`}>
                 <a>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"

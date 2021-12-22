@@ -39,7 +39,7 @@ const UserInfo: NextPage = () => {
       // async/awaitは非同期処理
       try {
         setIsDataLoading(true) // ローディング画面開始
-        const res = await axios.get<UserData>('/api/user')
+        const res = await axios.get<UserData>('/api/users')
         const inputValues: UserForm = res.data
         setIsDataLoading(false) // ローディング画面終了
         reset(inputValues) // resetでフォームにデータを表示
@@ -61,7 +61,7 @@ const UserInfo: NextPage = () => {
     }-${dt.getDate()}`
     data.image_url = user?.picture || ''
     axios
-      .post('/api/user', data) //postは登録、getは取得、patchは一部更新
+      .post('/api/users', data) //postは登録、getは取得、patchは一部更新
       .then(() => alert('正常に更新されました'))
       .catch(() => alert('更新できませんでした'))
   }

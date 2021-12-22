@@ -31,9 +31,9 @@ const RoomActionBtn = ({
       try {
         if (currentUser) {
           const sendData = { id: currentUser.id }
-          const res = await axios.post(`/api/room/${mode}/${roomId}`, sendData)
+          const res = await axios.post(`/api/rooms/${mode}/${roomId}`, sendData)
           if (res.status === 200) {
-            router.push(`/room/${roomId}`)
+            router.push(`/rooms/${roomId}`)
           }
         }
       } catch (e) {
