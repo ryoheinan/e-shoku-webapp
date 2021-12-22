@@ -33,11 +33,7 @@ const AppInit = () => {
         if (axios.isAxiosError(error) && error.response) {
           if (error.response.status === 500) {
             router.replace('/500')
-          } else {
-            router.replace('/404')
           }
-        } else {
-          router.replace('/500')
         }
       }
     }
