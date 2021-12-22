@@ -14,21 +14,8 @@ import dayjs from 'dayjs'
 const History: NextPage = () => {
   const { currentUser } = useCurrentUser()
   const fetcher = async (url: string) => {
-    try {
-      const res = await axios.get<RoomData[]>(url)
-      return res.data
-    } catch (err: unknown) {
-      // Axiosに関するエラーの場合
-      /*
-      if (axios.isAxiosError(err) && err.response) {
-        throw new Error(
-          `${err.response.status}エラー: あなたの予定が取得できませんでした`
-        )
-      } else {
-        throw new Error('あなたの予定が取得できませんでした')
-      }
-      */
-    }
+    const res = await axios.get<RoomData[]>(url)
+    return res.data
   }
   const { data: roomDataset, error: fetchErr } = useSWR(
     currentUser ? `/api/rooms/?related_user=${currentUser.id}` : null,
