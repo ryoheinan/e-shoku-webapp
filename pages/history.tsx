@@ -3,13 +3,13 @@ import Link from 'next/link'
 import axios from 'axios'
 import useSWR from 'swr'
 import Nav from '../components/nav'
-import RoomCard from '../components/roomCard'
 import { RoomData } from '../types/RoomInfo'
 import { useCurrentUser } from '../hooks/useCurrentUser'
 import { NextSeo } from 'next-seo'
 import { withPageAuthRequired } from '@auth0/nextjs-auth0'
 import Loading from '../components/loading'
 import Error from './_error'
+import dayjs from 'dayjs'
 
 const History: NextPage = () => {
   const { currentUser } = useCurrentUser()
@@ -40,23 +40,32 @@ const History: NextPage = () => {
         title="履歴ページ | e-Shoku"
         openGraph={{ title: '履歴ページ | e-Shoku' }}
       />
-      <section className={'container mb-5'}>
+      <section className={'container pb-1'}>
         <h2 className="title">履歴</h2>
         {roomDataset &&
           roomDataset?.length !== 0 &&
           currentUser &&
           !fetchErr &&
           roomDataset.map((room: RoomData) => (
-            <div key={room.id} className="mb-4 mx-2">
-              <Link href={`/rooms/${room.id}`}>
-                <a>
-                  <RoomCard
-                    title={room.room_name}
-                    date={room.datetime}
-                    imageUrl="/images/foods.jpg"
-                  />
-                </a>
-              </Link>
+            <div key={room.id} className="card mb-4">
+              <div className="card-body">
+                <h3 className="h5 card-title">{room.room_name}</h3>
+                <p className="mb-0 text-muted">
+                  {dayjs(room.datetime).format('YYYY/MM/DD')}
+                </p>
+                <p>
+                  {room.hosts.map((host) => (
+                    <Link key={host.id} href={`/users/${host.id}`}>
+                      <a className="me-1">@{host.username}</a>
+                    </Link>
+                  ))}
+                </p>
+                <div className="text-end">
+                  <Link href={`/rooms/${room.id}`}>
+                    <a className="btn btn-form">詳細</a>
+                  </Link>
+                </div>
+              </div>
             </div>
           ))}
       </section>
