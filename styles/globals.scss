@@ -96,3 +96,10 @@ fieldset:disabled .btn {
 .title {
   padding: 0.5rem 0;
 }
+
+.elementCenter {
+  height: calc(100vh - 90px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
