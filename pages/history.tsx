@@ -22,7 +22,7 @@ const History: NextPage = () => {
     fetcher
   )
   return (
-    <Nav category="home">
+    <Nav>
       <NextSeo
         title="履歴ページ | e-Shoku"
         openGraph={{ title: '履歴ページ | e-Shoku' }}
