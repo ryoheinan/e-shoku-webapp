@@ -27,8 +27,18 @@ const AppInit = () => {
         } else {
           setCurrentUser(currentUser)
         }
-      } catch {
+      } catch (error: unknown) {
         setCurrentUser(null)
+        // Axiosに関するエラーの場合
+        if (axios.isAxiosError(error) && error.response) {
+          if (error.response.status === 500) {
+            router.replace('/500')
+          } else {
+            router.replace('/404')
+          }
+        } else {
+          router.replace('/500')
+        }
       }
     }
     checkUserInfo()
