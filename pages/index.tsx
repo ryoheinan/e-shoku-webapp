@@ -26,21 +26,21 @@ const Home: NextPage = () => {
       }
     }
   }
-  const { data, error: fetchErr } = useSWR(
+  const { data: roomDataset, error: fetchErr } = useSWR(
     currentUser ? `/api/rooms/?guests=${currentUser.id}` : null,
     fetcher
   )
   return (
     <Nav category="home">
       <NextSeo title="e-Shoku" openGraph={{ title: 'e-Shoku' }} />
-      {data && data?.length !== 0 && currentUser && !fetchErr && (
+      {roomDataset && roomDataset?.length !== 0 && currentUser && !fetchErr && (
         <section className={'container mb-4'}>
           <h2 className="title">あなたの予定</h2>
-          <Link href={`/rooms/${data[0].id}`}>
+          <Link href={`/rooms/${roomDataset[0].id}`}>
             <a>
               <RoomCard
-                title={data[0].room_name}
-                date={data[0].datetime}
+                title={roomDataset[0].room_name}
+                date={roomDataset[0].datetime}
                 imageUrl="/images/foods.jpg"
               />
             </a>
