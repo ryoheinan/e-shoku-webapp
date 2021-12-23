@@ -43,16 +43,34 @@
   margin-bottom: 1.5rem;
 }
 
+.check_bx {
+  border: solid 1px #f82136;
+  border-radius: 10px;
+  margin: 0 1rem 1rem 1rem;
+}
+
 .check_lb {
-  color: #dc3545;
+  transform: scale(1.1);
   font-size: 1rem;
   display: block;
   padding: 0 0 0.75rem 0.75rem;
+  margin: 1rem;
 }
 
 .RoomCard {
   padding-top: 0.75rem;
   padding-bottom: 1rem;
+}
+
+.mini_title {
+  color: #773f00;
+  padding-top: 1rem;
+}
+
+.description {
+  padding: 0.25rem 1rem 0 1rem;
+  font-size: 80%;
+  color: rgb(99, 99, 99);
 }
 
 .btnShare {

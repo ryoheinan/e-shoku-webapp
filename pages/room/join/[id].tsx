@@ -24,12 +24,27 @@ const JoinRoom = ({ roomData, error }: Props) => {
   const [isChecked3, setIsChecked3] = useState(false)
   const toggleCheckbox1 = () => {
     setIsChecked(!isChecked)
+    if (!isChecked) {
+      document.getElementById('check01')!.style.color = '#57ff70'
+    } else if (isChecked) {
+      document.getElementById('check01')!.style.color = 'black'
+    }
   }
   const toggleCheckbox2 = () => {
     setIsChecked2(!isChecked2)
+    if (!isChecked2) {
+      document.getElementById('check02')!.style.color = '#57ff70'
+    } else if (isChecked2) {
+      document.getElementById('check02')!.style.color = 'black'
+    }
   }
   const toggleCheckbox3 = () => {
     setIsChecked3(!isChecked3)
+    if (!isChecked3) {
+      document.getElementById('check03')!.style.color = '#57ff70'
+    } else if (isChecked3) {
+      document.getElementById('check03')!.style.color = 'black'
+    }
   }
   if (roomData === null) {
     if (error) {
@@ -54,20 +69,26 @@ const JoinRoom = ({ roomData, error }: Props) => {
               date={roomData.datetime}
               imageUrl="/images/foods.jpg"
             />
+            <div>
+              <h5 className={styles.mini_title}>詳細</h5>
+              <p className={styles.description}>{roomData.description}</p>
+            </div>
           </section>
           <section>
-            <label className={styles.check_lb}>
-              <input type="checkbox" onChange={() => toggleCheckbox1()} />{' '}
-              会話の際には必ずマスクを着用してください。
-            </label>
-            <label className={styles.check_lb}>
-              <input type="checkbox" onChange={() => toggleCheckbox2()} />{' '}
-              周りの迷惑になるような大声での会話はお控えください。
-            </label>
-            <label className={styles.check_lb}>
-              <input type="checkbox" onChange={() => toggleCheckbox3()} />{' '}
-              こまめな手洗い・消毒を行ってください。
-            </label>
+            <div className={styles.check_bx}>
+              <label className={styles.check_lb} id="check01">
+                <input type="checkbox" onChange={() => toggleCheckbox1()} />{' '}
+                会話の際には必ずマスクを着用してください。
+              </label>
+              <label className={styles.check_lb} id="check02">
+                <input type="checkbox" onChange={() => toggleCheckbox2()} />{' '}
+                周りの迷惑になるような大声での会話はお控えください。
+              </label>
+              <label className={styles.check_lb} id="check03">
+                <input type="checkbox" onChange={() => toggleCheckbox3()} />{' '}
+                こまめな手洗い・消毒を行ってください。
+              </label>
+            </div>
           </section>
           <section>
             <RoomActionBtn
