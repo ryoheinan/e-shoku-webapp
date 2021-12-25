@@ -2,6 +2,7 @@ import type { NextPage } from 'next'
 import Link from 'next/link'
 import axios from 'axios'
 import useSWR from 'swr'
+import dayjs from 'dayjs'
 import Nav from '../components/nav'
 import RoomCard from '../components/roomCard'
 import ButtonCard from '../components/buttonCard'
@@ -27,7 +28,11 @@ const Home: NextPage = () => {
     }
   }
   const { data: roomDataset, error: fetchErr } = useSWR(
-    currentUser ? `/api/rooms/?guests=${currentUser.id}` : null,
+    currentUser
+      ? `/api/rooms/?related_user=${currentUser.id}&datetime=${dayjs(
+          Date.now()
+        ).format('YYYY-MM-DD')}`
+      : null,
     fetcher
   )
   return (
@@ -36,11 +41,11 @@ const Home: NextPage = () => {
       {roomDataset && roomDataset?.length !== 0 && currentUser && !fetchErr && (
         <section className={'container mb-4'}>
           <h2 className="title">あなたの予定</h2>
-          <Link href={`/rooms/${roomDataset[0].id}`}>
+          <Link href={`/rooms/${roomDataset[roomDataset.length - 1].id}`}>
             <a>
               <RoomCard
-                title={roomDataset[0].room_name}
-                date={roomDataset[0].datetime}
+                title={roomDataset[roomDataset.length - 1].room_name}
+                date={roomDataset[roomDataset.length - 1].datetime}
                 imageUrl="/images/foods.jpg"
               />
             </a>
