@@ -58,13 +58,14 @@ const Explore: NextPage = () => {
         // ログイン状態の処理
         <section className={'container pb-1'}>
           <h2 className="title">検索</h2>
-          <form onSubmit={handleSubmit(onSubmit)}>
+          <form onSubmit={handleSubmit(onSubmit)} action="/">
             <label htmlFor="keywordId">検索フィールド</label>
             <input
               {...register('keyword', {
                 required: true,
               })}
-              className={`form-control`}
+              type="search"
+              className="form-control"
               id="keywordId"
               placeholder="例）忘年会"
             />
