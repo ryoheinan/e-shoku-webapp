@@ -25,25 +25,31 @@ const JoinRoom = ({ roomData, error }: Props) => {
   const toggleCheckbox1 = () => {
     setIsChecked(!isChecked)
     if (!isChecked) {
-      document.getElementById('check01')!.style.color = '#57ff70'
+      document.getElementById('check01')!.style.color = '#0A844B'
+      document.getElementById('check01')!.style.fontWeight = '500'
     } else if (isChecked) {
       document.getElementById('check01')!.style.color = 'black'
+      document.getElementById('check01')!.style.fontWeight = '400'
     }
   }
   const toggleCheckbox2 = () => {
     setIsChecked2(!isChecked2)
     if (!isChecked2) {
-      document.getElementById('check02')!.style.color = '#57ff70'
+      document.getElementById('check02')!.style.color = '#0A844B'
+      document.getElementById('check02')!.style.fontWeight = '500'
     } else if (isChecked2) {
       document.getElementById('check02')!.style.color = 'black'
+      document.getElementById('check02')!.style.fontWeight = '400'
     }
   }
   const toggleCheckbox3 = () => {
     setIsChecked3(!isChecked3)
     if (!isChecked3) {
-      document.getElementById('check03')!.style.color = '#57ff70'
+      document.getElementById('check03')!.style.color = '#0A844B'
+      document.getElementById('check03')!.style.fontWeight = '500'
     } else if (isChecked3) {
       document.getElementById('check03')!.style.color = 'black'
+      document.getElementById('check03')!.style.fontWeight = '400'
     }
   }
   if (roomData === null) {
