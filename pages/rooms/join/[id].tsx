@@ -71,7 +71,9 @@ const JoinRoom = ({ roomData, error }: Props) => {
             />
             <div>
               <h3 className={`${styles.mini_title} h4`}>詳細</h3>
-              <p className="text-muted">{roomData.description}</p>
+              <p className={`${styles.roomDescription} text-muted`}>
+                {roomData.description}
+              </p>
             </div>
           </section>
           <section>

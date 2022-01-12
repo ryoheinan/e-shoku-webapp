@@ -157,7 +157,7 @@ const Room = ({ roomData, error }: Props) => {
             )}
           </div>
 
-          <p>{roomData.description}</p>
+          <p className={styles.roomDescription}>{roomData.description}</p>
         </section>
         <div className={`container ${styles.section} mb-4`}>
           {roomBtnState === 'canJoin' && (
