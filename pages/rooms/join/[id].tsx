@@ -71,11 +71,14 @@ const JoinRoom = ({ roomData, error }: Props) => {
             />
             <div>
               <h5 className={styles.mini_title}>詳細</h5>
-              <p className={styles.description}>{roomData.description}</p>
+              <p className="text-muted">{roomData.description}</p>
             </div>
           </section>
           <section>
             <div className={styles.checkArea}>
+              <p className={`${styles.checkAreaTitle} h6`}>
+                参加するには以下の項目に同意してください！
+              </p>
               <div className="form-check">
                 <input
                   type="checkbox"

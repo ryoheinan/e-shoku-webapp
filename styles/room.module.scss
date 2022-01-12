@@ -52,6 +52,11 @@
   font-size: 1.05rem;
   margin-bottom: 1.5rem;
 
+  .checkAreaTitle {
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+  }
+
   > div {
     margin-bottom: 1rem;
   }
@@ -75,11 +80,6 @@
 .mini_title {
   color: #773f00;
   padding-top: 1rem;
-}
-
-.description {
-  font-size: 0.9rem;
-  color: rgb(99, 99, 99);
 }
 
 .btnShare {
