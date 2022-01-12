@@ -5,6 +5,7 @@ import { useSetRecoilState, RecoilRoot } from 'recoil'
 import { useRouter } from 'next/router'
 import { UserProvider } from '@auth0/nextjs-auth0'
 import axios from 'axios'
+import { DefaultSeo } from 'next-seo'
 import { currentUserState } from '../states/currentUser'
 import '../styles/globals.scss'
 
@@ -15,7 +16,7 @@ const AppInit = () => {
   useEffect(() => {
     const checkUserInfo = async () => {
       try {
-        const res = await axios.get<UserData>('/api/user')
+        const res = await axios.get<UserData>('/api/users')
         const currentUser = res.data
         if (
           currentUser.is_info_filled === false &&
@@ -26,8 +27,14 @@ const AppInit = () => {
         } else {
           setCurrentUser(currentUser)
         }
-      } catch {
+      } catch (error: unknown) {
         setCurrentUser(null)
+        // Axiosに関するエラーの場合
+        if (axios.isAxiosError(error) && error.response) {
+          if (error.response.status === 500) {
+            router.replace('/500')
+          }
+        }
       }
     }
     checkUserInfo()
@@ -41,6 +48,28 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
   return (
     <UserProvider>
       <RecoilRoot>
+        <DefaultSeo
+          dangerouslySetAllPagesToNoIndex={true}
+          description="オンライン食事会のニューノーマル"
+          openGraph={{
+            title: 'e-Shoku',
+            type: 'website',
+            url: 'https://e-shoku.netlify.app',
+            locale: 'ja_JP',
+            site_name: 'e-Shoku',
+            images: [
+              {
+                url: 'https://e-shoku.netlify.app/images/static_ogp.png',
+                width: 2048,
+                height: 1170,
+                alt: 'オンライン食事会のニューノーマル',
+              },
+            ],
+          }}
+          twitter={{
+            cardType: 'summary_large_image',
+          }}
+        />
         <Component {...pageProps} />
         <AppInit />
       </RecoilRoot>

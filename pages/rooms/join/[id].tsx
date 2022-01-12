@@ -1,7 +1,6 @@
 import type { GetServerSideProps } from 'next'
 import { RoomData } from '../../../types/RoomInfo'
 import { Params } from 'next/dist/server/router'
-import Head from 'next/head'
 import Error from '../../_error'
 import axios, { isAxiosError } from '../../../utils/commonAxios'
 import Nav from '../../../components/nav'
@@ -9,6 +8,7 @@ import RoomActionBtn from '../../../components/roomActionBtn'
 import { useState } from 'react'
 import RoomCard from '../../../components/roomCard'
 import styles from '../../../styles/room.module.scss'
+import { NextSeo } from 'next-seo'
 
 type Props = {
   roomData: RoomData | null
@@ -57,17 +57,32 @@ const JoinRoom = ({ roomData, error }: Props) => {
       return <Error statusCode={error.statusCode} />
     }
   } else {
+    const ogpImageUrl = encodeURI(
+      `https://og-image.ryohei.dev/**${roomData.room_name}**.png?textColor=%23000000&md=1&fontSize=125px&marginTop=400px&background=https%3A%2F%2Fe-shoku.netlify.app%2Fimages%2Fdynamic_ogp.png`
+    )
+
     return (
       <Nav isRoom={true}>
-        <Head>
-          <title>{roomData.room_name} | e-Shoku</title>
-          <meta name="description" content={roomData.description} />
-          <meta
-            property="og:title"
-            content={`${roomData.room_name} | e-Shoku`}
-          />
-          <meta property="og:description" content={roomData.description} />
-        </Head>
+        <NextSeo
+          title={`${roomData.room_name}に参加する | e-Shoku`}
+          description={roomData.description}
+          openGraph={{
+            url: `https://e-shoku.netlify.app/rooms/${roomData.id}`,
+            title: `${roomData.room_name} | e-Shoku`,
+            description: roomData.description,
+            images: [
+              {
+                url: ogpImageUrl,
+                width: 2048,
+                height: 1170,
+                alt: roomData.room_name,
+              },
+            ],
+          }}
+          twitter={{
+            cardType: 'summary_large_image',
+          }}
+        />
         <div className={'container'}>
           <section className={styles.RoomCard}>
             <RoomCard

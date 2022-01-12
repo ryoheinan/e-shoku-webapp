@@ -58,7 +58,7 @@ const Nav = ({
                 category === 'explore' ? styles.active : ''
               }`}
             >
-              <Link href="/">
+              <Link href="/explore">
                 <a className="nav-link">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"

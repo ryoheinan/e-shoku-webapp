@@ -1,14 +1,15 @@
 import type { NextPage } from 'next'
-import Head from 'next/head'
+import { NextSeo } from 'next-seo'
 import Nav from '../components/nav'
 
 const Error404: NextPage = () => {
   return (
     <div style={styles.error}>
       <Nav>
-        <Head>
-          <title>404 Not found | e-Shoku</title>
-        </Head>
+        <NextSeo
+          title="404 Not found | e-Shoku"
+          openGraph={{ title: '404 Not found | e-Shoku' }}
+        />
 
         <section className="text-center mt-5">
           <svg

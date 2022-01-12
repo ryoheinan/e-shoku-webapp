@@ -1,13 +1,14 @@
 import type { NextPage } from 'next'
-import Head from 'next/head'
 import Link from 'next/link'
 import axios from 'axios'
 import useSWR from 'swr'
+import dayjs from 'dayjs'
 import Nav from '../components/nav'
 import RoomCard from '../components/roomCard'
 import ButtonCard from '../components/buttonCard'
 import { RoomData } from '../types/RoomInfo'
 import { useCurrentUser } from '../hooks/useCurrentUser'
+import { NextSeo } from 'next-seo'
 
 const Home: NextPage = () => {
   const { currentUser } = useCurrentUser()
@@ -26,23 +27,25 @@ const Home: NextPage = () => {
       }
     }
   }
-  const { data, error: fetchErr } = useSWR(
-    currentUser ? `/api/room/?guests=${currentUser.id}` : null,
+  const { data: roomDataset, error: fetchErr } = useSWR(
+    currentUser
+      ? `/api/rooms/?related_user=${currentUser.id}&datetime=${dayjs(
+          Date.now()
+        ).format('YYYY-MM-DD')}`
+      : null,
     fetcher
   )
   return (
     <Nav category="home">
-      <Head>
-        <title>e-Shoku</title>
-      </Head>
-      {data && data?.length !== 0 && currentUser && !fetchErr && (
+      <NextSeo title="e-Shoku" openGraph={{ title: 'e-Shoku' }} />
+      {roomDataset && roomDataset?.length !== 0 && currentUser && !fetchErr && (
         <section className={'container mb-4'}>
           <h2 className="title">あなたの予定</h2>
-          <Link href={`/room/${data[0].id}`}>
+          <Link href={`/rooms/${roomDataset[roomDataset.length - 1].id}`}>
             <a>
               <RoomCard
-                title={data[0].room_name}
-                date={data[0].datetime}
+                title={roomDataset[roomDataset.length - 1].room_name}
+                date={roomDataset[roomDataset.length - 1].datetime}
                 imageUrl="/images/foods.jpg"
               />
             </a>
@@ -57,7 +60,7 @@ const Home: NextPage = () => {
           color="#FF9E1F"
           fontSize="1.5rem"
           shadow={true}
-          link={{ to: '/room/create' }}
+          link={{ to: '/rooms/create' }}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"

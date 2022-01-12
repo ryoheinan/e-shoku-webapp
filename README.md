@@ -1,13 +1,11 @@
 # e-Shoku Frontend
 
-This is a [Next.js](https://nextjs.org/) project.
+オンライン食事会の支援ツール「e-Shoku」のフロントエンド開発リポジトリです。  
+[Next.js](https://nextjs.org/)を用いています。
 
-## Getting Started
+## システム概要
+後ほど記述。
 
-First, run the development server:
-
-```bash
-yarn dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## License
+全ての画像・コンテンツを除きApache License 2.0です。  
+全ての画像・コンテンツに関しては無断使用を禁じます。

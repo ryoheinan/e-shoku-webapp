@@ -1,6 +1,5 @@
 import type { NextPage } from 'next'
 import { useUser } from '@auth0/nextjs-auth0'
-import Head from 'next/head'
 import Link from 'next/link'
 import Error from './_error'
 import Nav from '../components/nav'
@@ -9,6 +8,7 @@ import Loading from '../components/loading'
 import styles from '../styles/settings.module.scss'
 import { useCurrentUser } from '../hooks/useCurrentUser'
 import UserProfile from '../components/userProfile'
+import { NextSeo } from 'next-seo'
 
 const Settings: NextPage = () => {
   const { user, error, isLoading } = useUser()
@@ -19,9 +19,7 @@ const Settings: NextPage = () => {
   }
   return (
     <Nav category="settings">
-      <Head>
-        <title>設定 | e-Shoku</title>
-      </Head>
+      <NextSeo title="設定 | e-Shoku" openGraph={{ title: '設定 | e-Shoku' }} />
       <div className="container">
         {(isLoading || (user && !currentUser)) && (
           //ロード状態
@@ -49,7 +47,7 @@ const Settings: NextPage = () => {
               </Link>
             </div>
             <div className={styles.settingsItem}>
-              <Link href={`/user/${currentUser.id}`}>
+              <Link href={`/users/${currentUser.id}`}>
                 <a>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -77,7 +75,7 @@ const Settings: NextPage = () => {
               </Link>
             </div>
             <div className={styles.settingsItem}>
-              <Link href="#">
+              <Link href="/history">
                 <a>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"

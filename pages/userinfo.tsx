@@ -7,10 +7,10 @@ import { withPageAuthRequired } from '@auth0/nextjs-auth0'
 import { useRequireUserInfo } from '../hooks/useRequireUserInfo'
 import { useCurrentUser } from '../hooks/useCurrentUser'
 import axios from 'axios'
-import Head from 'next/head'
 import Error from './_error'
 import Nav from '../components/nav'
 import Loading from '../components/loading'
+import { NextSeo } from 'next-seo'
 
 const UserInfo: NextPage = () => {
   const { user, error: errAuth, isLoading } = useUser()
@@ -39,7 +39,7 @@ const UserInfo: NextPage = () => {
       // async/awaitは非同期処理
       try {
         setIsDataLoading(true) // ローディング画面開始
-        const res = await axios.get<UserData>('/api/user')
+        const res = await axios.get<UserData>('/api/users')
         const inputValues: UserForm = res.data
         setIsDataLoading(false) // ローディング画面終了
         reset(inputValues) // resetでフォームにデータを表示
@@ -61,7 +61,7 @@ const UserInfo: NextPage = () => {
     }-${dt.getDate()}`
     data.image_url = user?.picture || ''
     axios
-      .post('/api/user', data) //postは登録、getは取得、patchは一部更新
+      .post('/api/users', data) //postは登録、getは取得、patchは一部更新
       .then(() => alert('正常に更新されました'))
       .catch(() => alert('更新できませんでした'))
   }
@@ -74,9 +74,10 @@ const UserInfo: NextPage = () => {
   }
   return (
     <Nav>
-      <Head>
-        <title>ユーザー設定 | e-Shoku</title>
-      </Head>
+      <NextSeo
+        title="ユーザー設定 | e-Shoku"
+        openGraph={{ title: 'ユーザー設定 | e-Shoku' }}
+      />
       <div className="container">
         <h2 className="title">ユーザー設定</h2>
         {(isLoading || isDataLoading || userChecking) && <Loading />}
@@ -132,7 +133,7 @@ const UserInfo: NextPage = () => {
                       required: true,
                       minLength: 2,
                       maxLength: 128,
-                      pattern: /^[A-Za-z]+$/i,
+                      pattern: /^[A-Za-z0-9\_]+$/i,
                     })}
                     className={`form-control`}
                     id="usernameId"
