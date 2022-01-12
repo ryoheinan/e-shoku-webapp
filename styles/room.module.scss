@@ -44,18 +44,27 @@
   overflow-wrap: break-word;
 }
 
-.check_bx {
+.checkArea {
   border: solid 1px #f82136;
   border-radius: 10px;
-  margin: 0 1rem 1rem 1rem;
+  padding: 0.75rem;
+  padding-bottom: 0;
+  font-size: 1.05rem;
+  margin-bottom: 1.5rem;
+
+  > div {
+    margin-bottom: 1rem;
+  }
 }
 
-.check_lb {
-  transform: scale(1.1);
-  font-size: 1rem;
-  display: block;
-  padding: 0 0 0.75rem 0.75rem;
-  margin: 1rem;
+.checkbox {
+  &:checked {
+    background-color: #0a844b;
+    border-color: #0a844b;
+  }
+  &:checked + label {
+    color: #0a844b;
+  }
 }
 
 .RoomCard {
@@ -69,8 +78,7 @@
 }
 
 .description {
-  padding: 0.25rem 1rem 0 1rem;
-  font-size: 80%;
+  font-size: 0.9rem;
   color: rgb(99, 99, 99);
 }
 
