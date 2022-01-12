@@ -70,7 +70,7 @@ const JoinRoom = ({ roomData, error }: Props) => {
               imageUrl="/images/foods.jpg"
             />
             <div>
-              <h5 className={styles.mini_title}>詳細</h5>
+              <h3 className={`${styles.mini_title} h4`}>詳細</h3>
               <p className="text-muted">{roomData.description}</p>
             </div>
           </section>
