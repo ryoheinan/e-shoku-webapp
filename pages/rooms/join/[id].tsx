@@ -69,20 +69,59 @@ const JoinRoom = ({ roomData, error }: Props) => {
               date={roomData.datetime}
               imageUrl="/images/foods.jpg"
             />
+            <div>
+              <h3 className={`${styles.mini_title} h4`}>詳細</h3>
+              <p className="text-muted">{roomData.description}</p>
+            </div>
           </section>
           <section>
-            <label className={styles.check_lb}>
-              <input type="checkbox" onChange={() => toggleCheckbox1()} />{' '}
-              会話の際には必ずマスクを着用してください。
-            </label>
-            <label className={styles.check_lb}>
-              <input type="checkbox" onChange={() => toggleCheckbox2()} />{' '}
-              周りの迷惑になるような大声での会話はお控えください。
-            </label>
-            <label className={styles.check_lb}>
-              <input type="checkbox" onChange={() => toggleCheckbox3()} />{' '}
-              こまめな手洗い・消毒を行ってください。
-            </label>
+            <div className={styles.checkArea}>
+              <p className={`${styles.checkAreaTitle} h6`}>
+                参加するには以下の項目に同意してください！
+              </p>
+              <div className="form-check">
+                <input
+                  type="checkbox"
+                  id="check01"
+                  className={`form-check-input ${styles.checkbox}`}
+                  onChange={() => toggleCheckbox1()}
+                />{' '}
+                <label
+                  className={`form-check-label ${styles.check_lb}`}
+                  htmlFor="check01"
+                >
+                  会話の際には必ずマスクを着用してください。
+                </label>
+              </div>
+              <div className="form-check">
+                <input
+                  type="checkbox"
+                  id="check02"
+                  className={`form-check-input ${styles.checkbox}`}
+                  onChange={() => toggleCheckbox2()}
+                />{' '}
+                <label
+                  className={`form-check-label ${styles.check_lb}`}
+                  htmlFor="check02"
+                >
+                  周りの迷惑になるような大声での会話はお控えください。
+                </label>
+              </div>
+              <div className="form-check">
+                <input
+                  type="checkbox"
+                  id="check03"
+                  className={`form-check-input ${styles.checkbox}`}
+                  onChange={() => toggleCheckbox3()}
+                />{' '}
+                <label
+                  className={`form-check-label ${styles.check_lb}`}
+                  htmlFor="check03"
+                >
+                  こまめな手洗い・消毒を行ってください。
+                </label>
+              </div>
+            </div>
           </section>
           <section>
             <RoomActionBtn

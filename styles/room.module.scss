@@ -44,16 +44,42 @@
   overflow-wrap: break-word;
 }
 
-.check_lb {
-  color: #dc3545;
-  font-size: 1rem;
-  display: block;
-  padding: 0 0 0.75rem 0.75rem;
+.checkArea {
+  border: solid 1px #f82136;
+  border-radius: 10px;
+  padding: 0.75rem;
+  padding-bottom: 0;
+  font-size: 1.05rem;
+  margin-bottom: 1.5rem;
+
+  .checkAreaTitle {
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+  }
+
+  > div {
+    margin-bottom: 1rem;
+  }
+}
+
+.checkbox {
+  &:checked {
+    background-color: #0a844b;
+    border-color: #0a844b;
+  }
+  &:checked + label {
+    color: #0a844b;
+  }
 }
 
 .RoomCard {
   padding-top: 0.75rem;
   padding-bottom: 1rem;
+}
+
+.mini_title {
+  color: #773f00;
+  padding-top: 1rem;
 }
 
 .btnShare {
