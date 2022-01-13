@@ -69,21 +69,21 @@ const CreateRoom: NextPage = () => {
             <p className="text-end text-danger">必須*</p>
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className="mb-3 row">
-                <label htmlFor="room_name" className="col-sm-3 col-form-label">
+                <label htmlFor="room_title" className="col-sm-3 col-form-label">
                   タイトル
                   <span className="text-danger">*</span>
                 </label>
                 <div className="col-sm-9">
                   <input
-                    {...register('room_name', {
+                    {...register('room_title', {
                       required: true,
                       maxLength: 64,
                     })}
                     className={`form-control`}
-                    id="room_name"
+                    id="room_title"
                     placeholder="例)サークル飲み会"
                   />
-                  {errors.room_name && (
+                  {errors.room_title && (
                     <p className="small text-danger">正しく入力してください</p>
                   )}
                 </div>

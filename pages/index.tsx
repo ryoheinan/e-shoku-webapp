@@ -44,7 +44,7 @@ const Home: NextPage = () => {
           <Link href={`/rooms/${roomDataset[roomDataset.length - 1].id}`}>
             <a>
               <RoomCard
-                title={roomDataset[roomDataset.length - 1].room_name}
+                title={roomDataset[roomDataset.length - 1].room_title}
                 date={roomDataset[roomDataset.length - 1].datetime}
                 imageUrl="/images/foods.jpg"
               />

@@ -37,24 +37,24 @@ const JoinRoom = ({ roomData, error }: Props) => {
     }
   } else {
     const ogpImageUrl = encodeURI(
-      `https://og-image.ryohei.dev/**${roomData.room_name}**.png?textColor=%23000000&md=1&fontSize=125px&marginTop=400px&background=https%3A%2F%2Fe-shoku.netlify.app%2Fimages%2Fdynamic_ogp.png`
+      `https://og-image.ryohei.dev/**${roomData.room_title}**.png?textColor=%23000000&md=1&fontSize=125px&marginTop=400px&background=https%3A%2F%2Fe-shoku.netlify.app%2Fimages%2Fdynamic_ogp.png`
     )
 
     return (
       <Nav isRoom={true}>
         <NextSeo
-          title={`${roomData.room_name}に参加する | e-Shoku`}
+          title={`${roomData.room_title}に参加する | e-Shoku`}
           description={roomData.description}
           openGraph={{
             url: `https://e-shoku.netlify.app/rooms/${roomData.id}`,
-            title: `${roomData.room_name} | e-Shoku`,
+            title: `${roomData.room_title} | e-Shoku`,
             description: roomData.description,
             images: [
               {
                 url: ogpImageUrl,
                 width: 2048,
                 height: 1170,
-                alt: roomData.room_name,
+                alt: roomData.room_title,
               },
             ],
           }}
@@ -65,7 +65,7 @@ const JoinRoom = ({ roomData, error }: Props) => {
         <div className={'container'}>
           <section className={styles.RoomCard}>
             <RoomCard
-              title={roomData.room_name}
+              title={roomData.room_title}
               date={roomData.datetime}
               imageUrl="/images/foods.jpg"
             />

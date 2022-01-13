@@ -2,7 +2,7 @@
  * ルーム情報の共通型
  */
 export interface RoomDataCommon {
-  room_name: string
+  room_title: string
   description: string
   datetime: string
   capacity: number
