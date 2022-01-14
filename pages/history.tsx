@@ -36,7 +36,7 @@ const History: NextPage = () => {
             roomDataset.map((room: RoomData) => (
               <div key={room.id} className="card mb-4">
                 <div className="card-body">
-                  <h3 className="h5 card-title">{room.room_name}</h3>
+                  <h3 className="h5 card-title">{room.room_title}</h3>
                   <p className="mb-0 text-muted">
                     {dayjs(room.datetime).format('YYYY/MM/DD')}
                   </p>
