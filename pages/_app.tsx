@@ -16,7 +16,7 @@ const AppInit = () => {
   useEffect(() => {
     const checkUserInfo = async () => {
       try {
-        const res = await axios.get<UserData>('/api/users')
+        const res = await axios.get<UserData>('/api/users', { timeout: 6000 })
         const currentUser = res.data
         if (
           currentUser.is_info_filled === false &&

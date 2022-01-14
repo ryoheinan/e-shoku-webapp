@@ -48,7 +48,7 @@ const EditRoom: NextPage = () => {
       // async内のawaitが完了するまで次へは進まない、という意味
       try {
         setIsDataLoading(true) // ローディング画面開始
-        const res = await axios.get(`/api/rooms/${id}`)
+        const res = await axios.get(`/api/rooms/${id}`, { timeout: 6000 })
         const dt = new Date(res.data.datetime)
 
         let inputValues: RoomForm = res.data
