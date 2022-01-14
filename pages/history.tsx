@@ -14,7 +14,7 @@ import dayjs from 'dayjs'
 const History: NextPage = () => {
   const { currentUser } = useCurrentUser()
   const fetcher = async (url: string) => {
-    const res = await axios.get<RoomData[]>(url)
+    const res = await axios.get<RoomData[]>(url, { timeout: 6000 })
     return res.data
   }
   const { data: roomDataset, error: fetchErr } = useSWR(

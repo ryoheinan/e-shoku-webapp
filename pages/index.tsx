@@ -14,7 +14,7 @@ const Home: NextPage = () => {
   const { currentUser } = useCurrentUser()
   const fetcher = async (url: string) => {
     try {
-      const res = await axios.get<RoomData[]>(url)
+      const res = await axios.get<RoomData[]>(url, { timeout: 6000 })
       return res.data
     } catch (err: unknown) {
       // Axiosに関するエラーの場合

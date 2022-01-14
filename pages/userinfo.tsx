@@ -39,7 +39,7 @@ const UserInfo: NextPage = () => {
       // async/awaitは非同期処理
       try {
         setIsDataLoading(true) // ローディング画面開始
-        const res = await axios.get<UserData>('/api/users')
+        const res = await axios.get<UserData>('/api/users', { timeout: 6000 })
         const inputValues: UserForm = res.data
         setIsDataLoading(false) // ローディング画面終了
         reset(inputValues) // resetでフォームにデータを表示
