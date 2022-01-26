@@ -12,6 +12,7 @@ import '../styles/globals.scss'
 const AppInit = () => {
   const setCurrentUser = useSetRecoilState(currentUserState)
   const router = useRouter()
+  let tryCount = 0
 
   useEffect(() => {
     const checkUserInfo = async () => {
@@ -32,7 +33,12 @@ const AppInit = () => {
         // Axiosに関するエラーの場合
         if (axios.isAxiosError(error) && error.response) {
           if (error.response.status === 500) {
-            router.replace('/500')
+            if (tryCount >= 3) {
+              setTimeout(checkUserInfo, 600)
+              tryCount++
+            } else {
+              router.replace('/500')
+            }
           }
         }
       }
