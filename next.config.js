@@ -2,7 +2,6 @@
 const withPWA = require('next-pwa')
 
 module.exports = withPWA({
-  target: 'serverless',
   reactStrictMode: true,
   pwa: {
     dest: 'public',
