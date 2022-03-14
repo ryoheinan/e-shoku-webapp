@@ -12,6 +12,9 @@
 ### ルーム作成時のシーケンス図
 <img src="https://user-images.githubusercontent.com/49315610/153693892-40e355de-ed42-48b6-8020-14deae749f8c.png" width=500px  />
 
+## セットアップ等
+[ドキュメント](https://glossy-pufferfish-de7.notion.site/e-Shoku-1cf71edc4c4e4eb8b532044a28a36e78)
+
 ## License
 全ての画像・コンテンツを除きApache License 2.0です。  
 全ての画像・コンテンツに関しては無断使用を禁じます。
